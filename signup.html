@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | MEDAWARE</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      box-sizing: border-box;
+      background: #f3faf7;
+      font-family: Arial, sans-serif;
+      color: #193b32;
+    }
+
+    .signup-card {
+      width: 100%;
+      max-width: 430px;
+      box-sizing: border-box;
+      padding: 36px;
+      background: white;
+      border: 1px solid #dcece5;
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(28, 87, 66, 0.09);
+    }
+
+    .brand {
+      color: #13845e;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #64766f;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .field input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px 14px;
+      border: 1px solid #d5e2dc;
+      border-radius: 10px;
+      font-size: 15px;
+      outline-color: #13845e;
+    }
+
+    .signup-button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 6px;
+      border: 0;
+      border-radius: 10px;
+      background: #13845e;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .signup-button:hover {
+      background: #0d6c4b;
+    }
+
+    .signup-button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
+
+    #message {
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .login-link {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 14px;
+      color: #64766f;
+    }
+
+    .login-link a {
+      color: #13845e;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .signup-card {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="signup-card">
+    <div class="brand">✚ MEDAWARE</div>
+    <h1>Create your account</h1>
+    <p class="subtitle">
+      Your personal medicine companion starts here.
+      Create an account to manage your medicines and reminders.
+    </p>
+
+    <form id="signupForm">
+      <div class="field">
+        <label for="fullName">Full name</label>
+        <input id="fullName" name="fullName"
+          type="text" placeholder="Enter your full name"
+          autocomplete="name" required>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" name="email"
+          type="email" placeholder="you@example.com"
+          autocomplete="email" required>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password"
+          type="password" placeholder="At least 8 characters"
+          autocomplete="new-password" minlength="8" required>
+      </div>
+
+      <div class="field">
+        <label for="confirmPassword">Confirm password</label>
+        <input id="confirmPassword" name="confirmPassword"
+          type="password" placeholder="Enter your password again"
+          autocomplete="new-password" minlength="8" required>
+      </div>
+
+      <button class="signup-button" id="signupButton" type="submit">
+        Create Account
+      </button>
+
+      <p id="message" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a href="index.html">Log in</a>
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script>
+    const form = document.getElementById("signupForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("signupButton");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "";
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        message.textContent = "Your passwords do not match.";
+        return;
+      }
+
+      const config = window.MEDAWARE_CONFIG;
+
+      if (
+        !config ||
+        !config.supabaseUrl ||
+        !config.supabaseAnonKey ||
+        config.supabaseUrl.includes("PASTE_YOUR") ||
+        config.supabaseAnonKey.includes("PASTE_YOUR")
+      ) {
+        message.textContent =
+          "Supabase is not configured. Please check js/config.js.";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Creating account...";
+
+      try {
+        const client = window.supabase.createClient(
+          config.supabaseUrl,
+          config.supabaseAnonKey
+        );
+
+        const { data, error } = await client.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: fullName },
+            emailRedirectTo: window.location.origin + "/index.html"
+          }
+        });
+
+        if (error) throw error;
+
+        if (data.session) {
+          message.textContent =
+            "Account created successfully! You can now log in.";
+        } else {
+          message.textContent =
+            "Account created! Check your email to confirm your account before logging in.";
+        }
+
+        form.reset();
+      } catch (error) {
+        message.textContent = error.message ||
+          "Could not create your account. Please try again.";
+      } finally {
+        button.disabled = false;
+        button.textContent = "Create Account";
+      }
+    });
+  </script>
+</body>
+</html>

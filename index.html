@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="MEDAWARE helps users organize medicines, reminders, prescriptions and medicine information."
+  >
+
+  <title>MEDAWARE | Medicine Management</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Supabase JavaScript client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Application configuration and logic -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="MEDAWARE home">
+      ✚ MEDAWARE
+    </a>
+
+    <span>Your medicines, more organized.</span>
+
+    <button id="signOut" class="hidden" type="button">
+      Sign out
+    </button>
+  </header>
+
+  <main>
+    <!-- Setup notice -->
+    <div id="setup" class="notice hidden" role="alert">
+      Add your Supabase URL and anon/publishable key in
+      <code>js/config.js</code>, then refresh.
+    </div>
+
+    <!-- LOGIN AND SIGNUP -->
+    <section id="auth" class="auth-layout">
+      <div class="hero">
+        <p class="eyebrow">A little more clarity, every day</p>
+
+        <h1>
+          Medicine management
+          <br>
+          <em>made simpler.</em>
+        </h1>
+
+        <p>
+          Keep your medication schedule, reminders, prescription
+          records and useful medicine notes in one organized place.
+        </p>
+
+        <ul>
+          <li>Medication reminders</li>
+          <li>Prescription organization</li>
+          <li>Plain-language medicine information</li>
+        </ul>
+
+        <small>
+          MEDAWARE supports organization and learning. It does not
+          replace advice from a doctor or pharmacist.
+        </small>
+      </div>
+
+      <div class="panel">
+        <div class="tabs">
+          <button id="loginTab" class="active" type="button">
+            Log in
+          </button>
+
+          <a id="signupTab" href="signup.html">
+            Create account
+          </a>
+
+        </div>
+
+        <h2 id="authTitle">Welcome back</h2>
+
+        <p id="authSub" class="muted">
+          Log in to see your dashboard.
+        </p>
+
+        <form id="authForm">
+          <label for="email">Email address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="you@example.com"
+          >
+
+          <label for="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            minlength="6"
+            maxlength="128"
+            required
+            autocomplete="current-password"
+            placeholder="At least 6 characters"
+          >
+
+          <button
+            class="primary full"
+            id="authSubmit"
+            type="submit"
+          >
+            Log in
+          </button>
+        </form>
+
+        <p id="authMsg" class="msg" role="status"></p>
+      </div>
+    </section>
+
+    <!-- USER DASHBOARD -->
+    <section id="app" class="hidden">
+      <div class="welcome">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL DASHBOARD</p>
+
+          <h1>Take care, one dose at a time.</h1>
+
+          <p id="userEmail" class="muted"></p>
+        </div>
+
+        <button id="enableNotifications" class="primary" type="button">
+          Enable reminders
+        </button>
+      </div>
+
+      <p id="reminderStatus" class="reminder-status" role="status" aria-live="polite"></p>
+      <p class="muted reminder-disclaimer">
+        Reminders are checked only while this page is open. They may not work if the app is closed,
+        the browser is suspended, or your device is asleep. MEDAWARE never marks a dose as taken
+        automatically.
+      </p>
+
+      <!-- Dashboard statistics -->
+      <div class="stats">
+        <article class="panel">
+          <small>My medicines</small>
+          <strong id="medCount">0</strong>
+        </article>
+
+        <article class="panel">
+          <small>Medicines with reminders</small>
+          <strong id="todayCount">0</strong>
+        </article>
+
+        <article class="panel">
+          <small>Prescription records</small>
+          <strong id="rxCount">0</strong>
+        </article>
+      </div>
+
+      <!-- Main navigation -->
+      <nav class="tabs main-tabs" aria-label="Dashboard sections">
+        <button
+          class="active"
+          data-panel="medPanel"
+          aria-controls="medPanel"
+          aria-pressed="true"
+          type="button"
+        >
+          Medicines &amp; tracking
+        </button>
+
+        <button data-panel="rxPanel" aria-controls="rxPanel" aria-pressed="false" type="button">
+          Prescriptions
+        </button>
+
+        <button data-panel="infoPanel" aria-controls="infoPanel" aria-pressed="false" type="button">
+          Medicine information
+        </button>
+      </nav>
+
+      <!-- MEDICINES AND TRACKING -->
+      <section id="medPanel" class="content">
+        <div class="columns">
+
+          <form id="medForm" class="panel form">
+            <h2 id="medFormTitle">Add a medicine</h2>
+
+            <input id="medId" type="hidden">
+
+            <label for="medName">Medicine name *</label>
+            <input
+              id="medName"
+              name="name"
+              maxlength="120"
+              required
+              placeholder="Medicine name"
+            >
+
+            <label for="dose">Dose / instructions</label>
+            <input
+              id="dose"
+              name="dose_instructions"
+              maxlength="300"
+              placeholder="e.g. 1 tablet"
+            >
+
+            <label for="frequency">Schedule note</label>
+            <input
+              id="frequency"
+              name="frequency"
+              maxlength="200"
+              placeholder="e.g. Twice daily"
+            >
+
+            <label for="reminder">Reminder time</label>
+            <input id="reminder" type="time">
+
+            <label for="startDate">Start date (optional)</label>
+            <input id="startDate" type="date">
+
+            <label for="medNotes">Personal notes</label>
+            <textarea
+              id="medNotes"
+              name="notes"
+              maxlength="2000"
+              rows="2"
+              placeholder="Notes from your prescription"
+            ></textarea>
+
+            <div class="actions">
+              <button class="primary" type="submit">
+                Save medicine
+              </button>
+
+              <button
+                type="button"
+                id="cancelEdit"
+                class="hidden"
+              >
+                Cancel edit
+              </button>
+            </div>
+
+            <p id="medMsg" class="msg" role="status"></p>
+          </form>
+
+          <div class="panel list">
+            <h2>Saved medicines</h2>
+
+            <div id="medList" class="empty">
+              Log in to load medicines.
+            </div>
+          </div>
+        </div>
+
+        <!-- Dose tracking -->
+        <div class="panel tracker">
+          <h2>Today's dose log</h2>
+
+          <p class="muted">
+            Mark a dose only after you have taken it.
+          </p>
+
+          <form id="doseForm" class="doseform">
+            <div>
+              <label for="doseMedicine">Medicine</label>
+
+              <select id="doseMedicine" required>
+                <option value="">Choose medicine</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="doseTime">Time</label>
+              <input id="doseTime" type="time" required>
+            </div>
+
+            <button class="primary" type="submit">
+              Log dose taken
+            </button>
+          </form>
+
+          <p id="doseMsg" class="msg" role="status"></p>
+
+          <div id="doseList"></div>
+        </div>
+      </section>
+
+      <!-- PRESCRIPTION ORGANIZATION -->
+      <section id="rxPanel" class="content hidden">
+        <div class="columns">
+          <form id="rxForm" class="panel form">
+            <h2>Add prescription record</h2>
+
+            <label for="rxTitle">Title / clinic *</label>
+            <input
+              id="rxTitle"
+              name="title"
+              maxlength="140"
+              required
+              placeholder="e.g. Clinic visit, 12 Oct"
+            >
+
+            <label for="rxDate">Prescription date</label>
+            <input id="rxDate" type="date">
+
+            <label for="rxDoctor">Doctor / clinic</label>
+            <input
+              id="rxDoctor"
+              name="doctor_or_clinic"
+              maxlength="160"
+              placeholder="Name or clinic"
+            >
+
+            <label for="rxNotes">Notes</label>
+            <textarea
+              id="rxNotes"
+              name="notes"
+              maxlength="2000"
+              rows="3"
+              placeholder="Reference notes"
+            ></textarea>
+
+            <button class="primary" type="submit">
+              Save record
+            </button>
+
+            <p id="rxMsg" class="msg" role="status"></p>
+          </form>
+
+          <div class="panel list">
+            <h2>My prescription records</h2>
+
+            <div id="rxList" class="empty">
+              No records yet.
+            </div>
+          </div>
+        </div>
+
+        <p class="notice">
+          This starter stores prescription metadata only, not scanned
+          files or PDFs.
+        </p>
+      </section>
+
+      <!-- MEDICINE INFORMATION -->
+      <section id="infoPanel" class="content hidden">
+        <div class="panel form">
+          <h2>Medicine information, in plain language</h2>
+
+          <p class="muted">
+            General educational notes, not personalized medical advice.
+          </p>
+
+          <label for="infoSearch">Search notes</label>
+          <input
+            id="infoSearch"
+            placeholder="Try: antibiotics, missed dose, label"
+          >
+        </div>
+
+        <div id="infoResults" class="info-grid"></div>
+
+        <p class="notice">
+          Do not start, stop, combine, or change a medicine or dose
+          based only on this page. Ask a pharmacist or prescriber if
+          anything is unclear.
+        </p>
+      </section>
+
+      <footer>
+        MEDAWARE · Organization and information support, not diagnosis
+        or prescribing.
+      </footer>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+</body>
+</html>

@@ -1,0 +1,620 @@
+
+/* ========================================
+   MEDAWARE | Medicine Management
+   Main stylesheet
+======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+/* ---------- Theme ---------- */
+
+:root {
+  --ink: #20332b;
+  --muted: #6b7b71;
+  --green: #28664f;
+  --green-dark: #1e503c;
+  --mint: #e8f2e9;
+  --paper: #f5f7f2;
+  --line: #e0e7df;
+  --white: #ffffff;
+  --danger: #a7372b;
+  --shadow: 0 10px 30px rgba(24, 59, 37, 0.06);
+}
+
+/* ---------- Reset and base ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 15px/1.6 'DM Sans', sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #a5cfb1;
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Manrope', sans-serif;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+p {
+  margin: 8px 0 14px;
+}
+
+small {
+  font-size: 0.82rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.muted,
+small {
+  color: var(--muted);
+}
+
+/* ---------- Header ---------- */
+
+.site-header,
+header {
+  min-height: 70px;
+  padding: 12px 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.brand:first-letter {
+  color: var(--green);
+}
+
+/* ---------- Main layout ---------- */
+
+main {
+  width: min(1160px, 92vw);
+  margin: 34px auto 60px;
+}
+
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.8fr;
+  align-items: center;
+  gap: 8vw;
+  min-height: 65vh;
+}
+
+.hero {
+  padding: 20px 0;
+}
+
+.hero em {
+  color: var(--green);
+  font-style: normal;
+}
+
+.hero ul {
+  padding-left: 22px;
+  color: var(--green);
+  font-weight: 600;
+  line-height: 2;
+}
+
+.hero small {
+  display: block;
+  max-width: 480px;
+  margin-top: 25px;
+}
+
+.eyebrow {
+  color: var(--green);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+/* ---------- Panels and cards ---------- */
+
+.panel {
+  min-width: 0;
+  padding: 24px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  align-items: start;
+  gap: 16px;
+}
+
+.form,
+.list {
+  min-width: 0;
+}
+
+/* ---------- Tabs and buttons ---------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.tabs button,
+button {
+  padding: 10px 13px;
+  color: var(--ink);
+  background: #f2f5f1;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.tabs button {
+  flex: 1;
+}
+
+.tabs button:hover,
+button:hover {
+  border-color: #b6cdbb;
+}
+
+.tabs button.active {
+  color: var(--white);
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.primary {
+  color: var(--white);
+  background: var(--green);
+  border-color: var(--green);
+  font-weight: 700;
+}
+
+.primary:hover {
+  color: var(--white);
+  background: var(--green-dark);
+}
+
+.full {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+/* ---------- Forms ---------- */
+
+label {
+  display: block;
+  margin: 13px 0 5px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+input,
+textarea,
+select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid #d5dfd5;
+  border-radius: 9px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #7da98b;
+  outline: 2px solid #c5e0cc;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #89968d;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline-block;
+  width: auto;
+}
+
+/* ---------- Status messages ---------- */
+
+.msg {
+  min-height: 1em;
+  color: var(--green);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.msg.error {
+  color: var(--danger);
+}
+
+.notice {
+  margin: 16px 0;
+  padding: 13px 16px;
+  color: #6d5318;
+  background: #fff4db;
+  border: 1px solid #edd9a6;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+.reminder-status {
+  margin: 16px 0 6px;
+  padding: 11px 14px;
+  color: var(--green-dark);
+  background: var(--mint);
+  border: 1px solid #cfe1d1;
+  border-radius: 10px;
+}
+
+.reminder-disclaimer {
+  display: block;
+  max-width: 850px;
+}
+
+/* ---------- Dashboard welcome ---------- */
+
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.welcome h1 {
+  margin: 8px 0;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+/* ---------- Statistics ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.stats .panel {
+  padding: 17px 20px;
+}
+
+.stats small {
+  display: block;
+}
+
+.stats strong {
+  display: block;
+  font: 800 2rem 'Manrope', sans-serif;
+}
+
+/* ---------- Dashboard navigation ---------- */
+
+.main-tabs {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.main-tabs button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.content {
+  margin-top: 20px;
+}
+
+/* ---------- Medicine and prescription lists ---------- */
+
+.empty {
+  padding: 25px 5px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.record {
+  margin: 10px 0;
+  padding: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+.record-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.record-meta {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.record-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.record-actions button {
+  padding: 6px 9px;
+  font-size: 0.8rem;
+}
+
+.danger {
+  color: var(--danger);
+}
+
+/* ---------- Medication tracking ---------- */
+
+.tracker {
+  margin-top: 18px;
+}
+
+.doseform {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px auto;
+  align-items: end;
+  gap: 12px;
+}
+
+/* ---------- Medicine information ---------- */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 15px;
+}
+
+.info-card {
+  padding: 20px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 13px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 9px;
+  color: var(--green);
+  background: var(--mint);
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+  margin-top: 32px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* ---------- Toast notifications ---------- */
+
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  max-width: min(400px, 90vw);
+  padding: 13px 17px;
+  color: var(--white);
+  background: #203d30;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  overflow-wrap: anywhere;
+}
+
+.toast.toast-error {
+  background: var(--danger) !important;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 780px) {
+  .auth-layout,
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .auth-layout {
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  .stats {
+    gap: 8px;
+  }
+
+  .stats .panel {
+    padding: 13px;
+  }
+
+  .stats strong {
+    font-size: 1.6rem;
+  }
+
+  .welcome {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .doseform {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .doseform button {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 500px) {
+  body {
+    font-size: 14px;
+  }
+
+  header > span {
+    display: none;
+  }
+
+  main {
+    width: 92vw;
+    margin-top: 22px;
+  }
+
+  .stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stats .panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .info-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .doseform {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .doseform button {
+    grid-column: auto;
+  }
+
+  .tabs {
+    gap: 6px;
+  }
+}
+
+/* ---------- Reduced motion accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.tabs a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font: inherit;
+  color: inherit;
+  background: #f1f5f1;
+  border: 1px solid #dce6dc;
+  box-sizing: border-box;
+}
+
+.tabs a:hover {
+  opacity: 0.9;
+}
