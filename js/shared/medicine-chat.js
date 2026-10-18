@@ -54,7 +54,8 @@
       termOwners.get(key).add(id);
     };
     for (const entry of entries) {
-      [entry.name, ...(entry.aliases || []), ...(entry.brands || [])].forEach((term) => addTerm(term, entry.id));
+      [entry.name, ...(entry.aliases || []), ...(entry.brands || []), ...(entry.otherBrands || []).flatMap((group) => group.names)]
+        .forEach((term) => addTerm(term, entry.id));
       // "Loop diuretic" -> "diuretic", so "diuretics" in another entry's text counts.
       for (const alias of entry.aliases || []) {
         const words = alias.toLowerCase().split(/\s+/);

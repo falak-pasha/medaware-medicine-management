@@ -12,6 +12,7 @@
  * - `flags` mark anything a reviewer should check (outdated, unclear, conflicting).
  * - `review` stays "unreviewed" until a doctor or pharmacist has checked the entry.
  * - Information from outside the book goes only in `updates`, each with its source.
+ *   The one exception is `otherBrands`: brand names (with a source) used only to find an entry.
  */
 window.MEDAWARE_MEDICINES = {
   source: {
@@ -34,7 +35,11 @@ window.MEDAWARE_MEDICINES = {
       id: "paracetamol",
       name: "Paracetamol",
       aliases: ["Acetaminophen"],
-      brands: [],
+      brands: ["Crocin", "Calpol", "Metacin", "Paracin", "Pyrigesic", "Ultragin", "Neomol"],
+      // Brand names from outside the book, each with its source; used only to find the entry.
+      otherBrands: [
+        { names: ["Dolo", "Dolo 650", "Dolopar"], source: "PACE Hospitals, Dolo 650 (Micro Labs) product page", url: "https://www.pacehospital.com/paracetamol-dolo-650-uses-side-effects-composition-and-price" }
+      ],
       drugClass: "Analgesic-antipyretic (para-aminophenol derivative); weak anti-inflammatory action",
       summary: "A widely used over-the-counter medicine for pain and fever. It relieves pain and lowers fever about as well as aspirin, but has almost no anti-inflammatory effect and is gentle on the stomach at normal doses.",
       sections: {
@@ -123,7 +128,7 @@ window.MEDAWARE_MEDICINES = {
       id: "aspirin",
       name: "Aspirin",
       aliases: ["Acetylsalicylic acid"],
-      brands: [],
+      brands: ["Ecosprin", "Disprin", "Loprin", "Colsprin"],
       drugClass: "Nonsteroidal anti-inflammatory drug (NSAID), salicylate; antiplatelet at low doses",
       summary: "One of the oldest pain, fever and anti-inflammatory medicines. At low daily doses it stops platelets clumping, which is why it is used after heart attacks and strokes.",
       sections: {
@@ -547,6 +552,10 @@ window.MEDAWARE_MEDICINES = {
       name: "Pantoprazole",
       aliases: ["Proton pump inhibitor", "PPI"],
       brands: ["Pantocid", "Pantodac", "Pantium", "Pantin"],
+      // Brand names from outside the book, each with its source; used only to find the entry.
+      otherBrands: [
+        { names: ["Pan 40", "Pan 20"], source: "Apollo Pharmacy, Pan 40 (Alkem) listing", url: "https://apollopharmacy.in/medicine/pan-40mg-tablet" }
+      ],
       drugClass: "Proton pump inhibitor (PPI) — reduces stomach acid",
       summary: "A stomach-acid reducer similar in strength and effect to omeprazole, but more stable in acid and with fewer drug interactions. Also available as an injection.",
       sections: {
@@ -1353,6 +1362,10 @@ window.MEDAWARE_MEDICINES = {
       name: "Azithromycin",
       aliases: ["Macrolide"],
       brands: ["Azithral", "Aziwok", "Aziwin"],
+      // Brand names from outside the book, each with its source; used only to find the entry.
+      otherBrands: [
+        { names: ["Azee"], source: "PharmEasy, Azee 500 (Cipla) listing", url: "https://pharmeasy.in/online-medicine-order/azee-500mg-strip-of-3-tablets-36262" }
+      ],
       drugClass: "Antibiotic — macrolide (azalide)",
       summary: "A macrolide antibiotic related to erythromycin, with a wider range, better stomach tolerance and once-daily dosing; a 3-day course is enough for most infections.",
       sections: {
@@ -1688,7 +1701,7 @@ window.MEDAWARE_MEDICINES = {
       id: "acyclovir",
       name: "Acyclovir",
       aliases: ["Aciclovir", "Antiviral"],
-      brands: [],
+      brands: ["Zovirax", "Cyclovir", "Herpex", "Ocuvir", "Acivir"],
       drugClass: "Antiviral — active against herpes viruses",
       summary: "An antiviral medicine that works only against the herpes group of viruses (cold sores, genital herpes, shingles, chickenpox). It is safe for normal cells because it is activated mainly inside infected cells.",
       sections: {
@@ -2185,6 +2198,10 @@ window.MEDAWARE_MEDICINES = {
       name: "Amlodipine",
       aliases: ["Calcium channel blocker", "CCB", "Dihydropyridine"],
       brands: ["Amlopres", "Amcard", "Amlopin", "Myodura"],
+      // Brand names from outside the book, each with its source; used only to find the entry.
+      otherBrands: [
+        { names: ["Amlong"], source: "PharmEasy, Amlong 5 mg (Micro Labs) listing", url: "https://pharmeasy.in/online-medicine-order/amlong-5mg-strip-of-15-tablets-34447" }
+      ],
       drugClass: "Calcium channel blocker (dihydropyridine) — widens arteries",
       summary: "The most popular medicine of its group for high blood pressure and angina. It acts slowly and for a long time, so one daily dose lasts into the next morning and the early flushing and palpitations of similar drugs are largely avoided.",
       sections: {
@@ -3258,6 +3275,11 @@ window.MEDAWARE_MEDICINES = {
       name: "Cetirizine",
       aliases: ["Antihistamine", "H1 blocker", "Second-generation antihistamine"],
       brands: ["Alerid", "Cetzine", "Zirtin", "Sizon"],
+      // Brand names from outside the book, each with its source; used only to find the entry.
+      otherBrands: [
+        { names: ["Zyrtec"], source: "US FDA, Zyrtec (cetirizine hydrochloride) label", url: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/021621Orig1s018lbl.pdf" },
+        { names: ["Okacet"], source: "Apollo Pharmacy, Okacet 10 mg (Cipla) listing", url: "https://www.apollopharmacy.in/medicine/new-okacet-10mg-tablet" }
+      ],
       drugClass: "Antihistamine — second-generation H1 blocker",
       summary: "A once-daily antihistamine for allergies. It enters the brain poorly, though many people still feel mildly sleepy, and it works especially well on skin allergies.",
       sections: {
@@ -3501,6 +3523,10 @@ window.MEDAWARE_MEDICINES = {
       name: "Salbutamol",
       aliases: ["Albuterol", "Bronchodilator", "Reliever inhaler", "β2 agonist"],
       brands: ["Asthalin", "Ventorlin", "Derihaler", "Croysal", "Salol"],
+      // Brand names from outside the book, each with its source; used only to find the entry.
+      otherBrands: [
+        { names: ["Ventolin"], source: "GSK Australia, Ventolin product page", url: "https://au.gsk.com/en-au/products/product-list/ventolin/" }
+      ],
       drugClass: "Bronchodilator — short-acting selective β2 agonist",
       summary: "The standard 'reliever' for asthma attacks. Inhaled, it opens the airways within 5 minutes and lasts 2–4 hours, but it should not be used on a regular schedule.",
       sections: {
@@ -4000,7 +4026,7 @@ window.MEDAWARE_MEDICINES = {
       id: "alprazolam",
       name: "Alprazolam",
       aliases: ["Benzodiazepine", "BZD"],
-      brands: [],
+      brands: ["Alprax", "Alzolam", "Alprocontin", "Restyl"],
       drugClass: "Benzodiazepine — anxiolytic",
       summary: "A potent, intermediate-acting benzodiazepine mainly for anxiety disorders, also used at night for sleep. Stopping after regular use has produced relatively marked withdrawal symptoms.",
       sections: {
@@ -4554,7 +4580,7 @@ window.MEDAWARE_MEDICINES = {
       id: "valproate",
       name: "Sodium valproate",
       aliases: ["Valproic acid", "Valproate", "Divalproex", "Antiepileptic"],
-      brands: ["Valparin Chrono", "Encorate", "Diproex", "Valance", "Depakote"],
+      brands: ["Valparin", "Valparin Chrono","Encorate", "Diproex", "Valance", "Depakote"],
       drugClass: "Antiepileptic (broad spectrum); mood stabiliser",
       summary: "A broad-spectrum epilepsy medicine with little sedation. It is the drug of choice for absence and myoclonic seizures, but must be avoided in pregnancy.",
       sections: {
@@ -4667,6 +4693,10 @@ window.MEDAWARE_MEDICINES = {
       name: "Levetiracetam",
       aliases: ["Antiepileptic", "Anticonvulsant"],
       brands: ["Levorexa", "Torleva", "Levtam"],
+      // Brand names from outside the book, each with its source; used only to find the entry.
+      otherBrands: [
+        { names: ["Levipil", "Keppra"], source: "Fierce Pharma, Sun Pharma sells levetiracetam as Levipil in India; Keppra is UCB's brand", url: "https://www.fiercepharma.com/manufacturing/india-s-sun-pharma-recalls-epilepsy-treatment-levetiracetam-batch-over-failed" }
+      ],
       drugClass: "Antiepileptic (anticonvulsant)",
       summary: "A well-tolerated epilepsy medicine that is free of drug interactions, increasingly used, mainly as an add-on.",
       sections: {

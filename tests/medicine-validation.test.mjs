@@ -106,7 +106,10 @@ function fixedClock(localDateTime) {
   };
 }
 
-async function loadApp(respond = defaultResponse, { now, user } = {}) {
+const bookSources = ["js/data/medicines.js", "js/shared/medicine-chat.js"]
+  .map((file) => readFileSync(new URL(`../${file}`, import.meta.url), "utf8"));
+
+async function loadApp(respond = defaultResponse, { now, user, withBook = false } = {}) {
   const elements = new Map();
   const $ = (id) => {
     if (!elements.has(id)) elements.set(id, createElement());
@@ -147,6 +150,7 @@ async function loadApp(respond = defaultResponse, { now, user } = {}) {
   if (now) context.Date = fixedClock(now);
   context.window = context;
   vm.createContext(context);
+  if (withBook) bookSources.forEach((source) => vm.runInContext(source, context));
   vm.runInContext(appSource, context);
   await new Promise((resolve) => setTimeout(resolve, 10)); // let getSession resolve
   return { $, db, consoleErrors, themeCalls, redirects, context };
@@ -468,4 +472,54 @@ test("a password-reset link that lands on the login page goes to the reset page,
   app.db.authCallback("PASSWORD_RECOVERY", { user: TEST_USER });
   assert.deepEqual(app.redirects, ["reset-password.html"]);
   assert.equal(app.context.sessionStorage.getItem("medaware_password_recovery"), "1");
+});
+
+// The names of the book cards shown in the information panel, in order.
+const shownCards = (app) => [...app.$("medicineInfoResults").innerHTML.matchAll(/<h3>([^<]*)<\/h3>/g)].map((m) => m[1]);
+
+test("saved medicines link to their book entry by name or brand, and group words or unknown names do not", async () => {
+  const app = await loadApp(dashboardResponse({
+    medicines: [
+      { id: "a", name: "Glycomet 500", reminder_time: null },
+      { id: "b", name: "Crocin", reminder_time: null },
+      { id: "c", name: "Vitamin D3", reminder_time: null },
+      { id: "d", name: "Statin", reminder_time: null }
+    ]
+  }), { now: NOW, withBook: true });
+  const html = app.$("medList").innerHTML;
+  assert.match(html, /data-book-info="metformin">Book info: Metformin</);
+  assert.match(html, /data-book-info="paracetamol">Book info: Paracetamol</);
+  assert.equal((html.match(/data-book-info=/g) || []).length, 2);
+});
+
+test("medicine search ignores strengths and falls back to names and brands in longer text", async () => {
+  const app = await loadApp(defaultResponse, { withBook: true });
+  for (const [query, first] of [
+    ["paracetamol 500mg", "Paracetamol"],
+    ["Cetirizine 10 mg", "Cetirizine"],
+    ["Telma 40", "Telmisartan"],
+    ["metformin 500 mg twice daily", "Metformin"],
+    ["Glycomet SR 500", "Metformin"]
+  ]) {
+    app.$("infoSearch").value = query;
+    await app.$("infoSearch").dispatch("input");
+    assert.equal(shownCards(app)[0], first, query);
+  }
+});
+
+test("searching any medicine's name shows that medicine first", async () => {
+  const app = await loadApp(defaultResponse, { withBook: true });
+  for (const entry of app.context.MEDAWARE_MEDICINES.entries) {
+    app.$("infoSearch").value = entry.name;
+    await app.$("infoSearch").dispatch("input");
+    assert.equal(shownCards(app)[0], entry.name);
+  }
+});
+
+test("brands from outside the book are found and shown with their source", async () => {
+  const app = await loadApp(defaultResponse, { withBook: true });
+  app.$("infoSearch").value = "Dolo 650";
+  await app.$("infoSearch").dispatch("input");
+  assert.equal(shownCards(app)[0], "Paracetamol");
+  assert.match(app.$("medicineInfoResults").innerHTML, /Other brand names \(not from the book\): Dolo, Dolo 650, Dolopar \(source: <a href="https:\/\/www\.pacehospital\.com\//);
 });

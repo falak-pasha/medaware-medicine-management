@@ -596,6 +596,8 @@
           : ""}
         ${medicine.notes ? `<p>${escapeHtml(medicine.notes)}</p>` : ""}
         <div class="record-actions">
+          ${bookEntriesFor(medicine.name).map((entry) => `
+            <button type="button" data-book-info="${escapeHtml(entry.id)}">Book info: ${escapeHtml(entry.name)}</button>`).join("")}
           <button type="button" data-edit="${escapeHtml(medicine.id)}">Edit</button>
           <button type="button" class="danger" data-delete-medicine="${escapeHtml(medicine.id)}">Delete</button>
         </div>
@@ -604,6 +606,9 @@
 
     list.querySelectorAll("[data-edit]").forEach((button) => {
       button.addEventListener("click", () => beginMedicineEdit(button.dataset.edit));
+    });
+    list.querySelectorAll("[data-book-info]").forEach((button) => {
+      button.addEventListener("click", () => showBookEntry(button.dataset.bookInfo));
     });
     list.querySelectorAll("[data-delete-medicine]").forEach((button) => {
       button.addEventListener("click", () => deleteMedicine(button.dataset.deleteMedicine, button));
@@ -970,6 +975,13 @@
     ["dosage", "Usual adult dose in the book"]
   ];
 
+  const STRENGTH_WORD = /^(\d+([.,]\d+)?(mg|mcg|µg|g|ml|iu|%)?|mg|mcg|µg|ml|iu|tab|tabs|tablet|tablets|cap|caps|capsule|capsules|syrup)$/;
+
+  // Brand names from outside the book (each group carries its own source).
+  function otherBrandNames(entry) {
+    return (entry.otherBrands || []).flatMap((group) => group.names || []);
+  }
+
   function medicineSearchText(entry) {
     const sectionText = [
       ...Object.values(entry.sections || {}),
@@ -979,6 +991,7 @@
       entry.name,
       ...(entry.aliases || []),
       ...(entry.brands || []),
+      ...otherBrandNames(entry),
       entry.drugClass,
       entry.summary,
       ...sectionText
@@ -987,9 +1000,29 @@
 
   const medicineIndex = medicineBook.entries.map((entry) => ({
     entry,
-    nameText: [entry.name, ...(entry.aliases || []), ...(entry.brands || [])].join(" ").toLocaleLowerCase(),
+    nameText: [entry.name, ...(entry.aliases || []), ...(entry.brands || []), ...otherBrandNames(entry)].join(" ").toLocaleLowerCase(),
     fullText: medicineSearchText(entry)
   }));
+
+  // Book entries named in a saved medicine ("Glycomet 500" -> Metformin). Group words such as
+  // "statin" match several entries and are left out, so only unambiguous names get a link.
+  const bookLookup = window.MedawareChat?.createChatEngine(medicineBook);
+
+  function bookEntriesFor(name) {
+    return bookLookup ? bookLookup.findMedicines(name || "").definite : [];
+  }
+
+  function showBookEntry(id) {
+    const entry = medicineBook.entries.find((item) => item.id === id);
+    if (!entry) return;
+    $("infoSearch").value = entry.name;
+    document.querySelector('[data-panel="infoPanel"]')?.click();
+    renderInformation(entry.name);
+    // Name matches are listed first, so the first card is this entry.
+    const card = $("medicineInfoResults").querySelector(".medicine-info-card");
+    card?.querySelector("details")?.setAttribute("open", "");
+    card?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   function formatPages(pages = []) {
     if (pages.length === 0) return "";
@@ -1033,6 +1066,13 @@
       }).join("");
 
     const otherNames = [...(entry.aliases || []), ...(entry.brands || [])];
+    const otherBrands = (entry.otherBrands || []).map((group) => {
+      const url = safeExternalUrl(group.url);
+      const source = url
+        ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(group.source)}</a>`
+        : escapeHtml(group.source);
+      return `${escapeHtml((group.names || []).join(", "))} (source: ${source})`;
+    });
     const flags = (entry.flags || []).map((flag) => `<p class="book-flag"><strong>Reviewer note:</strong> ${escapeHtml(flag)}</p>`).join("");
     const updates = (entry.updates || []).map((update) => {
       const url = safeExternalUrl(update.url);
@@ -1053,6 +1093,7 @@
         <span class="tag ${reviewed ? "" : "tag-unreviewed"}">${reviewed ? "Reviewed" : "Not yet reviewed by a pharmacist"}</span>
         <h3>${escapeHtml(entry.name)}</h3>
         ${otherNames.length ? `<p class="record-meta">Also known as: ${escapeHtml(otherNames.join(", "))}</p>` : ""}
+        ${otherBrands.length ? `<p class="record-meta">Other brand names (not from the book): ${otherBrands.join("; ")}</p>` : ""}
         <p class="record-meta">${escapeHtml(entry.drugClass)}</p>
         <p>${escapeHtml(entry.summary)}</p>
         ${updates}
@@ -1063,14 +1104,20 @@
 
   function renderInformation(query = "") {
     // Every word must appear somewhere, so "missed dose" matches "...a dose is missed".
-    const words = query.toLocaleLowerCase().split(/\s+/).filter(Boolean);
-    const matchesAll = (text) => words.every((word) => text.includes(word));
+    const allWords = query.toLocaleLowerCase().split(/\s+/).filter(Boolean);
+    // Strengths and forms ("500mg", "10 mg", "tab") are left out of medicine matching,
+    // so "Paracetamol 500mg" still finds Paracetamol.
+    const medicineWords = allWords.filter((word) => !STRENGTH_WORD.test(word));
+    const matchesAll = (text, words = allWords) => words.every((word) => text.includes(word));
     const generalMatches = info.filter((item) => matchesAll(item.join(" ").toLocaleLowerCase()));
-    // Name, alias and brand matches come first, then matches anywhere in the text.
-    const medicineMatches = medicineIndex
-      .filter((item) => matchesAll(item.fullText))
-      .sort((a, b) => Number(matchesAll(b.nameText)) - Number(matchesAll(a.nameText)))
+    // The exact name comes first, then name, alias and brand matches, then matches anywhere in the text.
+    const exactName = medicineWords.join(" ");
+    const rank = (item) => (item.entry.name.toLocaleLowerCase() === exactName ? 2 : matchesAll(item.nameText, medicineWords) ? 1 : 0);
+    let medicineMatches = (medicineWords.length ? medicineIndex.filter((item) => matchesAll(item.fullText, medicineWords)) : allWords.length ? [] : medicineIndex)
+      .sort((a, b) => rank(b) - rank(a))
       .map((item) => item.entry);
+    // Text such as "Glycomet SR 500 twice daily" falls back to the names and brands it contains.
+    if (!medicineMatches.length && query) medicineMatches = bookEntriesFor(query);
 
     const results = $("infoResults");
     const medicineResults = $("medicineInfoResults");

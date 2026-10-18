@@ -36,6 +36,13 @@ test("finds medicines by name, alias and brand, case-insensitively", () => {
   assert.equal(engine.findMedicines("acetaminophen?").definite[0].id, "paracetamol");
   assert.equal(engine.findMedicines("is brufen ok").definite[0].id, "ibuprofen");
   assert.equal(engine.findMedicines("frusemide").definite[0].id, "furosemide");
+  // Brands the book lists for entries that had none at first.
+  for (const [brand, id] of [["Crocin 650", "paracetamol"], ["Ecosprin 75", "aspirin"], ["Zovirax", "acyclovir"], ["Alprax 0.25", "alprazolam"], ["Valparin 200", "valproate"],
+    // Sourced brands from outside the book (`otherBrands`).
+    ["Dolo 650", "paracetamol"], ["Zyrtec", "cetirizine"], ["Okacet", "cetirizine"], ["Ventolin inhaler", "salbutamol"],
+    ["Pan 40", "pantoprazole"], ["Azee 500", "azithromycin"], ["Amlong 5", "amlodipine"], ["Levipil 500", "levetiracetam"]]) {
+    assert.equal(engine.findMedicines(brand).definite[0]?.id, id, brand);
+  }
 });
 
 test("ordinary questions do not accidentally match a medicine", () => {
