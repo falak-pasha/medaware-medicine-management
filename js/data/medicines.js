@@ -79,6 +79,40 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            659
+          ],
+          "items": [
+            "Preferred over aspirin for mild pain in people allergic to aspirin, with haemophilia, with a history of peptic ulcer, or whose asthma is triggered by aspirin."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            659
+          ],
+          "items": [
+            "Doses above 4 g a day are not usually recommended, and even 4 g a day is linked with abnormal liver tests; a history of alcoholism rules out even this dose.",
+            "Swallowing 15 g may be fatal. Early signs of liver damage are nausea, vomiting, diarrhoea and abdominal pain.",
+            "Kidney damage without liver damage has occurred even after usual doses. Use with caution in any liver disease."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            659
+          ],
+          "items": [
+            "Pain and fever: 325–500 mg four times a day in adults (less for children); not more than 4 g a day in most cases."
+          ]
+        }
+      ],
       flags: [
         "Dose limits are quoted from 2009–2011 regulatory guidance as reported in the 2013 book; current limits may differ."
       ],
@@ -239,7 +273,31 @@ window.MEDAWARE_MEDICINES = {
           items: ["400–600 mg three times a day. The book also lists a weight-based dose of 5–10 mg/kg three times a day; a doctor or pharmacist should confirm any dose for a child."]
         }
       },
-      flags: ["Kidney-related interactions (lithium, methotrexate, digoxin, aminoglycosides, cyclosporine) are from the book's table for NSAIDs as a group (p. 199), not stated for ibuprofen specifically."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            645
+          ],
+          "items": [
+            "For NSAIDs as a group: headache, ringing in the ears, dizziness; fluid retention, raised blood pressure and, rarely, heart attack or heart failure; stomach pain and, rarely, ulcers or bleeding; rare kidney and liver problems."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            647
+          ],
+          "items": [
+            "About 2400 mg a day of ibuprofen equals the anti-inflammatory effect of 4 g of aspirin."
+          ]
+        }
+      ],
+      flags: [
+        "Kidney-related interactions (lithium, methotrexate, digoxin, aminoglycosides, cyclosporine) are from the book's table for NSAIDs as a group (p. 199), not stated for ibuprofen specifically."
+      ],
       review: "unreviewed"
     },
 
@@ -285,7 +343,32 @@ window.MEDAWARE_MEDICINES = {
           items: ["50 mg three times a day, then twice a day, by mouth; 75 mg by deep intramuscular injection."]
         }
       },
-      flags: ["Interactions are listed in the book for NSAIDs as a group, not specifically for diclofenac."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            647
+          ],
+          "items": [
+            "Raised liver enzymes are more common with diclofenac than with other NSAIDs.",
+            "At 150 mg a day it appears to reduce blood flow to the kidneys."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            647
+          ],
+          "items": [
+            "Also used as 0.1% eye drops after eye surgery and as a 3% gel for sun-damaged skin patches (solar keratoses)."
+          ]
+        }
+      ],
+      flags: [
+        "Interactions are listed in the book for NSAIDs as a group, not specifically for diclofenac."
+      ],
       review: "unreviewed"
     },
 
@@ -325,7 +408,53 @@ window.MEDAWARE_MEDICINES = {
           items: ["50–100 mg by mouth or injection every 4–6 hours (children 1–2 mg/kg)."]
         }
       },
-      flags: ["The book's view of tramadol's abuse potential (2013) may be outdated; dependence and misuse have since been widely reported. Reviewer should check."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            570
+          ],
+          "items": [
+            "Can cause seizures: relatively contraindicated in people with epilepsy and with other medicines that lower the seizure threshold.",
+            "How well it works varies with a person's CYP2D6 liver-enzyme genes."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            570
+          ],
+          "items": [
+            "Serious risk of serotonin syndrome, especially with SSRI antidepressants."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            570
+          ],
+          "items": [
+            "Nausea and dizziness usually settle after several days."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            570
+          ],
+          "items": [
+            "50–100 mg by mouth four times a day."
+          ]
+        }
+      ],
+      flags: [
+        "The book's view of tramadol's abuse potential (2013) may be outdated; dependence and misuse have since been widely reported. Reviewer should check.",
+        "Katzung (2018) does not discuss tramadol misuse either, so the earlier note about outdated abuse-potential wording still needs a reviewer."
+      ],
       review: "unreviewed"
     },
 
@@ -376,6 +505,44 @@ window.MEDAWARE_MEDICINES = {
           items: ["Peptic ulcer: 20 mg once daily (40 mg/day heals faster); higher or twice-daily doses are often needed for GERD."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            1093,
+            1095
+          ],
+          "items": [
+            "Take about 1 hour before a meal, usually breakfast; food halves absorption. Full effect takes 3–4 days.",
+            "Use the lowest effective dose and weigh the risks of long-term use.",
+            "Long-term use has been linked with: hip, spine and wrist fractures (FDA warning; bone checks and calcium suggested for those at risk); low vitamin B12; severe low magnesium; gut infections including C. difficile; and, in observational studies, kidney inflammation and chronic kidney disease.",
+            "Stopping after long use can cause a temporary rebound of heartburn for 2–4 weeks.",
+            "Safety in pregnancy has not been established."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            1095
+          ],
+          "items": [
+            "May slow the breakdown of clopidogrel (reducing its activation), warfarin, diazepam and phenytoin.",
+            "Lower stomach acid can reduce absorption of ketoconazole, itraconazole, digoxin and atazanavir."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            1095
+          ],
+          "items": [
+            "Diarrhoea, headache and abdominal pain in 1–5% of people."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -418,7 +585,33 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
-      flags: ["Side effects and warnings are given in the book for PPIs as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            1093,
+            1095
+          ],
+          "items": [
+            "Take about 1 hour before a meal; full effect takes 3–4 days.",
+            "The long-term risks described for proton pump inhibitors as a group apply: fractures, low vitamin B12 and magnesium, gut infections, and kidney problems in observational studies; rebound heartburn for 2–4 weeks after stopping."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            1095
+          ],
+          "items": [
+            "Has no significant drug interactions through liver enzymes, unlike omeprazole; lower stomach acid can still reduce absorption of ketoconazole, itraconazole and digoxin."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects and warnings are given in the book for PPIs as a group."
+      ],
       review: "unreviewed"
     },
 
@@ -463,7 +656,10 @@ window.MEDAWARE_MEDICINES = {
           items: ["Ulcer healing: 300 mg at bedtime or 150 mg twice daily; maintenance 150 mg at bedtime."]
         }
       },
-      flags: ["Withdrawn from many markets after the book was published — see the update below."],
+      otherBooks: [],
+      flags: [
+        "Withdrawn from many markets after the book was published — see the update below."
+      ],
       updates: [
         {
           date: "2020-04-01",
@@ -521,6 +717,30 @@ window.MEDAWARE_MEDICINES = {
           items: ["10 mg three times a day by mouth or injection (children 0.2–0.5 mg/kg)."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            1098
+          ],
+          "items": [
+            "Restlessness, drowsiness, sleeplessness, anxiety or agitation in 10–20% of people, especially older people.",
+            "Muscle-movement side effects (spasms, restlessness, Parkinson-like stiffness) in 25% at high doses and 5% on long-term use.",
+            "Tardive dyskinesia (involuntary movements, sometimes permanent) after prolonged use."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            1098
+          ],
+          "items": [
+            "Long-term use should be avoided unless absolutely necessary, especially in older people."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -557,7 +777,33 @@ window.MEDAWARE_MEDICINES = {
           items: ["10–40 mg three times a day (children 0.3–0.6 mg/kg)."]
         }
       },
-      flags: ["Heart-rhythm restrictions on domperidone were tightened in several countries after 2013; a reviewer should check current guidance."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            1098
+          ],
+          "items": [
+            "Extremely well tolerated; brain and movement side effects are rare because it hardly enters the brain. Raised prolactin can cause breast milk production, breast enlargement and period problems."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            1097,
+            1098
+          ],
+          "items": [
+            "Sometimes recommended to boost breast milk after childbirth. Not sold in the USA."
+          ]
+        }
+      ],
+      flags: [
+        "Heart-rhythm restrictions on domperidone were tightened in several countries after 2013; a reviewer should check current guidance.",
+        "Books differ on use to boost breast milk: Tripathi says metoclopramide should not be used for this (p. 666) and does not recommend domperidone for it; Katzung notes domperidone is sometimes recommended (p. 1098). Heart-rhythm guidance should be checked by a reviewer."
+      ],
       review: "unreviewed"
     },
 
@@ -594,7 +840,43 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
-      flags: ["The book's guidance on use in pregnancy was cut off in the extracted text and has not been included; a reviewer should check p. 668."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            1104
+          ],
+          "items": [
+            "Headache, dizziness and constipation are most common.",
+            "Causes a small prolongation of the QT interval on the heart tracing."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            1104
+          ],
+          "items": [
+            "Serotonin syndrome has been reported when combined with SSRI or SNRI antidepressants."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            1104
+          ],
+          "items": [
+            "Before chemotherapy: 8 mg, or by mouth 8 mg twice a day or 24 mg once, given 1 hour before. A lower dose may be needed in liver disease."
+          ]
+        }
+      ],
+      flags: [
+        "The book's guidance on use in pregnancy was cut off in the extracted text and has not been included; a reviewer should check p. 668.",
+        "Books differ on interactions: Tripathi reports no clinically significant interactions (p. 668); Katzung reports serotonin syndrome with SSRIs/SNRIs (p. 1104)."
+      ],
       review: "unreviewed"
     },
 
@@ -641,6 +923,18 @@ window.MEDAWARE_MEDICINES = {
           items: ["4 mg, then 2 mg after each loose motion (maximum 10 mg a day); 2 mg twice daily for chronic diarrhoea (adults)."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            1122
+          ],
+          "items": [
+            "Misused in very large doses for an opioid-like high or to self-treat opioid withdrawal; at such doses it can cause confusion, slowed breathing and dangerous heart rhythms."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
