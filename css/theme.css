@@ -1,0 +1,635 @@
+/* ==========================================================================
+   MEDAWARE | Theme palettes, 3D background layer and themed components
+   - Palettes live on :root[data-theme] ("female", "male", or default). js/shared/theme.js
+     sets data-theme from the user's profile gender before the page is painted.
+   - js/shared/background-scene.js sets body.auth-view (login) or body.app-view (signed-in
+     pages). Without it, css/style.css alone still gives a complete design.
+   - The spec's bright tones (--primary, --primary-light, ...) are decorative. Text
+     uses the --accent-text / --accent-strong / --heading tokens, which keep WCAG AA
+     contrast (4.5:1) on white, on the page gradient, and over the animated wave.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&display=swap');
+
+/* ---------- Default palette (no gender chosen, "other" or "prefer not to say") ---------- */
+:root,
+:root[data-theme="default"] {
+  --primary: #7c6bc4;
+  --primary-light: #a89cdb;
+  --primary-dark: #4a3d8f;
+  --accent-1: #6c5ce7;
+  --accent-2: #c4b8f0;
+  --accent-3: #ede8ff;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f7ff;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-gradient: linear-gradient(180deg, #ffffff 0%, #ede8ff 100%);
+  --bg-header-gradient: linear-gradient(135deg, #7c6bc4, #4a3d8f);
+
+  --text-primary: #2d2d2d;
+  --text-secondary: #5a5470;   /* 7.15:1 on white */
+  --text-muted: #6b6585;       /* 5.49:1 on white (spec #999 is 2.85:1) */
+  --accent-text: #6352b3;      /* 5.19:1 on the gradient */
+  --accent-strong: #5444a3;    /* 5.35:1 over the wave */
+  --heading: #4a3d8f;          /* 8.92:1 on white */
+  --button-gradient: linear-gradient(135deg, #6c5ce7, #4a3d8f); /* white text >= 4.86:1 */
+  --heading-gradient: linear-gradient(135deg, #6352b3, #4a3d8f);
+
+  --surface-tint: #f6f4ff;
+  --surface-input: #fbfaff;
+  --border-soft: #e2dcf7;
+  --border-hover: #c4b8f0;
+  --tint: #ebe6ff;
+  --line: #e4dff5;
+  --placeholder: #857f9c;
+  --toast-bg: #2a2250;
+  --border-focus: #6352b3;
+
+  --shadow-color: rgba(124, 107, 196, 0.15);
+  --shadow-hover: rgba(124, 107, 196, 0.25);
+  --glow-color: rgba(124, 107, 196, 0.3);
+
+  /* Read by js/shared/background-scene.js */
+  --particle-color-1: #7c6bc4;
+  --particle-color-2: #4a3d8f;
+  --particle-color-3: #a89cdb;
+  --particle-color-4: #6c5ce7;
+  --particle-color-5: #c4b8f0;
+}
+
+/* ---------- Female palette (pink / red / white) ---------- */
+:root[data-theme="female"] {
+  --primary: #ff69b4;
+  --primary-light: #ffb6d9;
+  --primary-dark: #dc143c;
+  --accent-1: #ff4458;
+  --accent-2: #ffc0cb;
+  --accent-3: #ffe4e1;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #fff5f7;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-gradient: linear-gradient(180deg, #ffffff 0%, #ffe4e1 100%);
+  --bg-header-gradient: linear-gradient(135deg, #ff69b4, #dc143c);
+
+  --text-primary: #2d2d2d;
+  --text-secondary: #6b4a57;   /* 7.66:1 on white */
+  --text-muted: #7d5a68;       /* 5.94:1 on white */
+  --accent-text: #c2185b;      /* 4.88:1 on the gradient */
+  --accent-strong: #a3154c;    /* 5.64:1 over the wave */
+  --heading: #dc143c;          /* 4.99:1 on white */
+  --button-gradient: linear-gradient(135deg, #d6336c, #dc143c); /* white text >= 4.62:1 */
+  --heading-gradient: linear-gradient(135deg, #c2185b, #dc143c);
+
+  --surface-tint: #fff4f8;
+  --surface-input: #fff9fb;
+  --border-soft: #f6dbe6;
+  --border-hover: #f2a7c4;
+  --tint: #fde8f0;
+  --line: #f3d9e3;
+  --placeholder: #9b7f8b;
+  --toast-bg: #4a1b2d;
+  --border-focus: #c2185b;
+
+  --shadow-color: rgba(255, 105, 180, 0.15);
+  --shadow-hover: rgba(255, 105, 180, 0.25);
+  --glow-color: rgba(255, 105, 180, 0.3);
+
+  --particle-color-1: #ff69b4;
+  --particle-color-2: #dc143c;
+  --particle-color-3: #ffb6d9;
+  --particle-color-4: #ff4458;
+  --particle-color-5: #ffc0cb;
+}
+
+/* ---------- Male palette (blue / navy / white) ---------- */
+:root[data-theme="male"] {
+  --primary: #4a90d9;
+  --primary-light: #7eb8ff;
+  --primary-dark: #1a3a6b;
+  --accent-1: #2c6fbb;
+  --accent-2: #a8d4ff;
+  --accent-3: #e8f2ff;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f9ff;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-gradient: linear-gradient(180deg, #ffffff 0%, #e8f2ff 100%);
+  --bg-header-gradient: linear-gradient(135deg, #4a90d9, #1a3a6b);
+
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a6a;   /* 8.47:1 on white */
+  --text-muted: #5d5d7d;       /* 6.31:1 on white (spec #8888aa is 3.42:1) */
+  --accent-text: #2c6fbb;      /* 4.53:1 on the gradient */
+  --accent-strong: #1f5a9e;    /* 5.26:1 over the wave */
+  --heading: #1a3a6b;          /* 11.28:1 on white */
+  --button-gradient: linear-gradient(135deg, #2c6fbb, #1a3a6b); /* white text >= 5.12:1 */
+  --heading-gradient: linear-gradient(135deg, #2c6fbb, #1a3a6b);
+
+  --surface-tint: #f3f8ff;
+  --surface-input: #f9fbff;
+  --border-soft: #d6e6fb;
+  --border-hover: #a8d4ff;
+  --tint: #e3efff;
+  --line: #dbe7f7;
+  --placeholder: #77839a;
+  --toast-bg: #13284a;
+  --border-focus: #2c6fbb;
+
+  --shadow-color: rgba(74, 144, 217, 0.15);
+  --shadow-hover: rgba(74, 144, 217, 0.25);
+  --glow-color: rgba(74, 144, 217, 0.3);
+
+  --particle-color-1: #4a90d9;
+  --particle-color-2: #1a3a6b;
+  --particle-color-3: #7eb8ff;
+  --particle-color-4: #2c6fbb;
+  --particle-color-5: #a8d4ff;
+}
+
+/* ---------- Page base for themed views ---------- */
+
+body.auth-view,
+body.app-view {
+  /* Re-point css/style.css's own variables, so existing components follow the theme. */
+  --ink: var(--text-primary);
+  --muted: var(--text-secondary);
+  --green: var(--accent-text);
+  --green-dark: var(--accent-strong);
+  --mint: var(--tint);
+  --shadow: 0 8px 24px var(--shadow-color);
+
+  min-height: 100vh;
+  color: var(--text-primary);
+  background: var(--bg-gradient);
+  font-family: "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---------- 3D canvas: fixed behind all page content ---------- */
+
+#bgCanvas {
+  display: none;
+}
+
+body.auth-view #bgCanvas,
+body.app-view #bgCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+body.auth-view main,
+body.app-view main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Header (all themed pages) ---------- */
+
+body.auth-view .site-header,
+body.app-view .site-header {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.78);
+  border-bottom-color: var(--border-soft);
+  backdrop-filter: blur(8px);
+}
+
+body.auth-view .brand,
+body.app-view .brand {
+  color: var(--text-primary);
+}
+
+body.auth-view .brand:first-letter,
+body.app-view .brand:first-letter {
+  color: var(--heading);
+}
+
+body.auth-view .site-header > span,
+body.app-view .site-header > span {
+  color: var(--text-secondary);
+}
+
+body.app-view .site-header button {
+  color: var(--accent-text);
+  background: var(--surface-tint);
+  border-color: var(--border-soft);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-nav a {
+  padding: 9px 12px;
+  color: var(--accent-text);
+  border-radius: 9px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  background: var(--tint);
+}
+
+body.auth-view button:focus-visible,
+body.auth-view a:focus-visible,
+body.app-view button:focus-visible,
+body.app-view a:focus-visible,
+body.app-view input:focus-visible,
+body.app-view textarea:focus-visible,
+body.app-view select:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+body.auth-view .toast,
+body.app-view .toast {
+  background: var(--toast-bg);
+}
+
+/* ==========================================================================
+   Login screen
+   ========================================================================== */
+
+body.auth-view #auth h1,
+body.auth-view #auth h2 {
+  font-family: inherit;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+}
+
+body.auth-view #auth .hero h1 {
+  font-size: clamp(2.1rem, 4.2vw, 2.9rem);
+  color: var(--accent-text);
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.auth-view #auth .hero em {
+  color: var(--heading);
+  -webkit-text-fill-color: var(--heading);
+}
+
+body.auth-view #auth .hero p {
+  font-size: 1.06rem;
+  font-weight: 300;
+}
+
+body.auth-view #auth .eyebrow,
+body.auth-view #auth .hero ul {
+  color: var(--accent-text);
+}
+
+body.auth-view #auth .hero ul {
+  font-weight: 500;
+}
+
+body.auth-view #auth .hero li::marker {
+  color: var(--primary);
+}
+
+body.auth-view #auth .hero small {
+  color: var(--text-secondary);
+}
+
+body.auth-view #auth .hero,
+body.auth-view #auth .panel {
+  position: relative;
+  z-index: 1;
+}
+
+body.auth-view #auth .panel {
+  padding: 40px 32px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  box-shadow:
+    0 20px 60px var(--shadow-color),
+    0 0 40px var(--shadow-color);
+  backdrop-filter: blur(10px);
+  animation: medaware-slide-up 0.8s ease-out both;
+}
+
+@keyframes medaware-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.auth-view #auth .panel h2 {
+  color: var(--heading);
+  font-size: 1.6rem;
+}
+
+body.auth-view #auth .muted {
+  color: var(--text-secondary);
+}
+
+body.auth-view #auth label {
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body.auth-view #auth input {
+  padding: 13px 15px;
+  background: var(--surface-input);
+  border: 2px solid var(--border-soft);
+  border-radius: 10px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* The focus border uses a text-safe tone so keyboard focus stays clearly visible. */
+body.auth-view #auth input:focus,
+body.auth-view #auth input:focus-visible {
+  background: var(--bg-primary);
+  border-color: var(--border-focus);
+  outline: none;
+  box-shadow: 0 0 0 4px var(--glow-color), 0 0 20px var(--shadow-hover);
+}
+
+body.auth-view #auth input::placeholder {
+  color: var(--placeholder);
+}
+
+/* Tabs: "Log in" is the active button, "Create account" links to signup.html. */
+body.auth-view #auth .tabs button,
+body.auth-view #auth .tabs a {
+  color: var(--accent-text);
+  background: var(--surface-tint);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+}
+
+body.auth-view #auth .tabs button.active {
+  color: #ffffff;
+  background: var(--button-gradient);
+  border-color: transparent;
+}
+
+body.auth-view #auth .tabs a:hover {
+  opacity: 1;
+  border-color: var(--primary);
+}
+
+/* Primary "Log in" button with a light sheen on hover. */
+body.auth-view #auth .primary {
+  position: relative;
+  overflow: hidden;
+  padding: 14px 24px;
+  color: #ffffff;
+  background: var(--button-gradient);
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.auth-view #auth .primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.4s ease;
+}
+
+body.auth-view #auth .primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px var(--shadow-hover);
+}
+
+body.auth-view #auth .primary:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+body.auth-view #auth .msg {
+  color: var(--accent-text);
+}
+
+body.auth-view #auth .msg.error {
+  color: var(--danger);
+}
+
+/* ==========================================================================
+   Signed-in pages (dashboard and profile): shared components
+   ========================================================================== */
+
+body.app-view main h1,
+body.app-view main h2,
+body.app-view main h3 {
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+
+body.app-view main h2 {
+  color: var(--heading);
+}
+
+body.app-view main .panel {
+  background: var(--bg-card);
+  border-color: var(--border-soft);
+  border-radius: 16px;
+}
+
+body.app-view main button {
+  color: var(--text-primary);
+  background: var(--surface-tint);
+  border-color: var(--border-soft);
+}
+
+body.app-view main button:hover {
+  border-color: var(--border-hover);
+}
+
+body.app-view main button.danger {
+  color: var(--danger);
+}
+
+body.app-view main .primary,
+body.app-view main .tabs button.active {
+  color: #ffffff;
+  background: var(--button-gradient);
+  border-color: transparent;
+}
+
+body.app-view main .primary {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.app-view main .primary:hover:not(:disabled) {
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px var(--shadow-hover);
+}
+
+body.app-view main input,
+body.app-view main textarea,
+body.app-view main select {
+  background: var(--surface-input);
+  border-color: var(--line);
+  border-radius: 10px;
+}
+
+body.app-view main input:focus,
+body.app-view main textarea:focus,
+body.app-view main select:focus {
+  background: var(--bg-primary);
+  border-color: var(--border-focus);
+  outline: 2px solid var(--glow-color);
+}
+
+body.app-view main input::placeholder,
+body.app-view main textarea::placeholder {
+  color: var(--placeholder);
+}
+
+/* ==========================================================================
+   Dashboard
+   ========================================================================== */
+
+body.app-view #app .welcome h1 {
+  font-weight: 400;
+  color: var(--accent-text);
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Text that sits directly on the animated background (not on a white panel). */
+body.app-view #app .welcome .eyebrow,
+body.app-view #app .today-head h2 {
+  color: var(--accent-strong);
+}
+
+body.app-view #app .reminder-status {
+  border-color: var(--border-soft);
+}
+
+/* Statistics: gradient numbers */
+body.app-view #app .stats strong,
+body.app-view #app .today-stats strong {
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--accent-text);
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Today's schedule cards */
+body.app-view #app .medicine-card {
+  background: var(--bg-card);
+  border: 2px solid transparent;
+  box-shadow: 0 8px 24px var(--shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+body.app-view #app .medicine-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--primary);
+  box-shadow: 0 16px 40px var(--shadow-hover);
+}
+
+body.app-view #app .medicine-icon {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+}
+
+body.app-view #app .medicine-time {
+  color: var(--heading);
+}
+
+body.app-view #app .today-grid.empty {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--border-hover);
+}
+
+/* Entrance: sections rise in once when the dashboard appears. */
+body.app-view #app .welcome,
+body.app-view #app .today {
+  animation: medaware-rise 0.7s ease-out both;
+}
+
+body.app-view #app .today {
+  animation-delay: 0.15s;
+}
+
+@keyframes medaware-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 600px) {
+  /* Brand on the first line, account links on the next, instead of overflowing. */
+  .site-header {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .site-nav {
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .site-nav a,
+  .site-nav button {
+    padding: 8px 10px;
+  }
+
+  body.auth-view #auth .panel {
+    padding: 32px 22px;
+  }
+
+  body.auth-view #auth input,
+  body.auth-view #auth .primary {
+    padding: 12px 14px;
+  }
+}
+
+/* ---------- Reduced motion: no entrance or hover movement ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  body.auth-view #auth .panel,
+  body.app-view #app .welcome,
+  body.app-view #app .today {
+    animation: none;
+  }
+
+  body.auth-view #auth .primary:hover:not(:disabled),
+  body.app-view main .primary:hover:not(:disabled),
+  body.app-view #app .medicine-card:hover {
+    transform: none;
+  }
+}

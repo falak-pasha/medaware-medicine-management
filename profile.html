@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Your MEDAWARE profile, medical records and documents.">
+  <title>MEDAWARE | My Profile</title>
+
+  <!-- Applies the saved theme before first paint (not deferred on purpose) -->
+  <script src="js/shared/theme.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/pages/profile.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/shared/profile-common.js"></script>
+  <script defer src="js/pages/profile.js"></script>
+
+  <!-- 3D background (self-hosted Three.js r159; decorative only) -->
+  <script defer src="js/vendor/three.min.js"></script>
+  <script defer src="js/shared/background-scene.js"></script>
+</head>
+
+<body>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="MEDAWARE dashboard">✚ MEDAWARE</a>
+
+    <span>Your medicines, more organized.</span>
+
+    <nav class="site-nav" aria-label="Account">
+      <a href="index.html">Dashboard</a>
+      <a href="profile.html" aria-current="page">My profile</a>
+      <button id="signOut" type="button">Sign out</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Shown while the session is checked, or if the page cannot load -->
+    <p id="profileGate" class="notice" role="status">Loading your profile…</p>
+
+    <section id="profileApp" class="profile hidden" data-scene="home" aria-labelledby="profileName">
+
+      <!-- Profile header: picture, name and gender -->
+      <section class="profile-header panel">
+        <div class="avatar-block">
+          <div class="avatar" id="avatar">
+            <img id="avatarImg" alt="" hidden>
+            <span id="avatarInitials" class="avatar-initials" aria-hidden="true"></span>
+          </div>
+          <div class="avatar-actions">
+            <button id="changePhoto" type="button">Change photo</button>
+            <button id="removePhoto" type="button" class="danger hidden">Remove</button>
+          </div>
+          <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+          <p class="hint">JPG, PNG or WebP, up to 2 MB. Only you can see it.</p>
+          <p id="photoMsg" class="msg" role="status"></p>
+        </div>
+
+        <div class="profile-info">
+          <h1 id="profileName">My profile</h1>
+          <p id="profileEmail" class="muted"></p>
+
+          <fieldset class="gender-selector">
+            <legend>Gender</legend>
+            <div class="gender-options">
+              <label class="gender-option">
+                <input type="radio" name="gender" value="female">
+                <span><span class="gender-icon" aria-hidden="true">♀</span> Female</span>
+              </label>
+              <label class="gender-option">
+                <input type="radio" name="gender" value="male">
+                <span><span class="gender-icon" aria-hidden="true">♂</span> Male</span>
+              </label>
+              <label class="gender-option">
+                <input type="radio" name="gender" value="other">
+                <span><span class="gender-icon" aria-hidden="true">⚧</span> Other</span>
+              </label>
+              <label class="gender-option">
+                <input type="radio" name="gender" value="prefer_not_to_say">
+                <span>Prefer not to say</span>
+              </label>
+            </div>
+            <p class="hint">
+              Saved straight away. The app's colours follow this choice: pink for female,
+              blue for male, and purple otherwise.
+            </p>
+            <p id="genderMsg" class="msg" role="status"></p>
+          </fieldset>
+        </div>
+      </section>
+
+      <form id="profileForm" novalidate>
+        <!-- Personal details -->
+        <section class="profile-section panel" aria-labelledby="personalTitle">
+          <h2 id="personalTitle">Personal information</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fullName">Full name *</label>
+              <input id="fullName" type="text" maxlength="120" autocomplete="name" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label for="dob">Date of birth *</label>
+              <input id="dob" type="date" min="1900-01-01" autocomplete="bday">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone number</label>
+              <input id="phone" type="tel" maxlength="20" autocomplete="tel" placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label for="emergencyContact">Emergency contact number</label>
+              <input id="emergencyContact" type="tel" maxlength="20" placeholder="Number to call in an emergency">
+            </div>
+          </div>
+        </section>
+
+        <!-- Medical records -->
+        <section class="profile-section panel" aria-labelledby="medicalTitle">
+          <h2 id="medicalTitle">Medical records</h2>
+          <p class="note">
+            For your own reference and to share with your healthcare team. MEDAWARE does not
+            use this information to diagnose conditions or recommend treatment.
+          </p>
+
+          <div class="medical-subsection">
+            <h3>Blood &amp; vitals</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="bloodGroup">Blood group</label>
+                <select id="bloodGroup">
+                  <option value="">Not set</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A−</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B−</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB−</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O−</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="height">Height (cm)</label>
+                <input id="height" type="number" min="30" max="272" step="0.1" inputmode="decimal" placeholder="170">
+              </div>
+              <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input id="weight" type="number" min="1" max="500" step="0.1" inputmode="decimal" placeholder="70">
+              </div>
+            </div>
+          </div>
+
+          <div class="medical-subsection">
+            <h3 id="allergiesTitle">Allergies</h3>
+            <ul class="chips" id="allergiesList" data-empty="No allergies listed." aria-labelledby="allergiesTitle"></ul>
+            <div class="add-row">
+              <label for="allergyInput" class="visually-hidden">Add an allergy</label>
+              <input id="allergyInput" type="text" maxlength="100" placeholder="Add allergy (e.g. Penicillin)">
+              <button id="addAllergy" type="button">+ Add</button>
+            </div>
+          </div>
+
+          <div class="medical-subsection">
+            <h3 id="conditionsTitle">Chronic conditions</h3>
+            <ul class="chips" id="conditionsList" data-empty="No conditions listed." aria-labelledby="conditionsTitle"></ul>
+            <div class="add-row">
+              <label for="conditionInput" class="visually-hidden">Add a condition</label>
+              <input id="conditionInput" type="text" maxlength="100" placeholder="Add condition (e.g. Asthma)">
+              <button id="addCondition" type="button">+ Add</button>
+            </div>
+          </div>
+
+          <div class="medical-subsection">
+            <h3 id="surgeriesTitle">Past surgeries &amp; procedures</h3>
+            <ul class="records-list" id="surgeriesList" data-empty="No procedures listed." aria-labelledby="surgeriesTitle"></ul>
+            <div class="add-row">
+              <label for="surgeryName" class="visually-hidden">Procedure name</label>
+              <input id="surgeryName" type="text" maxlength="150" placeholder="Procedure name">
+              <label for="surgeryDate" class="visually-hidden">Procedure date (optional)</label>
+              <input id="surgeryDate" type="date" min="1900-01-01">
+              <button id="addSurgery" type="button">+ Add</button>
+            </div>
+          </div>
+          <p id="recordsMsg" class="msg" role="status"></p>
+
+          <div class="medical-subsection">
+            <h3>Current medications</h3>
+            <p class="hint">From your medicine list. <a href="index.html">Manage medicines on the dashboard</a>.</p>
+            <ul class="medications-list" id="medicationsList" data-empty="No medicines added yet."></ul>
+          </div>
+        </section>
+      </form>
+
+      <!-- Medical documents (outside the form: uploads and deletes happen immediately) -->
+      <section class="profile-section panel" aria-labelledby="documentsTitle">
+        <h2 id="documentsTitle">Medical documents</h2>
+        <p class="note">
+          Prescriptions, reports and scans are stored privately. Links to open them expire after a minute.
+        </p>
+        <ul class="documents-grid" id="documentsList" data-empty="No documents uploaded yet."></ul>
+        <button id="uploadDocument" class="upload-area" type="button">
+          <span class="upload-icon" aria-hidden="true">📄</span>
+          <span>Upload prescription, report or scan</span>
+          <span class="hint">PDF, JPG or PNG, up to 5 MB</span>
+        </button>
+        <input id="documentInput" type="file" accept="application/pdf,image/jpeg,image/png" hidden>
+        <p id="documentsMsg" class="msg" role="status"></p>
+      </section>
+
+      <!-- Save bar -->
+      <div class="save-bar">
+        <button id="saveProfile" class="primary" type="submit" form="profileForm">Save profile</button>
+        <span id="saveStatus" class="save-status" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+</body>
+</html>

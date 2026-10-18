@@ -1,0 +1,258 @@
+/* ==========================================================================
+   MEDAWARE | Forgot password and reset password pages
+   Colours come from the theme variables in css/theme.css.
+   ========================================================================== */
+
+.auth-page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  padding: 4vh 0 40px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 40px 34px;
+  background: var(--bg-card);
+  border-color: var(--border-soft);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px var(--shadow-color);
+  animation: auth-card-in 0.6s ease-out both;
+}
+
+@keyframes auth-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 22px;
+  color: var(--accent-text);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.back-link.centred {
+  display: block;
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.auth-title {
+  margin: 0 0 8px;
+  font-family: inherit;
+  font-size: clamp(1.5rem, 4vw, 1.8rem);
+  font-weight: 400;
+  color: var(--accent-text);
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-title:focus {
+  outline: none;
+}
+
+.auth-subtitle {
+  margin: 0 0 24px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.auth-card label {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.auth-card input {
+  background: var(--surface-input);
+  border: 2px solid var(--border-soft);
+  border-radius: 10px;
+}
+
+.auth-card input:focus {
+  background: var(--bg-primary);
+  border-color: var(--border-focus);
+  outline: none;
+  box-shadow: 0 0 0 4px var(--glow-color);
+}
+
+.auth-card input::placeholder {
+  color: var(--placeholder);
+}
+
+.auth-card .hint {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.auth-card .primary,
+.auth-card .secondary {
+  padding: 13px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.auth-card .primary {
+  color: #ffffff;
+  background: var(--button-gradient);
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card .primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow-hover);
+}
+
+.auth-card .secondary {
+  margin-top: 10px;
+  color: var(--accent-strong);
+  background: var(--tint);
+  border: 1px solid var(--border-soft);
+}
+
+.auth-card .secondary:hover:not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+.auth-card .button-link {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* ---------- Password field with Show / Hide ---------- */
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 72px;
+}
+
+.auth-card .toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  padding: 6px 10px;
+  color: var(--accent-text);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transform: translateY(-50%);
+}
+
+.auth-card .toggle-password:hover {
+  background: var(--tint);
+}
+
+/* ---------- Strength meter ---------- */
+
+.password-strength {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 6px;
+  overflow: hidden;
+  background: var(--accent-3);
+  border-radius: 3px;
+}
+
+.strength-fill {
+  width: 0;
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Text stays in a readable colour; only the bar is coloured. */
+.strength-text {
+  min-width: 5.5em;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.strength-0 .strength-fill { width: 0; }
+.strength-1 .strength-fill { width: 25%; background: #d93a3a; }
+.strength-2 .strength-fill { width: 50%; background: #e08a00; }
+.strength-3 .strength-fill { width: 75%; background: #4c9a3a; }
+.strength-4 .strength-fill { width: 100%; background: #2e7d32; }
+
+/* ---------- States ---------- */
+
+.auth-state {
+  text-align: center;
+}
+
+.auth-state p {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.state-icon {
+  margin-bottom: 12px;
+  font-size: 2.8rem;
+}
+
+.form-error {
+  margin: 16px 0 0;
+  padding: 11px 14px;
+  color: var(--danger);
+  background: #fdf0ee;
+  border: 1px solid #f2c4bd;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.form-error.info {
+  color: var(--accent-strong);
+  background: var(--tint);
+  border-color: var(--border-soft);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 30px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-card {
+    animation: none;
+  }
+
+  .auth-card .primary:hover:not(:disabled) {
+    transform: none;
+  }
+}

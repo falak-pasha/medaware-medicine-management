@@ -3,7 +3,7 @@
  * MEDAWARE | Supabase Client Configuration
  * ============================================================================
  * Active Supabase Project:
- * URL: https://jlzggihsicmfqdnuwfya.supabase.co
+ * URL: https://dsxekgnhuatpbkgyswmn.supabase.co
  * Key: anon/publishable key
  * ============================================================================
  */

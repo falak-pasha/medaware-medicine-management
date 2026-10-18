@@ -1,0 +1,717 @@
+/* ==========================================================================
+   MEDAWARE | Profile page (profile.html)
+   Every colour comes from the theme variables in css/theme.css, so the page
+   switches instantly with the female / male / default palette.
+   ========================================================================== */
+
+/* Keep focused or scrolled-to fields clear of the fixed save bar.
+   (This stylesheet is only loaded by profile.html.) */
+html {
+  scroll-padding-bottom: 110px;
+}
+
+.profile {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 110px; /* room for the fixed save bar */
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.profile .hint,
+.profile .note {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.profile .note {
+  margin: -8px 0 22px;
+}
+
+.profile a {
+  color: var(--accent-text);
+}
+
+/* ---------- Header: picture, name and gender ---------- */
+
+.profile-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 36px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 30px var(--shadow-color);
+  animation: profile-fade-in 0.6s ease-out both;
+}
+
+.avatar-block {
+  display: flex;
+  flex: 0 0 170px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  background: var(--bg-header-gradient);
+  border: 4px solid var(--bg-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--primary), 0 0 24px var(--glow-color);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-initials {
+  color: #ffffff;
+  font-size: 2.4rem;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.avatar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.avatar-actions button {
+  padding: 7px 11px;
+  font-size: 0.82rem;
+}
+
+.avatar-block .hint {
+  margin: 8px 0 0;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-info h1 {
+  margin: 4px 0;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 400;
+  color: var(--accent-text);
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  overflow-wrap: anywhere;
+}
+
+.profile-info > p {
+  margin: 0 0 18px;
+}
+
+/* Gender: real radio inputs styled as pill buttons (keyboard and screen-reader friendly). */
+.gender-selector {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.gender-selector legend {
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.gender-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gender-option {
+  position: relative;
+  margin: 0;
+  cursor: pointer;
+}
+
+.gender-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gender-option > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+  border: 2px solid var(--border-soft);
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.gender-option:hover > span {
+  background: var(--bg-secondary);
+  border-color: var(--border-hover);
+}
+
+.gender-option input:checked + span {
+  color: #ffffff;
+  background: var(--button-gradient);
+  border-color: transparent;
+  box-shadow: 0 4px 15px var(--glow-color);
+}
+
+.gender-option input:focus-visible + span {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.gender-option input:disabled + span {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.gender-icon {
+  font-size: 1.1rem;
+}
+
+/* ---------- Sections ---------- */
+
+.profile-section {
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 30px var(--shadow-color);
+  animation: profile-slide-up 0.6s ease-out both;
+}
+
+.profile-section h2 {
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  font-size: 1.35rem;
+  border-bottom: 2px solid var(--accent-3);
+}
+
+.medical-subsection {
+  margin-bottom: 30px;
+}
+
+.medical-subsection:last-child {
+  margin-bottom: 0;
+}
+
+.medical-subsection h3 {
+  margin: 0 0 14px;
+  color: var(--accent-text);
+  font-size: 1.02rem;
+}
+
+@keyframes profile-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes profile-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Form fields ---------- */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: 6px 20px;
+}
+
+.form-group label {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.profile input.invalid,
+.profile select.invalid {
+  border-color: var(--danger);
+}
+
+/* ---------- Chips (allergies, conditions) ---------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.chips:empty::before,
+.records-list:empty::before,
+.medications-list:empty::before,
+.documents-grid:empty::before {
+  content: attr(data-empty);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 6px 6px 14px;
+  color: var(--accent-strong);
+  background: var(--tint);
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  animation: profile-pop 0.3s ease-out;
+}
+
+@keyframes profile-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.profile .chip button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  color: var(--accent-strong);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.profile .chip button:hover {
+  background: var(--bg-primary);
+}
+
+.add-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.add-row input[type="date"] {
+  flex: 0 0 170px;
+}
+
+.add-row button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* ---------- Surgeries ---------- */
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 10px 10px 16px;
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--primary);
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+
+.record-item .record-date {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.record-item button {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+/* ---------- Current medications ---------- */
+
+.medications-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.medication-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-3);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+.medication-chip .med-icon {
+  font-size: 1.25rem;
+}
+
+.medication-chip .med-dose {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Documents ---------- */
+
+.documents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(190px, 100%), 1fr));
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.doc-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 12px 12px;
+  text-align: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-3);
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.doc-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-light);
+  box-shadow: 0 8px 20px var(--shadow-hover);
+}
+
+.doc-card .doc-icon {
+  font-size: 2rem;
+}
+
+.doc-card .doc-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.doc-card .doc-meta {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.doc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.doc-actions button {
+  padding: 5px 9px;
+  font-size: 0.78rem;
+}
+
+.profile .upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 26px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 2px dashed var(--border-hover);
+  border-radius: 14px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.profile .upload-area:hover {
+  background: var(--bg-secondary);
+  border-color: var(--primary);
+}
+
+.upload-icon {
+  font-size: 1.75rem;
+}
+
+/* ---------- Save bar ---------- */
+
+.save-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -4px 20px var(--shadow-color);
+}
+
+.save-bar .primary {
+  padding: 13px 44px;
+  font-size: 1rem;
+}
+
+.save-status {
+  min-width: 9em;
+  color: var(--accent-text);
+  font-size: 0.88rem;
+}
+
+.save-status.error {
+  color: var(--danger);
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 640px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 18px;
+    text-align: center;
+  }
+
+  .avatar-block {
+    flex-basis: auto;
+  }
+
+  .gender-options {
+    justify-content: center;
+  }
+
+  .profile-section {
+    padding: 24px 16px;
+  }
+
+  .add-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-row input[type="date"] {
+    flex-basis: auto;
+  }
+
+  .save-bar .primary {
+    padding: 12px 28px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-header,
+  .profile-section,
+  .chip {
+    animation: none;
+  }
+
+  .doc-card:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   First-time profile setup (profile-setup.html)
+   ========================================================================== */
+
+.setup {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 40px;
+}
+
+.setup-card {
+  width: 100%;
+  max-width: 540px;
+  padding: 44px 40px;
+  box-shadow: 0 20px 60px var(--shadow-color);
+  animation: profile-slide-up 0.6s ease-out both;
+}
+
+.setup-title {
+  margin: 0 0 6px;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 400;
+  text-align: center;
+  color: var(--accent-text);
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.setup-subtitle {
+  margin: 0 0 28px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.setup-steps {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  margin: 0 0 30px;
+  padding: 0;
+  list-style: none;
+}
+
+.setup-steps .step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+}
+
+.setup-steps .step.active {
+  opacity: 1;
+}
+
+.step-number {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: #ffffff;
+  background: var(--button-gradient);
+  border-radius: 50%;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.step-label {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.setup-step {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.setup-avatar {
+  margin: 0 auto 18px;
+}
+
+.setup .form-group label {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.setup .gender-selector {
+  margin-top: 18px;
+}
+
+.setup .hint {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.setup input.invalid,
+.setup select.invalid,
+.setup fieldset.invalid .gender-option > span {
+  border-color: var(--danger);
+}
+
+.setup-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.setup-buttons .primary {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .setup-card {
+    padding: 30px 20px;
+  }
+
+  .setup-steps {
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .setup-card {
+    animation: none;
+  }
+}

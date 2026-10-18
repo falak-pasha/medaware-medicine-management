@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Set up your MEDAWARE profile.">
+  <title>MEDAWARE | Set up your profile</title>
+
+  <!-- Applies the saved theme before first paint (not deferred on purpose) -->
+  <script src="js/shared/theme.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/pages/profile.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/shared/profile-common.js"></script>
+  <script defer src="js/pages/profile-setup.js"></script>
+
+  <!-- 3D background (self-hosted Three.js r159; decorative only) -->
+  <script defer src="js/vendor/three.min.js"></script>
+  <script defer src="js/shared/background-scene.js"></script>
+</head>
+
+<body>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <span class="brand">✚ MEDAWARE</span>
+
+    <span>Your medicines, more organized.</span>
+
+    <nav class="site-nav" aria-label="Account">
+      <button id="signOut" type="button">Sign out</button>
+    </nav>
+  </header>
+
+  <main>
+    <p id="setupGate" class="notice" role="status">Loading…</p>
+
+    <section id="setupApp" class="setup hidden" data-scene="home" aria-labelledby="setupTitle">
+      <div class="setup-card panel">
+        <h1 id="setupTitle" class="setup-title">Welcome to MEDAWARE</h1>
+        <p class="setup-subtitle">Let's set up your profile to get started.</p>
+
+        <ol class="setup-steps" aria-label="Setup progress">
+          <li class="step active" data-step="1" aria-current="step">
+            <span class="step-number" aria-hidden="true">1</span>
+            <span class="step-label">About you</span>
+          </li>
+          <li class="step" data-step="2">
+            <span class="step-number" aria-hidden="true">2</span>
+            <span class="step-label">Medical info</span>
+          </li>
+        </ol>
+
+        <form id="setupForm" novalidate>
+          <!-- Step 1: about you -->
+          <fieldset class="setup-step" id="step1">
+            <legend class="visually-hidden">Step 1 of 2: about you</legend>
+
+            <div class="avatar-block setup-avatar">
+              <div class="avatar">
+                <img id="avatarImg" alt="" hidden>
+                <span id="avatarInitials" class="avatar-initials" aria-hidden="true"></span>
+              </div>
+              <div class="avatar-actions">
+                <button id="changePhoto" type="button">Add photo</button>
+              </div>
+              <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+              <p class="hint">Optional. JPG, PNG or WebP, up to 2 MB. Only you can see it.</p>
+              <p id="photoMsg" class="msg" role="status"></p>
+            </div>
+
+            <div class="form-group">
+              <label for="fullName">Full name *</label>
+              <input id="fullName" type="text" maxlength="120" autocomplete="name" placeholder="Your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="dob">Date of birth *</label>
+              <input id="dob" type="date" min="1900-01-01" autocomplete="bday" required>
+            </div>
+
+            <fieldset class="gender-selector" id="genderField">
+              <legend>Gender *</legend>
+              <div class="gender-options">
+                <label class="gender-option">
+                  <input type="radio" name="gender" value="female" required>
+                  <span><span class="gender-icon" aria-hidden="true">♀</span> Female</span>
+                </label>
+                <label class="gender-option">
+                  <input type="radio" name="gender" value="male">
+                  <span><span class="gender-icon" aria-hidden="true">♂</span> Male</span>
+                </label>
+                <label class="gender-option">
+                  <input type="radio" name="gender" value="other">
+                  <span><span class="gender-icon" aria-hidden="true">⚧</span> Other</span>
+                </label>
+                <label class="gender-option">
+                  <input type="radio" name="gender" value="prefer_not_to_say">
+                  <span>Prefer not to say</span>
+                </label>
+              </div>
+              <p class="hint">The app's colours follow this: pink for female, blue for male, purple otherwise.</p>
+            </fieldset>
+
+            <button id="nextStep" class="primary full" type="button">Next →</button>
+          </fieldset>
+
+          <!-- Step 2: medical basics -->
+          <fieldset class="setup-step" id="step2" hidden>
+            <legend class="visually-hidden">Step 2 of 2: medical info</legend>
+
+            <div class="form-group">
+              <label for="bloodGroup">Blood group</label>
+              <select id="bloodGroup">
+                <option value="">Not sure / skip</option>
+                <option value="A+">A+</option>
+                <option value="A-">A−</option>
+                <option value="B+">B+</option>
+                <option value="B-">B−</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB−</option>
+                <option value="O+">O+</option>
+                <option value="O-">O−</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone number</label>
+              <input id="phone" type="tel" maxlength="20" autocomplete="tel" placeholder="+91 98765 43210">
+            </div>
+
+            <div class="form-group">
+              <label for="emergencyContact">Emergency contact number</label>
+              <input id="emergencyContact" type="tel" maxlength="20" placeholder="Number to call in an emergency">
+            </div>
+
+            <p class="hint">
+              These are optional. You can add allergies, conditions and documents later from
+              <strong>My profile</strong>.
+            </p>
+
+            <div class="setup-buttons">
+              <button id="prevStep" type="button">← Back</button>
+              <button id="saveContinue" class="primary" type="submit">Save &amp; continue →</button>
+            </div>
+          </fieldset>
+
+          <p id="setupMsg" class="msg" role="alert"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+</body>
+</html>
