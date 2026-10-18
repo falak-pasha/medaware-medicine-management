@@ -671,6 +671,8 @@
 
   // ---------- Delete account ----------
 
+  const deleteCaptcha = window.MEDAWARE_CAPTCHA?.mount($("deleteCaptcha")) ?? { getToken: async () => undefined, reset() {} };
+
   $("deleteForm").addEventListener("submit", (event) => {
     event.preventDefault();
     const password = $("deletePassword").value;
@@ -685,9 +687,18 @@
     withBusy($("deleteAccount"), "Deleting…", async () => {
       setMessage("deleteMsg", "");
       // Re-check the password so an unattended signed-in device cannot delete the account.
-      const check = await db.auth.signInWithPassword({ email: user.email, password });
+      let check;
+      try {
+        const captchaToken = await deleteCaptcha.getToken();
+        check = await db.auth.signInWithPassword({ email: user.email, password, options: { captchaToken } });
+      } catch (error) {
+        setMessage("deleteMsg", window.MEDAWARE_CAPTCHA?.describe(error) || "Could not check your password. Try again.", true);
+        return;
+      } finally {
+        deleteCaptcha.reset(); // tokens are single-use
+      }
       if (check.error) {
-        setMessage("deleteMsg", "That password is not correct.", true);
+        setMessage("deleteMsg", window.MEDAWARE_CAPTCHA?.describe(check.error) || "That password is not correct.", true);
         return;
       }
       const { error } = await db.functions.invoke("delete-account", { body: { confirm: "DELETE" } });

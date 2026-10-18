@@ -23,6 +23,7 @@
 
   <!-- Application configuration and logic -->
   <script defer src="js/config.js"></script>
+  <script defer src="js/shared/captcha.js"></script>
   <script defer src="js/data/medicines.js"></script>
   <script defer src="js/shared/medicine-chat.js"></script>
   <script defer src="js/pages/app.js"></script>
@@ -128,6 +129,7 @@
             placeholder="Your password"
           >
           <a class="forgot-link" href="forgot-password.html">Forgot password?</a>
+          <div id="authCaptcha" class="captcha-box" hidden></div>
 
           <button
             class="primary full"

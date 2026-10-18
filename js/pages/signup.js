@@ -3,6 +3,8 @@
 const form = document.getElementById("signupForm");
 const message = document.getElementById("message");
 const button = document.getElementById("signupButton");
+const captcha = window.MEDAWARE_CAPTCHA?.mount(document.getElementById("signupCaptcha")) ??
+  { getToken: async () => undefined, reset() {} };
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -42,10 +44,12 @@ form.addEventListener("submit", async (event) => {
       config.supabaseAnonKey
     );
 
+    const captchaToken = await captcha.getToken();
     const { data, error } = await client.auth.signUp({
       email,
       password,
       options: {
+        captchaToken,
         data: { full_name: fullName },
         emailRedirectTo: window.location.origin + "/index.html"
       }
@@ -64,9 +68,10 @@ form.addEventListener("submit", async (event) => {
 
     form.reset();
   } catch (error) {
-    message.textContent = error.message ||
+    message.textContent = window.MEDAWARE_CAPTCHA?.describe(error) || error.message ||
       "Could not create your account. Please try again.";
   } finally {
+    captcha.reset(); // tokens are single-use
     button.disabled = false;
     button.textContent = "Create Account";
   }

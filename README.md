@@ -194,6 +194,17 @@ If you move to a different Supabase project, update its address in both `js/conf
 
 Before opening the site to real users: have a doctor or pharmacist review the medicine information, authenticate a sending domain in Brevo for the reminder and password-reset emails, and review the storage and RLS rules for the medical-documents vault.
 
+## Bot protection (Cloudflare Turnstile)
+
+Sign-up, log-in, forgot-password and the delete-account password check send a Turnstile token to Supabase (`js/shared/captcha.js`). It is **off** until a site key is set. To turn it on, in this order:
+
+1. Cloudflare dashboard → Turnstile → **Add site**: domain `medaware-medicine-management.vercel.app` (add `localhost` for local testing), widget mode **Managed**.
+2. Put the **site key** (public) in `js/config.js` → `turnstileSiteKey`, commit, push, and wait for Vercel to deploy.
+3. Supabase → Authentication → Attack Protection → **Enable Captcha protection** → provider Turnstile → paste the **secret key** (never commit it).
+4. Log in, sign up and request a password reset on the live site to confirm.
+
+Doing step 3 before step 2 is live makes every log-in fail. The CSP in `vercel.json` already allows `challenges.cloudflare.com`.
+
 ## Account deletion
 
 `profile.html` → **Delete my account** asks for the password (re-checked with Supabase) and a typed `DELETE`, then calls the `delete-account` Edge Function. The function identifies the user from their own access token only, removes their files from the `avatars` and `medical-documents` buckets, and deletes the auth user; every table cascades from `auth.users`. If file removal fails, the account is kept and an error is shown.

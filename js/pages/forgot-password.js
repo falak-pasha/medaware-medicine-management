@@ -56,15 +56,19 @@
     cooldownTimer = window.setInterval(tick, 1000);
   }
 
+  const captcha = window.MEDAWARE_CAPTCHA?.mount($("forgotCaptcha")) ?? { getToken: async () => undefined, reset() {} };
+
   async function requestLink(email, button, busyText) {
     const originalText = button.textContent;
     button.disabled = true;
     button.textContent = busyText;
     showMessage("");
     try {
+      const captchaToken = await captcha.getToken();
       const { error } = await db.auth.resetPasswordForEmail(email, {
         // Relative to this page, so it also works when the site lives in a sub-folder.
-        redirectTo: new URL("reset-password.html", window.location.href).href
+        redirectTo: new URL("reset-password.html", window.location.href).href,
+        captchaToken
       });
       if (error) throw error;
       lastEmail = email;
@@ -75,10 +79,12 @@
       startCooldown();
       return true;
     } catch (error) {
-      showMessage(describe(error));
+      showMessage(window.MEDAWARE_CAPTCHA?.describe(error) || describe(error));
       button.disabled = false;
       button.textContent = originalText;
       return false;
+    } finally {
+      captcha.reset(); // tokens are single-use
     }
   }
 

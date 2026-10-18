@@ -47,6 +47,8 @@
           autocomplete="new-password" minlength="8" required>
       </div>
 
+      <div id="signupCaptcha" class="captcha-box" hidden></div>
+
       <button class="signup-button" id="signupButton" type="submit">
         Create Account
       </button>
@@ -66,6 +68,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js" integrity="sha384-WgXwGL6fUsYJWNaKJgVbrJKGRQwc1vieh2oy4kw9nXqpNDz3tdSsqEYUgeHD/NuF" crossorigin="anonymous"></script>
   <script src="js/config.js"></script>
+  <script src="js/shared/captcha.js"></script>
   <script src="js/pages/signup.js"></script>
 </body>
 </html>

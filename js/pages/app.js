@@ -244,15 +244,28 @@
     setMessage("authMsg", "");
   }
 
+  const authCaptcha = window.MEDAWARE_CAPTCHA?.mount($("authCaptcha")) ?? { getToken: async () => undefined, reset() {} };
+
   async function submitAuthentication() {
     const email = $("email").value.trim();
     const password = $("password").value;
-    const result = authMode === "login"
-      ? await db.auth.signInWithPassword({ email, password })
-      : await db.auth.signUp({ email, password });
+    let result;
+    try {
+      const captchaToken = await authCaptcha.getToken();
+      result = authMode === "login"
+        ? await db.auth.signInWithPassword({ email, password, options: { captchaToken } })
+        : await db.auth.signUp({ email, password, options: { captchaToken } });
+    } catch (error) {
+      const captchaMessage = window.MEDAWARE_CAPTCHA?.describe(error);
+      if (!captchaMessage) throw error;
+      setMessage("authMsg", captchaMessage, true);
+      return;
+    } finally {
+      authCaptcha.reset(); // tokens are single-use
+    }
 
     if (result.error) {
-      setMessage("authMsg", result.error.message, true);
+      setMessage("authMsg", window.MEDAWARE_CAPTCHA?.describe(result.error) || result.error.message, true);
       return;
     }
 
