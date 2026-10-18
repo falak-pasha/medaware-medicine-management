@@ -177,6 +177,20 @@ Requires Node 22.18+ (runs the Edge Function's TypeScript directly). Uses stand-
 
 If the Supabase URL or public key is missing or invalid, MEDAWARE displays a setup message instead of initializing the client.
 
+## Deploy to Vercel
+
+The site is static (no build step). `vercel.json` adds security headers (a Content Security Policy that only allows this Supabase project, jsDelivr and Google Fonts), and `.vercelignore` keeps `backups/`, `supabase/`, `tests/` and `docs/` off the public site.
+
+1. In Vercel, import the GitHub repository. Framework preset: **Other**. Leave the build command and output directory empty.
+2. After the first deploy, note the address (for example `https://medaware.vercel.app`).
+3. In Supabase → **Authentication → URL Configuration**: set **Site URL** to that address and add `https://<your-app>.vercel.app/*` under **Redirect URLs**. Sign-up confirmation and password-reset links use the current site address, so they fail without this.
+4. In Supabase → **Edge Functions → Secrets**: set `MEDAWARE_APP_URL` to the same address so reminder emails link to the live site.
+5. Sign up, reset a password and save a medicine on the live site to confirm everything works.
+
+If you move to a different Supabase project, update its address in both `js/config.js` and the `Content-Security-Policy` in `vercel.json`. If you upgrade supabase-js, update the version and `integrity` hash in every HTML page.
+
+Before opening the site to real users: have a doctor or pharmacist review the medicine information, switch the reminder emails to a verified sending domain with a new send-only Resend key, and review the storage and RLS rules for the medical-documents vault.
+
 ## Feature test checklist
 
 Use non-sensitive test data during a demonstration.

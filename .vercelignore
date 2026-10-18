@@ -1,0 +1,17 @@
+# Only the static site is deployed. Everything below stays private.
+
+# Database backups (contain user data)
+backups/
+
+# Database schema, Edge Function source and email templates (deployed to Supabase, not Vercel)
+supabase/
+
+# Tests, notes and local tooling
+tests/
+docs/
+.claude/
+README.md
+
+# Local credentials
+.env
+.env.*

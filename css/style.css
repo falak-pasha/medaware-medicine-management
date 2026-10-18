@@ -470,6 +470,18 @@ input[type="radio"] {
   font-weight: 700;
 }
 
+/* Checkbox rows in the email-reminder form (kept out of inline styles for the CSP) */
+.check-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+input.check-input {
+  width: auto;
+  margin: 0;
+}
+
 .info-group-heading {
   margin: 26px 0 0;
 }

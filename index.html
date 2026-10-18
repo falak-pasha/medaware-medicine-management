@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="css/theme.css">
 
   <!-- Supabase JavaScript client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js" integrity="sha384-WgXwGL6fUsYJWNaKJgVbrJKGRQwc1vieh2oy4kw9nXqpNDz3tdSsqEYUgeHD/NuF" crossorigin="anonymous"></script>
 
   <!-- Application configuration and logic -->
   <script defer src="js/config.js"></script>
@@ -204,19 +204,19 @@
           from. Your account email must be confirmed, and a different address must be verified.
         </p>
 
-        <label for="emailEnabled" style="display:flex;gap:8px;align-items:center;">
-          <input id="emailEnabled" type="checkbox" style="width:auto;margin:0;">
+        <label for="emailEnabled" class="check-row">
+          <input id="emailEnabled" type="checkbox" class="check-input">
           Send me email reminders
         </label>
 
         <div id="emailOptions" class="hidden">
-          <label for="sendToAccount" style="display:flex;gap:8px;align-items:center;">
-            <input id="sendToAccount" type="checkbox" checked style="width:auto;margin:0;">
+          <label for="sendToAccount" class="check-row">
+            <input id="sendToAccount" type="checkbox" checked class="check-input">
             My account email (<span id="accountEmailText"></span>)
           </label>
 
-          <label for="sendToCustom" style="display:flex;gap:8px;align-items:center;">
-            <input id="sendToCustom" type="checkbox" style="width:auto;margin:0;">
+          <label for="sendToCustom" class="check-row">
+            <input id="sendToCustom" type="checkbox" class="check-input">
             A different email address
           </label>
 
