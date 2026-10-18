@@ -194,6 +194,16 @@ If you move to a different Supabase project, update its address in both `js/conf
 
 Before opening the site to real users: have a doctor or pharmacist review the medicine information, authenticate a sending domain in Brevo for the reminder and password-reset emails, and review the storage and RLS rules for the medical-documents vault.
 
+## Medicine information review
+
+`docs/pharmacist-review.md` lists every medicine with its page citations and reviewer notes, the 18 places where the textbooks disagree first. Rebuild it after changing `js/data/medicines.js`:
+
+```sh
+node tests/build-review-pack.mjs
+```
+
+When a doctor or pharmacist approves an entry, set its `review` to `"reviewed"`; the app then shows "Reviewed" instead of "Not yet reviewed by a pharmacist".
+
 ## Feature test checklist
 
 Use non-sensitive test data during a demonstration.
