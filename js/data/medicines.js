@@ -148,6 +148,39 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            620
+          ],
+          "items": [
+            "Low-dose aspirin is supported for people who have already had a heart attack, stroke or similar event.",
+            "In 2014 the FDA concluded that taking aspirin to prevent a first heart attack or stroke is not supported by the evidence and carries a real bleeding risk."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            645
+          ],
+          "items": [
+            "People with haemophilia, because of its effect on platelets."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            645
+          ],
+          "items": [
+            "At low heart-protective doses the main problems are stomach upset and stomach or duodenal ulcers."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -1176,6 +1209,52 @@ window.MEDAWARE_MEDICINES = {
           items: ["0.5–2.5 g a day in 1–2 doses."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            760
+          ],
+          "items": [
+            "Recommended first-line treatment for type 2 diabetes; also shown to help prevent type 2 diabetes in middle-aged, overweight people with raised blood sugar."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            760
+          ],
+          "items": [
+            "Stomach upset (nausea, diarrhoea, poor appetite) affects up to 20% of people, mostly at the start; about 3–5% stop because of persistent diarrhoea.",
+            "Vitamin B12 deficiency can develop after many years; periodic checks are suggested, especially with tingling or numbness or anaemia."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            759,
+            760
+          ],
+          "items": [
+            "Kidney function decides whether it can be used: normal use above eGFR 45, cautious lower doses at 30–45, and it must not be used below 30.",
+            "Kidney function should be checked at least once a year.",
+            "Usually paused on the day of an X-ray or scan using contrast dye, and restarted a day or two later once kidney tests are normal."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            760
+          ],
+          "items": [
+            "Start 500 mg with a meal and increase slowly, e.g. to 1000 mg twice a day; little extra benefit above 2000 mg a day (recommended maximum 2.55 g a day)."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -1224,7 +1303,32 @@ window.MEDAWARE_MEDICINES = {
           items: ["1–6 mg a day in 1–2 doses."]
         }
       },
-      flags: ["Side effects, interactions and precautions are given in the book for sulfonylureas as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            759
+          ],
+          "items": [
+            "Taken once a day; 1 mg a day can be effective, and the recommended maximum is 8 mg a day."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            758
+          ],
+          "items": [
+            "Use with caution in older people and in heart disease, where low blood sugar is especially dangerous."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects, interactions and precautions are given in the book for sulfonylureas as a group.",
+        "Maximum dose differs: Tripathi gives 1–6 mg a day (p. 272), Katzung gives up to 8 mg a day (p. 759). Follow the prescriber's dose."
+      ],
       review: "unreviewed"
     },
 
@@ -1870,7 +1974,52 @@ window.MEDAWARE_MEDICINES = {
           items: ["75 mg once daily."]
         }
       },
-      flags: [],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            620
+          ],
+          "items": [
+            "Approved after a recent heart attack or stroke, in peripheral arterial disease, and with aspirin in unstable angina and heart attacks; standard after coronary stents."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            620
+          ],
+          "items": [
+            "Often started with a single 300 mg loading dose, then 75 mg a day; aspirin 75–325 mg a day is given alongside in heart attacks."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            620
+          ],
+          "items": [
+            "Some people are 'poor metabolisers' because of their CYP2C19 gene and get less protection; the FDA has advised considering a gene test or another medicine for them, though later studies questioned how much this matters.",
+            "Medicines that block CYP2C19, such as omeprazole, should be used with caution."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            620
+          ],
+          "items": [
+            "Low white cells are rare; a serious blood disorder (thrombotic thrombocytopenic purpura) has been reported."
+          ]
+        }
+      ],
+      flags: [
+        "Books differ on how long the effect lasts after stopping: Tripathi says 5–7 days (p. 630), Katzung says 7–10 days (p. 620). Before surgery, follow the surgeon's or doctor's advice."
+      ],
       review: "unreviewed"
     },
 
@@ -2669,7 +2818,56 @@ window.MEDAWARE_MEDICINES = {
           items: ["100 mg twice daily, maximum 400 mg/day; children 5–8 mg/kg/day."]
         }
       },
-      flags: [],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            418
+          ],
+          "items": [
+            "Can make absence seizures, juvenile myoclonic epilepsy and Dravet syndrome worse."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            419
+          ],
+          "items": [
+            "Early signs such as jerky eye movements are not a reason to lower the dose; double vision and unsteadiness are the usual signs the dose is too high.",
+            "Gum overgrowth and excess hair growth occur to some degree in most patients."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            418,
+            419
+          ],
+          "items": [
+            "Valproate, sulfonamides and low albumin (liver or kidney disease) raise the active (free) level, so toxicity can occur even when the measured level looks normal.",
+            "Speeds up the breakdown of many other epilepsy medicines, including valproate, lamotrigine, topiramate and many benzodiazepines."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            419
+          ],
+          "items": [
+            "Adults often start at 300 mg a day; usual blood level 10–20 mcg/mL.",
+            "Increases should be no more than 25–30 mg a day at a time, because a small increase can cause a large rise in level; going straight from 300 to 400 mg a day is a common cause of toxicity.",
+            "It can take 5–7 days, or up to 4–6 weeks at higher levels, to settle after a dose change. Children: about 5 mg/kg a day, then adjusted by blood level."
+          ]
+        }
+      ],
+      flags: [
+        "Books differ on how common gum overgrowth is: Tripathi says about 20% (p. 414); Katzung says it occurs to some degree in most patients (p. 419)."
+      ],
       review: "unreviewed"
     },
 
@@ -2713,7 +2911,54 @@ window.MEDAWARE_MEDICINES = {
           items: ["200–400 mg three times a day; children 15–30 mg/kg/day."]
         }
       },
-      flags: ["Serious skin reactions linked to genetic markers (relevant to some Asian populations) are emphasised in later guidance; a reviewer should check."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            417
+          ],
+          "items": [
+            "Stevens-Johnson syndrome (a severe skin reaction) is rare but much more likely with the HLA-B*1502 gene; people of Asian ancestry, who have about a 10-fold higher risk, should be tested before starting."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            417
+          ],
+          "items": [
+            "Double vision may appear at the same time each day and can often be fixed by spreading the doses differently.",
+            "A mild, harmless drop in white cells is common; it usually does not mean the medicine must be stopped."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            416,
+            417
+          ],
+          "items": [
+            "Speeds up its own breakdown over the first weeks, and that of phenytoin, valproate, clonazepam and other epilepsy medicines; valproate can raise carbamazepine levels."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            416
+          ],
+          "items": [
+            "Adults usually 800–1200 mg a day in divided doses, maximum 1600 mg; children 15–25 mg/kg a day. Start low and increase slowly; extended-release tablets allow twice-daily dosing."
+          ]
+        }
+      ],
+      flags: [
+        "Serious skin reactions linked to genetic markers (relevant to some Asian populations) are emphasised in later guidance; a reviewer should check.",
+        "Update to the earlier note: Katzung (2018, p. 417) confirms HLA-B*1502 testing before starting in people of Asian ancestry."
+      ],
       review: "unreviewed"
     },
 
@@ -2766,7 +3011,66 @@ window.MEDAWARE_MEDICINES = {
           items: ["Adults: start 200 mg three times a day, maximum 800 mg three times a day; children 15–30 mg/kg/day."]
         }
       },
-      flags: ["Pregnancy-prevention requirements for valproate were greatly strengthened by regulators after 2013; a reviewer should check current guidance."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            426
+          ],
+          "items": [
+            "First choice for people with several types of generalised seizures; also used for focal seizures, status epilepticus (by injection), bipolar disorder and migraine prevention."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            426,
+            427
+          ],
+          "items": [
+            "A known cause of birth defects: its use is avoided in women who could become pregnant.",
+            "Must not be used by people with inherited urea-cycle disorders (risk of fatal high ammonia)."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            427
+          ],
+          "items": [
+            "Raised blood ammonia can cause drowsiness or confusion.",
+            "Low platelet counts can occur.",
+            "In pregnancy: about 1–2% risk of spina bifida in the first trimester, plus heart, face and finger defects and later learning problems in the child."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            427
+          ],
+          "items": [
+            "Serious liver damage is rare; the risk is greatest under 2 years of age and with several medicines, and most deaths occurred within the first 4 months."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            427
+          ],
+          "items": [
+            "Started at about 15 mg/kg a day and raised slowly; some people need 25–30 mg/kg a day, others 60 mg/kg or more. Taking it after meals can reduce stomach upset."
+          ]
+        }
+      ],
+      flags: [
+        "Pregnancy-prevention requirements for valproate were greatly strengthened by regulators after 2013; a reviewer should check current guidance.",
+        "Books differ on liver damage: Tripathi says fulminant hepatitis occurs only in children, especially under 3 (p. 417); Katzung says the risk is greatest under 2 and with several medicines, without limiting it to children (p. 427)."
+      ],
       review: "unreviewed"
     },
 
