@@ -1,8 +1,11 @@
 /**
- * MEDAWARE | Medicine information extracted from the textbook below.
+ * MEDAWARE | Medicine information summarised from the textbooks in `sources`.
  *
- * - Every statement in `sections` is a summary (not a quotation) of the cited pages.
- *   Page numbers are the book's printed page numbers.
+ * - Every statement in `sections` is a summary (not a quotation) of the cited pages of the
+ *   main book (`source`, KD Tripathi). Page numbers are the book's printed page numbers.
+ * - `otherBooks` holds points from the other books in `sources`, each with that book's own
+ *   printed pages. They are kept apart from `sections` and never merged into its citations.
+ * - When books disagree, both views are shown and the disagreement goes in `flags`.
  * - Sections the book does not cover for a medicine are left out, never guessed.
  * - `dosage` is copied only where the book states it, and is general adult reference
  *   information, not a prescription.
@@ -17,6 +20,13 @@ window.MEDAWARE_MEDICINES = {
     author: "KD Tripathi",
     publisher: "Jaypee Brothers Medical Publishers, New Delhi",
     year: 2013
+  },
+
+  // Every book an entry may cite; `source` above is the main one (key "tripathi").
+  sources: {
+    tripathi: { short: "Tripathi", title: "Essentials of Medical Pharmacology", edition: "7th edition", author: "KD Tripathi", publisher: "Jaypee Brothers Medical Publishers", year: 2013 },
+    katzung: { short: "Katzung", title: "Basic & Clinical Pharmacology", edition: "14th edition", author: "Bertram G. Katzung (ed.)", publisher: "McGraw-Hill Education", year: 2018 },
+    craig: { short: "Craig & Stitzel", title: "Modern Pharmacology with Clinical Applications", edition: "6th edition", author: "Charles R. Craig and Robert E. Stitzel (eds.)", publisher: "Lippincott Williams & Wilkins", year: 2004 }
   },
 
   entries: [
@@ -155,7 +165,8 @@ window.MEDAWARE_MEDICINES = {
           items: [
             "Simple pain relief and fever, like low-dose aspirin; particularly effective for period pain.",
             "Rheumatoid arthritis, osteoarthritis and other musculoskeletal conditions where pain is more prominent than inflammation.",
-            "Soft-tissue injuries, fractures, tooth extraction, and pain and swelling after surgery or childbirth."
+            "Soft-tissue injuries, fractures, tooth extraction, and pain and swelling after surgery or childbirth.",
+            "A weaker anti-inflammatory than aspirin: not suitable for acute gout."
           ]
         },
         sideEffects: {
@@ -181,20 +192,21 @@ window.MEDAWARE_MEDICINES = {
           ]
         },
         interactions: {
-          pages: [199, 200],
+          pages: [199, 200, 201],
           items: [
             "Use with anticoagulants should be avoided (affects platelets; increased risk of stomach bleeding).",
             "Reduces the effect of diuretics (thiazides, furosemide), beta blockers and ACE inhibitors.",
             "Increased stomach-bleeding risk with alcohol, corticosteroids and SSRIs.",
+            "Can raise levels of lithium, methotrexate, digoxin and aminoglycoside antibiotics by reducing their removal by the kidneys; more kidney toxicity with cyclosporine.",
             "Taking ibuprofen at the same time can block the heart-protective antiplatelet effect of low-dose aspirin."
           ]
         },
         dosage: {
           pages: [200],
-          items: ["400–600 mg three times a day (children 5–10 mg/kg three times a day)."]
+          items: ["400–600 mg three times a day. The book also lists a weight-based dose of 5–10 mg/kg three times a day; a doctor or pharmacist should confirm any dose for a child."]
         }
       },
-      flags: [],
+      flags: ["Kidney-related interactions (lithium, methotrexate, digoxin, aminoglycosides, cyclosporine) are from the book's table for NSAIDs as a group (p. 199), not stated for ibuprofen specifically."],
       review: "unreviewed"
     },
 
@@ -1475,7 +1487,7 @@ window.MEDAWARE_MEDICINES = {
           ]
         },
         dosage: {
-          pages: [502],
+          pages: [501, 502],
           items: ["5–20 mg once or twice daily (range 2.5–40 mg/day)."]
         }
       },
@@ -1915,7 +1927,54 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
-      flags: [],
+      otherBooks: [
+        {
+          book: "katzung",
+          section: "interactions",
+          pages: [616],
+          items: [
+            "Also stronger effect (bleeding risk) with fluconazole, trimethoprim-sulfamethoxazole (co-trimoxazole), disulfiram and third-generation cephalosporins.",
+            "Weaker effect with cholestyramine (blocks absorption), extra vitamin K in food or supplements, and the diuretics spironolactone and chlorthalidone.",
+            "The book lists paracetamol (acetaminophen), alcohol, benzodiazepines, opioids, indomethacin and most antibiotics as having no significant effect."
+          ]
+        },
+        {
+          book: "craig",
+          section: "interactions",
+          pages: [261],
+          items: [
+            "Lists paracetamol (acetaminophen), indomethacin, ibuprofen, naproxen, fluoxetine, omeprazole and fluoroquinolone antibiotics among the many drugs that can increase warfarin's effect, and advises checking INR whenever a medicine is started or stopped."
+          ]
+        },
+        {
+          book: "katzung",
+          section: "warnings",
+          pages: [615],
+          items: [
+            "In the first days warfarin can briefly make clotting more likely, so for an active clot heparin is given alongside it for about 5–7 days.",
+            "Skin and tissue death (necrosis) can occur in the first weeks, mainly in people with an inherited protein C deficiency."
+          ]
+        },
+        {
+          book: "katzung",
+          section: "dosage",
+          pages: [615],
+          items: [
+            "Usually started at 5–10 mg; after about a week most people settle on 5–7 mg a day.",
+            "INR target 2–3 for most clots; 2.5–3.5 for some artificial heart valves or other high-risk conditions."
+          ]
+        },
+        {
+          book: "katzung",
+          section: "uses",
+          pages: [616, 617],
+          items: ["Newer oral anticoagulants (rivaroxaban, apixaban, edoxaban, dabigatran) are alternatives that need no routine INR tests."]
+        }
+      ],
+      flags: [
+        "Books disagree on paracetamol and indomethacin: Tripathi (p. 623) and Craig & Stitzel (p. 261) say indomethacin increases warfarin's effect, and Craig & Stitzel also lists paracetamol; Katzung (p. 616) says neither has a significant effect. A pharmacist should advise.",
+        "INR targets differ slightly between Tripathi (3–3.5 for heart valves, p. 622) and Katzung (2.5–3.5, p. 615); current guidance should be checked."
+      ],
       review: "unreviewed"
     },
 

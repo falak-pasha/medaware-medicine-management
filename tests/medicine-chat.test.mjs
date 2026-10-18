@@ -56,7 +56,28 @@ test("typing a medicine shows its summary, review label and topic buttons", () =
 test("name plus topic answers directly, with page citation", () => {
   const { reply } = chat("paracetamol side effects");
   assert.match(reply.parts[0].text, /Side effects: Paracetamol/);
-  assert.ok(reply.parts.some((p) => p.type === "cite" && /Tripathi p\. 206/.test(p.text)));
+  assert.ok(reply.parts.some((p) => p.type === "cite" && /Tripathi \(2013\) p\. 206/.test(p.text)));
+});
+
+test("other books' points are shown with their own citation", () => {
+  const { reply } = chat("warfarin interactions");
+  const cites = reply.parts.filter((p) => p.type === "cite").map((p) => p.text);
+  assert.ok(cites.some((c) => /Tripathi \(2013\) p\. 623/.test(c)), cites.join(" | "));
+  assert.ok(cites.some((c) => /Katzung \(2018\) p\. 616/.test(c)), cites.join(" | "));
+  assert.ok(cites.some((c) => /Craig & Stitzel \(2004\) p\. 261/.test(c)), cites.join(" | "));
+  assert.ok(reply.parts.some((p) => p.type === "warn" && /Books differ/.test(p.text)));
+});
+
+test("a combination found only in another book is still reported", () => {
+  const { text } = chat("warfarin with fluconazole");
+  assert.match(text, /fluconazole/i);
+  assert.match(text, /Katzung \(2018\) p\. 616/);
+});
+
+test("a disagreement between books is surfaced for the pair it concerns", () => {
+  const { text } = chat("warfarin with paracetamol");
+  assert.match(text, /Books differ/);
+  assert.match(text, /no significant effect/);
 });
 
 test("dose answers always carry the not-a-prescription warning", () => {

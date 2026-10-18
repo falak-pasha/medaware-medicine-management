@@ -962,7 +962,10 @@
   ];
 
   function medicineSearchText(entry) {
-    const sectionText = Object.values(entry.sections || {}).flatMap((section) => section.items || []);
+    const sectionText = [
+      ...Object.values(entry.sections || {}),
+      ...(entry.otherBooks || [])
+    ].flatMap((section) => section.items || []);
     return [
       entry.name,
       ...(entry.aliases || []),
@@ -993,17 +996,30 @@
     }
   }
 
+  function bookCitation(bookKey, pages) {
+    const book = medicineBook.sources?.[bookKey];
+    const name = book ? `${book.short} (${book.year})` : bookKey;
+    return `${name}, ${formatPages(pages)}`;
+  }
+
   function renderMedicineEntry(entry) {
     const sections = BOOK_SECTIONS
-      .filter(([key]) => entry.sections?.[key]?.items?.length)
       .map(([key, label]) => {
-        const section = entry.sections[key];
-        const pages = formatPages(section.pages);
+        const main = entry.sections?.[key];
+        const extra = (entry.otherBooks || []).filter((block) => block.section === key && block.items?.length);
+        if (!main?.items?.length && !extra.length) return "";
+        const mainList = main?.items?.length
+          ? `<p class="book-cite">${escapeHtml(bookCitation("tripathi", main.pages))}</p>
+            <ul>${main.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+          : "";
+        const extraLists = extra.map((block) => `
+            <p class="book-cite">${escapeHtml(bookCitation(block.book, block.pages))}</p>
+            <ul>${block.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`).join("");
         return `
           <details class="book-section">
-            <summary>${escapeHtml(label)}${pages ? ` <span class="book-pages">(${escapeHtml(pages)})</span>` : ""}</summary>
+            <summary>${escapeHtml(label)}${extra.length ? ` <span class="book-pages">(${extra.length + (main?.items?.length ? 1 : 0)} books)</span>` : main?.pages?.length ? ` <span class="book-pages">(${escapeHtml(formatPages(main.pages))})</span>` : ""}</summary>
             ${key === "dosage" ? `<p class="book-dose-note">General adult reference only, not a prescription. Always follow your own prescription.</p>` : ""}
-            <ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+            ${mainList}${extraLists}
           </details>`;
       }).join("");
 
@@ -1082,7 +1098,10 @@
       $("medicineInfoGroup").hidden = true;
       return;
     }
-    sourceLine.textContent = `Source: ${source.author}, ${source.title}, ${source.edition} (${source.publisher}, ${source.year}). Page numbers are the book's printed pages.`;
+    const others = Object.entries(medicineBook.sources || {}).filter(([key]) => key !== "tripathi").map(([, book]) => book);
+    sourceLine.textContent = `Main source: ${source.author}, ${source.title}, ${source.edition} (${source.publisher}, ${source.year}).`
+      + (others.length ? ` Cross-checked with: ${others.map((book) => `${book.author}, ${book.title}, ${book.edition} (${book.year})`).join("; ")}.` : "")
+      + " Page numbers are each book's printed pages.";
   }
 
   function updateReminderStatus() {

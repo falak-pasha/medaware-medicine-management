@@ -1,7 +1,7 @@
 /**
  * MEDAWARE | Guided medicine chat (no AI).
  *
- * Answers only from window.MEDAWARE_MEDICINES: the user picks or types a medicine,
+ * Answers only from window.MEDAWARE_MEDICINES (all books in `sources`): the user picks or types a medicine,
  * then a topic, and gets the book's points with page numbers. Short typed questions
  * ("ibuprofen side effects", "aspirin with warfarin") are matched by medicine names
  * and topic words. Nothing is generated, so an answer can never say more than the book.
@@ -42,6 +42,7 @@
 
   function createChatEngine(book) {
     const entries = book?.entries || [];
+    const sources = book?.sources || {};
     const byId = new Map(entries.map((entry) => [entry.id, entry]));
 
     // term -> entry ids. A term shared by several entries ("Blood thinner") is a group term.
@@ -103,8 +104,31 @@
       return TOPICS.find((topic) => topic.key === key)?.label || key;
     }
 
-    function cite(entry, pages) {
-      return `Source: ${entry.name}, Tripathi ${formatPages(pages)}`;
+    function cite(entry, pages, bookKey = "tripathi") {
+      const source = sources[bookKey];
+      const name = source ? `${source.short} (${source.year})` : "Tripathi";
+      return `Source: ${entry.name}, ${name} ${formatPages(pages)}`;
+    }
+
+    // The main book's section plus any other books' blocks for the same topic.
+    function blocksFor(entry, key) {
+      const blocks = [];
+      const main = entry.sections?.[key];
+      if (main?.items?.length) blocks.push({ book: "tripathi", key, items: main.items, pages: main.pages });
+      for (const block of entry.otherBooks || []) {
+        if (block.section === key && block.items?.length) blocks.push({ book: block.book, key, items: block.items, pages: block.pages });
+      }
+      return blocks;
+    }
+
+    function allBlocks(entry) {
+      return TOPICS.flatMap((topic) => blocksFor(entry, topic.key));
+    }
+
+    function flagParts(entry) {
+      return (entry.flags || [])
+        .filter((flag) => /disagree|differ/i.test(flag))
+        .map((flag) => ({ type: "warn", text: `Books differ: ${flag}` }));
     }
 
     function updateParts(entry) {
@@ -116,7 +140,7 @@
 
     function topicActions(entry, except) {
       return [
-        ...TOPICS.filter((t) => t.key !== except && entry.sections?.[t.key]?.items?.length)
+        ...TOPICS.filter((t) => t.key !== except && blocksFor(entry, t.key).length)
           .map((t) => ({ label: t.label, input: { kind: "topic", topic: t.key } })),
         { label: "Check with another medicine", input: { kind: "ask-second" } },
         { label: "A different medicine", input: { kind: "restart" } }
@@ -135,8 +159,8 @@
     }
 
     function topicAnswer(entry, key) {
-      const section = entry.sections?.[key];
-      if (!section?.items?.length) {
+      const blocks = blocksFor(entry, key);
+      if (!blocks.length) {
         return {
           parts: [{ type: "text", text: `The book pages used for ${entry.name} don't cover "${topicLabel(key).toLowerCase()}". Ask a pharmacist.` }],
           actions: topicActions(entry, key)
@@ -146,7 +170,10 @@
       if (key === "dosage") {
         parts.push({ type: "warn", text: "General adult reference from the book, not a prescription. Children's doses are different. Always follow your own prescription." });
       }
-      parts.push({ type: "list", items: section.items }, { type: "cite", text: cite(entry, section.pages) });
+      for (const block of blocks) {
+        parts.push({ type: "list", items: block.items }, { type: "cite", text: cite(entry, block.pages, block.book) });
+      }
+      if (key === "interactions" || key === "dosage" || key === "warnings") parts.push(...flagParts(entry));
       if ((entry.updates || []).length) parts.push(...updateParts(entry));
       return { parts, actions: topicActions(entry, key) };
     }
@@ -158,10 +185,10 @@
       const hits = [];
       for (const [entry, other] of [[first, second], [second, first]]) {
         const otherTerms = termsFor(other);
-        for (const [key, section] of Object.entries(entry.sections || {})) {
-          for (const item of section.items || []) {
+        for (const block of allBlocks(entry)) {
+          for (const item of block.items) {
             if (otherTerms.some((t) => t.regex.test(item))) {
-              hits.push({ entry, key, item, pages: section.pages });
+              hits.push({ entry, key: block.key, item, pages: block.pages, book: block.book });
             }
           }
         }
@@ -181,7 +208,13 @@
         { type: "text", text: "The book mentions this:" }
       ];
       for (const hit of hits) {
-        parts.push({ type: "list", items: [hit.item] }, { type: "cite", text: `${cite(hit.entry, hit.pages)} (${topicLabel(hit.key)})` });
+        parts.push({ type: "list", items: [hit.item] }, { type: "cite", text: `${cite(hit.entry, hit.pages, hit.book)} (${topicLabel(hit.key)})` });
+      }
+      for (const entry of [first, second]) {
+        const otherTerms = termsFor(entry === first ? second : first);
+        for (const flag of entry.flags || []) {
+          if (/disagree|differ/i.test(flag) && otherTerms.some((t) => t.regex.test(flag))) parts.push({ type: "warn", text: `Books differ: ${flag}` });
+        }
       }
       parts.push({ type: "warn", text: "Ask a pharmacist or your doctor before taking these together." });
       return { parts, actions: topicActions(first, null) };
@@ -196,10 +229,10 @@
         .map((word) => word.slice(0, Math.min(word.length, 6)));
       if (!stems.length) return [];
       const hits = [];
-      for (const [key, section] of Object.entries(entry.sections || {})) {
-        for (const item of section.items || []) {
+      for (const block of allBlocks(entry)) {
+        for (const item of block.items) {
           const lower = item.toLowerCase();
-          if (stems.some((stem) => lower.includes(stem))) hits.push({ key, item, pages: section.pages });
+          if (stems.some((stem) => lower.includes(stem))) hits.push({ key: block.key, item, pages: block.pages, book: block.book });
         }
       }
       return hits;
@@ -329,7 +362,7 @@
       function keywordReply(entry, hits) {
         const parts = [{ type: "title", text: `${entry.name}: what the book says` }];
         for (const hit of hits.slice(0, 6)) {
-          parts.push({ type: "list", items: [hit.item] }, { type: "cite", text: `${cite(entry, hit.pages)} (${topicLabel(hit.key)})` });
+          parts.push({ type: "list", items: [hit.item] }, { type: "cite", text: `${cite(entry, hit.pages, hit.book)} (${topicLabel(hit.key)})` });
         }
         return { parts, actions: topicActions(entry, null) };
       }
