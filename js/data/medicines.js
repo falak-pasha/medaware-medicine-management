@@ -3290,6 +3290,38 @@ window.MEDAWARE_MEDICINES = {
           items: ["10 mg by mouth (once daily)."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            1122
+          ],
+          "items": [
+            "Not for children under 2; check the label for ages 2–11. Avoid combining with alcohol or other sedatives; take care when driving."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            1122
+          ],
+          "items": [
+            "Second-generation antihistamines have minimal dry-mouth-type effects and a lower chance of sleepiness than older ones."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            283
+          ],
+          "items": [
+            "5–10 mg."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -3315,6 +3347,18 @@ window.MEDAWARE_MEDICINES = {
           items: ["5–10 mg by mouth."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            1122
+          ],
+          "items": [
+            "Not for children under 2; check the label for ages 2–11. Avoid combining with alcohol or other sedatives; take care when driving."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -3359,7 +3403,45 @@ window.MEDAWARE_MEDICINES = {
           items: ["2–4 mg by mouth (0.1 mg/kg)."]
         }
       },
-      flags: ["Side effects are described in the book for first-generation antihistamines as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            283,
+            284,
+            1122
+          ],
+          "items": [
+            "Slight sedation; a common ingredient of over-the-counter cold remedies.",
+            "Can cause excitability in children; less commonly, convulsions in children, dizziness on standing and allergic reactions."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            284,
+            1122
+          ],
+          "items": [
+            "Not for children under 2. Avoid with alcohol or other sedatives; take care when driving. A large overdose resembles atropine poisoning."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            283
+          ],
+          "items": [
+            "4–8 mg (adult)."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects are described in the book for first-generation antihistamines as a group."
+      ],
       review: "unreviewed"
     },
 
@@ -3388,6 +3470,28 @@ window.MEDAWARE_MEDICINES = {
           items: ["Allergic rhinitis: 120 mg once daily; hives and skin allergies: 180 mg once daily."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            1122
+          ],
+          "items": [
+            "Not for children under 2; check the label for ages 2–11."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            283
+          ],
+          "items": [
+            "60 mg (per dose, adult)."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -3427,6 +3531,28 @@ window.MEDAWARE_MEDICINES = {
           items: ["Inhaled 100–200 μg; by mouth 2–4 mg."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            359
+          ],
+          "items": [
+            "Everyone with asthma should have an action plan for a severe attack: up to four puffs every 20 minutes over 1 hour; if there is no improvement after the first four puffs, keep taking it on the way to emergency care."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            351
+          ],
+          "items": [
+            "Tablets mainly cause muscle tremor, nervousness and occasional weakness; they have no advantage over the inhaler and cause more side effects."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -3463,7 +3589,32 @@ window.MEDAWARE_MEDICINES = {
           items: ["10 mg once daily in the evening; children 2–5 years 4 mg, 6–14 years 5 mg."]
         }
       },
-      flags: ["Neuropsychiatric warnings for montelukast were strengthened by regulators after 2013; a reviewer should check current guidance."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            356
+          ],
+          "items": [
+            "Improves asthma control and reduces attacks, but is not as effective as even low-dose inhaled steroids; particularly useful in aspirin-sensitive asthma. Approved from 12 months of age."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            356
+          ],
+          "items": [
+            "10 mg once a day for adults, 4 mg for children."
+          ]
+        }
+      ],
+      flags: [
+        "Neuropsychiatric warnings for montelukast were strengthened by regulators after 2013; a reviewer should check current guidance.",
+        "Katzung (2018) does not discuss neuropsychiatric side effects either, so the earlier note still needs a reviewer."
+      ],
       review: "unreviewed"
     },
 
@@ -3514,7 +3665,34 @@ window.MEDAWARE_MEDICINES = {
           items: ["5–60 mg/day by mouth (depends entirely on the condition)."]
         }
       },
-      flags: ["Side effects, contraindications and withdrawal advice are given in the book for corticosteroids as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            712,
+            713
+          ],
+          "items": [
+            "Courses under 2 weeks rarely cause serious harm, but sleeplessness, mood changes (mainly over-excitement) and stomach ulcers can occur within days.",
+            "Long-term: depression, cataracts and raised eye pressure (glaucoma) — eye checks are advised; very high doses can cause psychosis."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            713
+          ],
+          "items": [
+            "After more than 2 weeks the body's own steroid production may be suppressed. During minor illness the dose is usually doubled for 24–48 hours, and raised much more for major surgery or injury — on medical advice.",
+            "Reduce slowly; full recovery of the body's own steroid production can take 2–12 months after stopping. Stopping too fast can bring back the illness or cause loss of appetite, nausea, tiredness, fever, aches and low blood pressure."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects, contraindications and withdrawal advice are given in the book for corticosteroids as a group."
+      ],
       review: "unreviewed"
     },
 
@@ -3558,7 +3736,32 @@ window.MEDAWARE_MEDICINES = {
           items: ["0.5–5 mg/day by mouth; 4–20 mg/day by injection for shock or brain swelling."]
         }
       },
-      flags: ["General corticosteroid side effects and warnings are described in the book for the whole group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            712
+          ],
+          "items": [
+            "A large dose reduces sickness from chemotherapy and anaesthesia; large doses are used for brain swelling."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            713
+          ],
+          "items": [
+            "After more than 2 weeks the body's own steroid production may be suppressed; extra steroid cover is needed during illness or surgery, and stopping must be gradual (recovery can take 2–12 months).",
+            "Long-acting steroids like dexamethasone suppress growth in children more strongly than the natural hormone."
+          ]
+        }
+      ],
+      flags: [
+        "General corticosteroid side effects and warnings are described in the book for the whole group."
+      ],
       review: "unreviewed"
     },
 
@@ -3599,7 +3802,44 @@ window.MEDAWARE_MEDICINES = {
           items: ["Adult hypothyroidism: often start at 50 μg daily, increasing every 2–3 weeks to 100–200 μg/day, guided by TSH."]
         }
       },
-      flags: ["Side effects of excess thyroxine were not in the pages extracted; a reviewer should check pp. 248–252."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            697
+          ],
+          "items": [
+            "Take on an empty stomach, e.g. 60 minutes before meals, 4 hours after meals, or at bedtime. It takes 6–8 weeks for blood levels to settle after a dose change.",
+            "Older people with heart disease start very low (12.5–25 mcg a day) and increase slowly; if chest pain (angina) or an irregular heartbeat develops, the dose must be reduced or stopped at once."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            697
+          ],
+          "items": [
+            "Too much thyroxine: nervousness, heat intolerance, palpitations, fast heartbeat or unexplained weight loss in adults; restlessness, poor sleep and fast bone growth in children.",
+            "Long-term over-treatment, especially in older people, raises the risk of atrial fibrillation and bone thinning."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            696
+          ],
+          "items": [
+            "Average adult replacement about 1.7 mcg/kg a day (about 125 mcg); people over 65 may need less (about 1.6 mcg/kg)."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects of excess thyroxine were not in the pages extracted; a reviewer should check pp. 248–252.",
+        "Update to the earlier note: Katzung (2018, p. 697) now supplies the signs of too much thyroxine."
+      ],
       review: "unreviewed"
     },
 
@@ -3637,7 +3877,33 @@ window.MEDAWARE_MEDICINES = {
           items: ["5–15 mg three times daily initially; maintenance 2.5–10 mg daily in 1–2 doses."]
         }
       },
-      flags: ["Because agranulocytosis is serious, a reviewer may wish to add standard advice to report sore throat or fever promptly (not stated in the extracted pages)."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            695
+          ],
+          "items": [
+            "Side effects in 3–12% of people, mostly early: nausea and stomach upset; itchy rash in 4–6%; altered taste or smell.",
+            "Agranulocytosis in 0.1–0.5%, more likely in older people and usually within the first 90 days at higher doses; it usually reverses quickly when the medicine is stopped."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            694,
+            695
+          ],
+          "items": [
+            "Carbimazole is converted to methimazole in the body. Propylthiouracil is preferred in the first trimester of pregnancy; methimazole has rarely been linked to birth defects. Both are considered safe while breastfeeding."
+          ]
+        }
+      ],
+      flags: [
+        "Because agranulocytosis is serious, a reviewer may wish to add standard advice to report sore throat or fever promptly (not stated in the extracted pages)."
+      ],
       review: "unreviewed"
     },
 
@@ -3687,7 +3953,46 @@ window.MEDAWARE_MEDICINES = {
           items: ["As a sleeping aid: 5–10 mg."]
         }
       },
-      flags: ["The book (2013) rates the dependence liability of benzodiazepines as low; current guidance places more emphasis on dependence with regular use. Reviewer should check."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            389,
+            392
+          ],
+          "items": [
+            "Most sedatives, including benzodiazepines, can cause physical dependence with long-term use; stopping can cause anxiety, insomnia and, at worst, seizures.",
+            "Older people are more sensitive: about half the adult dose is safer and usually as effective. Over-use is the most common reversible cause of confusion in older people.",
+            "Can worsen breathing in chronic lung disease and sleep apnoea. Sleep-walking or sleep-driving with no memory has been reported."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            391,
+            392
+          ],
+          "items": [
+            "Avoid alcohol and over-the-counter products containing antihistamines; most serious overdoses involve alcohol or other sedatives."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            391
+          ],
+          "items": [
+            "For anxiety: 5 mg twice a day."
+          ]
+        }
+      ],
+      flags: [
+        "The book (2013) rates the dependence liability of benzodiazepines as low; current guidance places more emphasis on dependence with regular use. Reviewer should check.",
+        "Update to the earlier note: Katzung (2018, p. 389) states benzodiazepines can cause physical dependence with long-term use."
+      ],
       review: "unreviewed"
     },
 
@@ -3732,6 +4037,41 @@ window.MEDAWARE_MEDICINES = {
           items: ["As a sleeping aid: 0.25–0.5 mg."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            389,
+            392
+          ],
+          "items": [
+            "Can cause physical dependence with long-term use. Reported to be more toxic in overdose than other benzodiazepines.",
+            "Older people should usually take about half the adult dose."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            391,
+            392
+          ],
+          "items": [
+            "Avoid alcohol and over-the-counter products containing antihistamines."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            391
+          ],
+          "items": [
+            "For anxiety: 0.25–0.5 mg two or three times a day."
+          ]
+        }
+      ],
       flags: [
         "Side effects and interactions are given in the book for benzodiazepines as a group.",
         "Brand names were not found in the extracted pages."
@@ -3784,7 +4124,52 @@ window.MEDAWARE_MEDICINES = {
           items: ["20–40 mg a day."]
         }
       },
-      flags: ["Most side effects and interactions are given in the book for SSRIs as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            546
+          ],
+          "items": [
+            "FDA warning for all antidepressants: higher risk of suicidal thoughts and gestures (not completed suicides) in people under 25, up to 4% vs about 2% on placebo. Untreated depression is itself a major suicide risk."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            546
+          ],
+          "items": [
+            "At least 30–40% of people on SSRIs report loss of libido, delayed orgasm or reduced arousal."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            549
+          ],
+          "items": [
+            "A strong blocker of the CYP2D6 liver enzyme, so it raises levels of many medicines broken down by it."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            546
+          ],
+          "items": [
+            "Usual range 20–60 mg a day; if there is little benefit after at least 4 weeks, a higher dose may help."
+          ]
+        }
+      ],
+      flags: [
+        "Most side effects and interactions are given in the book for SSRIs as a group.",
+        "Upper dose differs: Tripathi 20–40 mg a day (p. 458), Katzung 20–60 mg a day (p. 546)."
+      ],
       review: "unreviewed"
     },
 
@@ -3821,7 +4206,34 @@ window.MEDAWARE_MEDICINES = {
           items: ["50–150 mg a day."]
         }
       },
-      flags: ["Side effects are given in the book for SSRIs as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            546,
+            547
+          ],
+          "items": [
+            "FDA warning for all antidepressants: higher risk of suicidal thoughts in people under 25.",
+            "Stopping suddenly can cause a discontinuation syndrome (dizziness, tingling and other symptoms) starting 1–2 days later and lasting a week or more."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            546
+          ],
+          "items": [
+            "Usual range 50–200 mg a day."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects are given in the book for SSRIs as a group.",
+        "Upper dose differs: Tripathi 50–150 mg a day (p. 458), Katzung 50–200 mg a day (p. 546)."
+      ],
       review: "unreviewed"
     },
 
@@ -3850,7 +4262,32 @@ window.MEDAWARE_MEDICINES = {
           items: ["10–20 mg a day."]
         }
       },
-      flags: ["Side effects and interactions are given in the book for SSRIs as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            546
+          ],
+          "items": [
+            "FDA warning for all antidepressants: higher risk of suicidal thoughts in people under 25."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            546
+          ],
+          "items": [
+            "Usual range 10–30 mg a day."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects and interactions are given in the book for SSRIs as a group.",
+        "Upper dose differs: Tripathi 10–20 mg a day (p. 458), Katzung 10–30 mg a day (p. 546)."
+      ],
       review: "unreviewed"
     },
 
@@ -3898,7 +4335,32 @@ window.MEDAWARE_MEDICINES = {
           items: ["50–200 mg a day (often once daily at bedtime in the maintenance phase)."]
         }
       },
-      flags: ["Side effects and interactions are given in the book for tricyclic antidepressants as a group, with amitriptyline rated among the most sedating and anticholinergic."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [546, 547],
+          "items": [
+            "About 1500 mg (less than a week's supply at depression doses) can be fatal; 100 mg is likely to poison a toddler. Store safely.",
+            "Stopping causes a marked discontinuation syndrome with flu-like symptoms; reduce gradually.",
+            "FDA warning for all antidepressants: higher risk of suicidal thoughts in people under 25."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            546
+          ],
+          "items": [
+            "Usual range for depression 150–300 mg a day."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects and interactions are given in the book for tricyclic antidepressants as a group, with amitriptyline rated among the most sedating and anticholinergic.",
+        "Dose range differs: Tripathi 50–200 mg a day (p. 458), Katzung 150–300 mg a day (p. 546)."
+      ],
       review: "unreviewed"
     },
 
@@ -4236,7 +4698,31 @@ window.MEDAWARE_MEDICINES = {
           items: ["0.5 g twice daily, increasing to 1 g twice daily (maximum 3 g/day); children 4–15 years 10–30 mg/kg/day."]
         }
       },
-      flags: ["The paediatric age limit reflects the 2013 book; approvals may have changed."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            423
+          ],
+          "items": [
+            "Sleepiness, weakness, unsteadiness, colds and dizziness. Less common but more serious: mood and behaviour changes such as irritability, aggression, agitation, anxiety and depression."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            423
+          ],
+          "items": [
+            "Increased every 2–4 weeks by 1000 mg a day up to 3000 mg a day, in two doses. Mostly removed by the kidneys."
+          ]
+        }
+      ],
+      flags: [
+        "The paediatric age limit reflects the 2013 book; approvals may have changed."
+      ],
       review: "unreviewed"
     },
 
@@ -4264,7 +4750,42 @@ window.MEDAWARE_MEDICINES = {
           items: ["75–150 mg twice daily, maximum 600 mg/day."]
         }
       },
-      flags: ["Misuse and dependence concerns about pregabalin have grown since 2013; a reviewer should check current guidance."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            420
+          ],
+          "items": [
+            "Focal seizures, nerve pain (after shingles, diabetic), anxiety disorders and fibromyalgia."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            420
+          ],
+          "items": [
+            "Sleepiness, dizziness, unsteadiness, headache and tremor, mostly at the start; weight gain and ankle swelling."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            420
+          ],
+          "items": [
+            "Start at 150 mg a day (or 50–75 mg to avoid early side effects); usual range 150–600 mg a day."
+          ]
+        }
+      ],
+      flags: [
+        "Misuse and dependence concerns about pregabalin have grown since 2013; a reviewer should check current guidance.",
+        "Katzung (2018) does not discuss misuse either, so the earlier note still needs a reviewer."
+      ],
       review: "unreviewed"
     },
 
@@ -4313,7 +4834,41 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
-      flags: ["Interactions are collected from the pages for the other medicines involved (pp. 250, 653, 735)."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            596
+          ],
+          "items": [
+            "As few as 10 iron tablets can kill a young child. Keep iron in child-proof containers out of reach; a child who swallows iron needs urgent treatment."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            595
+          ],
+          "items": [
+            "Black stools are expected; they are harmless but can hide bleeding from the gut. Nausea, cramps, constipation or diarrhoea often improve with a lower dose, taking it with food, or a different iron salt."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            595
+          ],
+          "items": [
+            "200–400 mg elemental iron a day for fastest correction (lower doses work more slowly); continue for 3–6 months after the cause is corrected, to refill stores."
+          ]
+        }
+      ],
+      flags: [
+        "Interactions are collected from the pages for the other medicines involved (pp. 250, 653, 735)."
+      ],
       review: "unreviewed"
     },
 
@@ -4350,7 +4905,32 @@ window.MEDAWARE_MEDICINES = {
           items: ["Treatment: 2–5 mg/day; prevention: 0.5 mg/day."]
         }
       },
-      flags: [],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            599,
+            600
+          ],
+          "items": [
+            "Countries that add folic acid to grain products have seen 20–25% fewer neural tube defects. Supplements should be considered in pregnancy and other high-risk groups. Long-term phenytoin, methotrexate and trimethoprim can cause folate deficiency."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            600
+          ],
+          "items": [
+            "1 mg a day by mouth is enough to correct folate-deficiency anaemia and refill stores in almost all patients; injections are rarely needed."
+          ]
+        }
+      ],
+      flags: [
+        "Treatment dose differs: Tripathi 2–5 mg a day (p. 610), Katzung 1 mg a day (p. 600)."
+      ],
       review: "unreviewed"
     },
 
@@ -4402,7 +4982,52 @@ window.MEDAWARE_MEDICINES = {
           items: ["Start 100 mg once daily, increase gradually to 300 mg/day as needed (maximum 600 mg/day)."]
         }
       },
-      flags: [],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            662
+          ],
+          "items": [
+            "Colchicine or an NSAID is given during the first months to prevent gout attacks, which can be triggered at the start.",
+            "Safety in children and pregnancy has not been established."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            662
+          ],
+          "items": [
+            "Itchy rash in about 3%; rarely severe skin peeling, nerve or blood-vessel inflammation, bone-marrow suppression, liver damage, kidney inflammation, or cataracts."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            662
+          ],
+          "items": [
+            "Azathioprine and other purine chemotherapy doses must be cut by about 75%. Can increase the effect of cyclophosphamide and of oral anticoagulants."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            662
+          ],
+          "items": [
+            "Start 50–100 mg a day and increase until blood uric acid is below 6 mg/dL, commonly at 300–400 mg a day."
+          ]
+        }
+      ],
+      flags: [
+        "Books differ slightly on how much to cut azathioprine or 6-mercaptopurine: Tripathi says to one-third (p. 216), Katzung says by about 75% (p. 662). A prescriber must adjust these."
+      ],
       review: "unreviewed"
     }
   ]
