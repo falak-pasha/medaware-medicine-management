@@ -9,7 +9,7 @@ MEDAWARE is an organizational and educational aid. It does not diagnose, prescri
 - Email/password registration and sign-in through Supabase Auth, including email-confirmation messaging and session restoration.
 - Private medicine records with edit and confirmed delete actions.
 - Optional local-time reminders using the browser Notifications API.
-- Optional server-side email reminders (Supabase Edge Function + pg_cron + Resend) that work while the app is closed.
+- Optional server-side email reminders (Supabase Edge Function + pg_cron + Brevo) that work while the app is closed.
 - Manual dose logs with a selected medicine, the time taken and a view of today's entries.
 - Private prescription metadata records (title, date, doctor/clinic and notes). The app does not upload prescription images or PDFs.
 - Searchable general education about medicine labels, missed doses, antibiotics, precautions, side effects and asking a pharmacist.
@@ -125,23 +125,24 @@ Supabase limits how many auth emails a project sends per hour (adjustable under 
 
 ## Email reminders setup
 
-Every 5 minutes, `pg_cron` calls the `send-email-reminders` Edge Function. The function claims due reminders through `public.claim_due_email_reminders` (one row per medicine, recipient and local date in `reminder_email_log`), sends them with Resend, and records each result. A reminder is due when its `reminder_time` falls within the last 10 minutes in the user's saved time zone, so one late or missed cron run catches up instead of skipping. Failed sends are retried up to 3 attempts in total, for up to an hour after the reminder time; invalid-address errors are not retried. A reminder left `pending` by a slow or crashed run is only claimed again after 10 minutes.
+Every 5 minutes, `pg_cron` calls the `send-email-reminders` Edge Function. The function claims due reminders through `public.claim_due_email_reminders` (one row per medicine, recipient and local date in `reminder_email_log`), sends them with Brevo's transactional email API, and records each result. A reminder is due when its `reminder_time` falls within the last 10 minutes in the user's saved time zone, so one late or missed cron run catches up instead of skipping. Failed sends are retried up to 3 attempts in total, for up to an hour after the reminder time; invalid-address errors are not retried. A reminder left `pending` by a slow or crashed run is only claimed again after 10 minutes.
 
 Emails go to the account email only if it is confirmed, and to a custom address only when `custom_email_verified` is true.
 
 **Secrets live only in Supabase Edge Function secrets, never in `js/config.js`, git or SQL files.**
 
-1. **Resend:** create an API key with *Sending access*. Emails are sent from `onboarding@resend.dev`, Resend's test domain, which only delivers to your own Resend account address. To email other users, verify your domain (Resend → Domains) and change `FROM_ADDRESS` in `supabase/functions/send-email-reminders/reminders.ts`.
+1. **Brevo:** use the same Brevo account as the password-reset emails. Under SMTP & API → **API Keys**, create an API key (this is different from the SMTP key). The reminder sender must be a verified sender in Brevo (Settings → Senders, Domains & Dedicated IPs). If **Security → Authorised IPs** is switched on, turn it off: Edge Functions do not send from fixed IP addresses. Brevo's free plan sends up to 300 emails a day. A sender on a free address such as Gmail works for testing but may land in spam; authenticate your own domain in Brevo before launch.
 2. **Run `supabase/sql/schema.sql`** again in the SQL Editor (adds the claim function and log columns).
 3. **Set the function secrets** with the [Supabase CLI](https://supabase.com/docs/guides/cli) (`supabase login`, then `supabase link --project-ref dsxekgnhuatpbkgyswmn`), or in Dashboard → Edge Functions → Secrets:
 
    ```sh
-   supabase secrets set RESEND_API_KEY=re_xxxxxxxx
+   supabase secrets set BREVO_API_KEY=xkeysib-xxxxxxxx
+   supabase secrets set REMINDER_FROM_EMAIL=<your verified Brevo sender address>
    supabase secrets set REMINDER_CRON_SECRET=<long random value, e.g. from: openssl rand -hex 32>
    supabase secrets set MEDAWARE_APP_URL=https://your-medaware-site.example   # optional
    ```
 
-   `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are provided to Edge Functions automatically. Optional tuning: `REMINDER_WINDOW_MINUTES` (10), `REMINDER_MAX_ATTEMPTS` (3), `REMINDER_BATCH_LIMIT` (60), `REMINDER_SEND_DELAY_MS` (600).
+   `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are provided to Edge Functions automatically. Optional: `REMINDER_FROM_NAME` (MEDAWARE), `REMINDER_WINDOW_MINUTES` (10), `REMINDER_MAX_ATTEMPTS` (3), `REMINDER_BATCH_LIMIT` (60), `REMINDER_SEND_DELAY_MS` (600).
 
 4. **Deploy the function** without JWT verification (requests are authenticated by the cron secret instead):
 
@@ -166,7 +167,7 @@ To stop all email reminders: `select cron.unschedule('medaware-email-reminders')
 node --test tests/
 ```
 
-Requires Node 22.18+ (runs the Edge Function's TypeScript directly). Uses stand-ins for the browser, Supabase and Resend; it does not contact any real service.
+Requires Node 22.18+ (runs the Edge Function's TypeScript directly). Uses stand-ins for the browser, Supabase and Brevo; it does not contact any real service.
 
 ## Run locally
 
@@ -189,7 +190,7 @@ The site is static (no build step). `vercel.json` adds security headers (a Conte
 
 If you move to a different Supabase project, update its address in both `js/config.js` and the `Content-Security-Policy` in `vercel.json`. If you upgrade supabase-js, update the version and `integrity` hash in every HTML page.
 
-Before opening the site to real users: have a doctor or pharmacist review the medicine information, switch the reminder emails to a verified sending domain with a new send-only Resend key, and review the storage and RLS rules for the medical-documents vault.
+Before opening the site to real users: have a doctor or pharmacist review the medicine information, authenticate a sending domain in Brevo for the reminder and password-reset emails, and review the storage and RLS rules for the medical-documents vault.
 
 ## Feature test checklist
 

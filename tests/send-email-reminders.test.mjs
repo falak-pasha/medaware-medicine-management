@@ -1,4 +1,4 @@
-// Tests the Edge Function logic with a fake fetch standing in for PostgREST and Resend.
+// Tests the Edge Function logic with a fake fetch standing in for PostgREST and Brevo.
 // Node 22.18+ / 23.6+ runs the TypeScript module directly. Run with `node --test tests/`.
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -12,7 +12,8 @@ const SECRET = "cron-secret-value";
 const ENV = {
   SUPABASE_URL: "https://project.supabase.co/",
   SUPABASE_SERVICE_ROLE_KEY: "eyJservice.role.jwt",
-  RESEND_API_KEY: "re_test_key",
+  BREVO_API_KEY: "xkeysib-test-key",
+  REMINDER_FROM_EMAIL: "reminders@example.org",
   REMINDER_CRON_SECRET: SECRET,
   MEDAWARE_APP_URL: "https://medaware.example.com"
 };
@@ -31,8 +32,8 @@ function reminder(id, overrides = {}) {
   };
 }
 
-// resendResponses: per log id, a function returning a Response or throwing.
-function fakeFetch({ claimed = [], claimStatus = 200, resendResponses = {} } = {}) {
+// brevoResponses: per log id, a function returning a Response or throwing.
+function fakeFetch({ claimed = [], claimStatus = 200, brevoResponses = {} } = {}) {
   const calls = [];
   const fetchFn = async (url, init = {}) => {
     const call = { url, method: init.method, headers: init.headers, body: init.body ? JSON.parse(init.body) : null };
@@ -41,9 +42,9 @@ function fakeFetch({ claimed = [], claimStatus = 200, resendResponses = {} } = {
       return new Response(claimStatus === 200 ? JSON.stringify(claimed) : "db down", { status: claimStatus });
     }
     if (url.includes("/rest/v1/reminder_email_log")) return new Response(null, { status: 204 });
-    if (url === "https://api.resend.com/emails") {
-      const id = call.headers["Idempotency-Key"].replace("medaware-reminder-", "");
-      const respond = resendResponses[id] || (() => new Response(JSON.stringify({ id: `msg-${id}` }), { status: 200 }));
+    if (url === "https://api.brevo.com/v3/smtp/email") {
+      const id = call.body.headers["Idempotency-Key"].replace("medaware-reminder-", "");
+      const respond = brevoResponses[id] || (() => new Response(JSON.stringify({ messageId: `<msg-${id}@relay>` }), { status: 201 }));
       return respond();
     }
     throw new Error(`Unexpected fetch ${url}`);
@@ -56,7 +57,7 @@ const post = (headers = { "x-cron-secret": SECRET }) =>
 const env = (overrides = {}) => (name) => ({ ...ENV, ...overrides })[name];
 const noSleep = async () => {};
 const logPatches = (calls) => calls.filter((c) => c.method === "PATCH");
-const resendCalls = (calls) => calls.filter((c) => c.url === "https://api.resend.com/emails");
+const brevoCalls = (calls) => calls.filter((c) => c.url === "https://api.brevo.com/v3/smtp/email");
 
 test("rejects non-POST requests", async () => {
   const response = await handleRequest(new Request("https://fn.example", { method: "GET" }), env());
@@ -64,10 +65,10 @@ test("rejects non-POST requests", async () => {
 });
 
 test("reports missing secrets by name without leaking values", async () => {
-  const response = await handleRequest(post(), env({ RESEND_API_KEY: undefined, REMINDER_CRON_SECRET: " " }));
+  const response = await handleRequest(post(), env({ BREVO_API_KEY: undefined, REMINDER_FROM_EMAIL: "", REMINDER_CRON_SECRET: " " }));
   assert.equal(response.status, 500);
   const body = await response.json();
-  assert.deepEqual(body.missing, ["RESEND_API_KEY", "REMINDER_CRON_SECRET"]);
+  assert.deepEqual(body.missing, ["BREVO_API_KEY", "REMINDER_FROM_EMAIL", "REMINDER_CRON_SECRET"]);
   assert.ok(!JSON.stringify(body).includes("eyJ"));
 });
 
@@ -93,20 +94,23 @@ test("sends each claimed reminder once and marks it sent", async () => {
   assert.equal(claim.headers.apikey, ENV.SUPABASE_SERVICE_ROLE_KEY);
   assert.equal(claim.headers.Authorization, `Bearer ${ENV.SUPABASE_SERVICE_ROLE_KEY}`);
 
-  const sends = resendCalls(calls);
+  const sends = brevoCalls(calls);
   assert.equal(sends.length, 2);
-  assert.equal(sends[0].headers.Authorization, "Bearer re_test_key");
-  assert.equal(sends[0].headers["Idempotency-Key"], "medaware-reminder-a");
-  assert.deepEqual(sends[0].body.to, ["a@example.com"]);
-  assert.equal(sends[0].body.from, "MEDAWARE <onboarding@resend.dev>");
+  assert.equal(sends[0].headers["api-key"], "xkeysib-test-key");
+  assert.equal(sends[0].headers.Authorization, undefined);
+  assert.equal(sends[0].body.headers["Idempotency-Key"], "medaware-reminder-a");
+  assert.deepEqual(sends[0].body.to, [{ email: "a@example.com" }]);
+  assert.deepEqual(sends[0].body.sender, { name: "MEDAWARE", email: "reminders@example.org" });
   assert.equal(sends[0].body.subject, "MEDAWARE medicine reminder");
-  assert.deepEqual(sleeps, [600], "Resend calls are spaced out");
+  assert.ok(sends[0].body.htmlContent.includes("Paracetamol"));
+  assert.ok(sends[0].body.textContent.includes("Paracetamol"));
+  assert.deepEqual(sleeps, [600], "Brevo calls are spaced out");
 
   const patches = logPatches(calls);
   assert.equal(patches.length, 2);
   assert.equal(patches[0].url, "https://project.supabase.co/rest/v1/reminder_email_log?id=eq.a");
   assert.equal(patches[0].body.status, "sent");
-  assert.equal(patches[0].body.provider_message_id, "msg-a");
+  assert.equal(patches[0].body.provider_message_id, "<msg-a@relay>");
   assert.ok(patches[0].body.sent_at);
 });
 
@@ -114,13 +118,13 @@ test("no due reminders means no emails", async () => {
   const { fetchFn, calls } = fakeFetch({ claimed: [] });
   const response = await handleRequest(post(), env(), fetchFn, noSleep);
   assert.deepEqual(await response.json(), { claimed: 0, sent: 0, failed: 0, willRetry: 0 });
-  assert.equal(resendCalls(calls).length, 0);
+  assert.equal(brevoCalls(calls).length, 0);
 });
 
 test("temporary failures (5xx, 429, network) are marked failed for retry", async () => {
   const { fetchFn, calls } = fakeFetch({
     claimed: [reminder("s5"), reminder("r429"), reminder("net")],
-    resendResponses: {
+    brevoResponses: {
       s5: () => new Response("server error", { status: 503 }),
       r429: () => new Response("slow down", { status: 429 }),
       net: () => { throw new TypeError("fetch failed"); }
@@ -135,23 +139,43 @@ test("temporary failures (5xx, 429, network) are marked failed for retry", async
   }
 });
 
-test("permanent failures (e.g. 422 invalid address) are not retried", async () => {
+test("permanent failures (bad address, unverified sender, bad key) are not retried", async () => {
   const { fetchFn, calls } = fakeFetch({
-    claimed: [reminder("bad")],
-    resendResponses: { bad: () => new Response('{"message":"Invalid `to` field"}', { status: 422 }) }
+    claimed: [reminder("bad"), reminder("key")],
+    brevoResponses: {
+      bad: () => new Response('{"code":"invalid_parameter","message":"email is not valid in to"}', { status: 400 }),
+      key: () => new Response('{"code":"unauthorized","message":"Key not found"}', { status: 401 })
+    }
   });
   const response = await handleRequest(post(), env(), fetchFn, noSleep);
-  assert.deepEqual(await response.json(), { claimed: 1, sent: 0, failed: 1, willRetry: 0 });
-  const [patch] = logPatches(calls);
-  assert.equal(patch.body.status, "failed");
-  assert.equal(patch.body.attempts, 3);
-  assert.match(patch.body.error_message, /422/);
+  assert.deepEqual(await response.json(), { claimed: 2, sent: 0, failed: 2, willRetry: 0 });
+  const [bad, key] = logPatches(calls);
+  assert.equal(bad.body.status, "failed");
+  assert.equal(bad.body.attempts, 3);
+  assert.match(bad.body.error_message, /Brevo HTTP 400/);
+  assert.match(key.body.error_message, /Brevo HTTP 401/);
+});
+
+test("a duplicate_request reply counts as already sent", async () => {
+  const { fetchFn, calls } = fakeFetch({
+    claimed: [reminder("dup", { attempts: 2 })],
+    brevoResponses: { dup: () => new Response('{"code":"duplicate_request","message":"Request already processed"}', { status: 400 }) }
+  });
+  const response = await handleRequest(post(), env(), fetchFn, noSleep);
+  assert.deepEqual(await response.json(), { claimed: 1, sent: 1, failed: 0, willRetry: 0 });
+  assert.equal(logPatches(calls)[0].body.status, "sent");
+});
+
+test("REMINDER_FROM_NAME overrides the sender name", async () => {
+  const { fetchFn, calls } = fakeFetch({ claimed: [reminder("n")] });
+  await handleRequest(post(), env({ REMINDER_FROM_NAME: "MEDAWARE Reminders" }), fetchFn, noSleep);
+  assert.equal(brevoCalls(calls)[0].body.sender.name, "MEDAWARE Reminders");
 });
 
 test("a temporary failure on the final attempt is reported as final", async () => {
   const { fetchFn } = fakeFetch({
     claimed: [reminder("last", { attempts: 3 })],
-    resendResponses: { last: () => new Response("server error", { status: 500 }) }
+    brevoResponses: { last: () => new Response("server error", { status: 500 }) }
   });
   const response = await handleRequest(post(), env(), fetchFn, noSleep);
   assert.deepEqual(await response.json(), { claimed: 1, sent: 0, failed: 1, willRetry: 0 });
@@ -162,7 +186,7 @@ test("a database failure while claiming returns 500 and sends nothing", async ()
   const response = await handleRequest(post(), env(), fetchFn, noSleep);
   assert.equal(response.status, 500);
   assert.deepEqual(await response.json(), { error: "Reminder run failed" });
-  assert.equal(resendCalls(calls).length, 0);
+  assert.equal(brevoCalls(calls).length, 0);
 });
 
 test("new-style sb_secret_ keys are sent only as apikey", async () => {

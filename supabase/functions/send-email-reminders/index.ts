@@ -3,7 +3,8 @@
 // authenticated by the x-cron-secret header instead.
 //
 // Secrets (set with `supabase secrets set`, never in the frontend):
-//   RESEND_API_KEY, REMINDER_CRON_SECRET, optional MEDAWARE_APP_URL.
+//   BREVO_API_KEY, REMINDER_FROM_EMAIL (a sender verified in Brevo), REMINDER_CRON_SECRET,
+//   optional REMINDER_FROM_NAME (default "MEDAWARE") and MEDAWARE_APP_URL.
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase automatically.
 import { handleRequest } from "./reminders.ts";
 

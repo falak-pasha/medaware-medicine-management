@@ -4,7 +4,7 @@
 // Each run:
 //   1. claims due reminders through public.claim_due_email_reminders (service role),
 //      which inserts 'pending' rows into reminder_email_log so nothing is sent twice;
-//   2. sends each claimed reminder through Resend;
+//   2. sends each claimed reminder through Brevo's transactional email API;
 //   3. marks each log row 'sent' or 'failed' (failed rows are retried by later runs).
 
 export type ClaimedReminder = {
@@ -21,13 +21,14 @@ export type ClaimedReminder = {
 export type ReminderConfig = {
   supabaseUrl: string;
   serviceRoleKey: string;
-  resendApiKey: string;
-  fromAddress: string;
+  brevoApiKey: string;
+  fromEmail: string; // a sender verified in Brevo
+  fromName: string;
   appUrl: string | null;
   windowMinutes: number;
   maxAttempts: number;
   batchLimit: number;
-  sendDelayMs: number; // spacing between Resend calls, to stay under its rate limit
+  sendDelayMs: number; // spacing between Brevo calls, to stay under its rate limit
 };
 
 export type RunSummary = {
@@ -40,11 +41,14 @@ export type RunSummary = {
 type FetchFn = typeof fetch;
 type SleepFn = (ms: number) => Promise<void>;
 
-const RESEND_URL = "https://api.resend.com/emails";
-// Resend's shared test domain: it only delivers to the Resend account owner's address.
-// Switch to an address on your own verified domain to email other users.
-const FROM_ADDRESS = "MEDAWARE <onboarding@resend.dev>";
-const REQUIRED_ENV = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "RESEND_API_KEY", "REMINDER_CRON_SECRET"];
+const BREVO_URL = "https://api.brevo.com/v3/smtp/email";
+const REQUIRED_ENV = [
+  "SUPABASE_URL",
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "BREVO_API_KEY",
+  "REMINDER_FROM_EMAIL",
+  "REMINDER_CRON_SECRET"
+];
 
 export function loadConfig(env: (name: string) => string | undefined): ReminderConfig | { missing: string[] } {
   const missing = REQUIRED_ENV.filter((name) => !env(name)?.trim());
@@ -56,8 +60,9 @@ export function loadConfig(env: (name: string) => string | undefined): ReminderC
   return {
     supabaseUrl: env("SUPABASE_URL")!.replace(/\/+$/, ""),
     serviceRoleKey: env("SUPABASE_SERVICE_ROLE_KEY")!,
-    resendApiKey: env("RESEND_API_KEY")!,
-    fromAddress: FROM_ADDRESS,
+    brevoApiKey: env("BREVO_API_KEY")!.trim(),
+    fromEmail: env("REMINDER_FROM_EMAIL")!.trim(),
+    fromName: env("REMINDER_FROM_NAME")?.trim() || "MEDAWARE",
     appUrl: env("MEDAWARE_APP_URL")?.trim() || null,
     windowMinutes: int("REMINDER_WINDOW_MINUTES", 10),
     maxAttempts: int("REMINDER_MAX_ATTEMPTS", 3),
@@ -83,8 +88,8 @@ function escapeHtml(value: string): string {
 }
 
 // The subject stays generic so medicine names are not shown on lock screens or
-// in notification previews. Content is deterministic per log row, which Resend's
-// idempotency check requires when a send is retried with the same key.
+// in notification previews. Content is deterministic per log row, so a retry sends
+// exactly the same email.
 export function buildEmail(reminder: ClaimedReminder, appUrl: string | null) {
   const time = reminder.reminder_time.slice(0, 5);
   const when = `${time} on ${reminder.reminder_date} (${reminder.timezone})`;
@@ -146,8 +151,9 @@ async function updateLog(config: ReminderConfig, fetchFn: FetchFn, logId: string
     }
   );
   if (!response.ok) {
-    // The row stays 'pending' and is reclaimed after 10 minutes; the retry reuses the
-    // same Resend idempotency key, so an email that did go out is not sent again.
+    // The row stays 'pending' and is reclaimed after 10 minutes. The retry carries the same
+    // idempotency key, which Brevo can use to drop the repeat; if it does not, the user may
+    // get the same reminder twice, which is safer than getting none.
     console.error(`Could not update reminder log ${logId}: HTTP ${response.status}`);
   }
 }
@@ -160,33 +166,41 @@ async function sendEmail(config: ReminderConfig, fetchFn: FetchFn, reminder: Cla
   const email = buildEmail(reminder, config.appUrl);
   let response: Response;
   try {
-    response = await fetchFn(RESEND_URL, {
+    response = await fetchFn(BREVO_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${config.resendApiKey}`,
+        "api-key": config.brevoApiKey,
         "Content-Type": "application/json",
-        "Idempotency-Key": `medaware-reminder-${reminder.log_id}`
+        Accept: "application/json"
       },
-      body: JSON.stringify({ from: config.fromAddress, to: [reminder.recipient], ...email })
+      body: JSON.stringify({
+        sender: { name: config.fromName, email: config.fromEmail },
+        to: [{ email: reminder.recipient }],
+        subject: email.subject,
+        htmlContent: email.html,
+        textContent: email.text,
+        headers: { "Idempotency-Key": `medaware-reminder-${reminder.log_id}` },
+        tags: ["medaware-reminder"]
+      })
     });
   } catch (error) {
     return { ok: false, permanent: false, error: `Network error: ${error instanceof Error ? error.message : String(error)}` };
   }
 
   const body = await response.text();
-  if (response.ok) {
-    let messageId: string | null = null;
-    try {
-      messageId = JSON.parse(body).id ?? null;
-    } catch {
-      // A 2xx without a JSON body still means Resend accepted the email.
-    }
-    return { ok: true, messageId };
+  let parsed: { messageId?: string; code?: string } = {};
+  try {
+    parsed = JSON.parse(body);
+  } catch {
+    // A 2xx without a JSON body still means Brevo accepted the email.
   }
-  // 429 (rate limit), 409 (same idempotency key still in progress) and 5xx are temporary.
-  // Other 4xx errors (invalid address, unverified domain, bad key) will not fix themselves.
-  const permanent = response.status >= 400 && response.status < 500 && ![409, 429].includes(response.status);
-  return { ok: false, permanent, error: `Resend HTTP ${response.status}: ${body.slice(0, 400)}` };
+  if (response.ok) return { ok: true, messageId: parsed.messageId ?? null };
+  // Brevo already accepted this idempotency key on an earlier attempt.
+  if (response.status === 400 && parsed.code === "duplicate_request") return { ok: true, messageId: null };
+  // 429 (rate limit) and 5xx are temporary. Other 4xx errors (invalid address, unverified
+  // sender, bad key, unauthorised IP, out of daily credits) will not fix themselves in time.
+  const permanent = response.status >= 400 && response.status < 500 && response.status !== 429;
+  return { ok: false, permanent, error: `Brevo HTTP ${response.status}: ${body.slice(0, 400)}` };
 }
 
 export async function runReminders(
