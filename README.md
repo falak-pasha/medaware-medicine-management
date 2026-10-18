@@ -13,6 +13,8 @@ MEDAWARE is an organizational and educational aid. It does not diagnose, prescri
 - Manual dose logs with a selected medicine, the time taken and a view of today's entries.
 - Private prescription metadata records (title, date, doctor/clinic and notes). The app does not upload prescription images or PDFs.
 - Searchable general education about medicine labels, missed doses, antibiotics, precautions, side effects and asking a pharmacist.
+- Medicine information for 65 common medicines from KD Tripathi, *Essentials of Medical Pharmacology* (7th ed.), with page citations and review status (`js/data/medicines.js`).
+- A guided "Ask about a medicine" chat (`js/shared/medicine-chat.js`) that answers only from those entries: pick or type a medicine and a topic, or ask short questions such as "aspirin with warfarin". It uses no AI and no external service, says when the book does not cover something, and shows an emergency message for overdose or other urgent wording.
 - Responsive dashboard and per-user PostgreSQL Row Level Security (RLS).
 
 ## Project structure
@@ -201,9 +203,10 @@ Use non-sensitive test data during a demonstration.
 3. **Dose tracking:** Select a saved medicine, enter the actual time it was taken and save the log. Confirm it appears in today's dose log after refresh. The app does not log a dose when a reminder appears.
 4. **Prescriptions:** Add a title, date, doctor/clinic and notes. Refresh and verify the record. Delete it and confirm it disappears. Only metadata is stored; there is no file-upload feature.
 5. **Medicine information:** Search for a tip (`missed dose`, `label`), a medicine (`paracetamol`), a brand (`Brufen`) or a condition (`blood pressure`). Check that each medicine card shows the "Not yet reviewed" label, page numbers on every section, and that ranitidine shows its withdrawal update with a source link. Clear the search and verify all 7 tips and 65 medicines return.
-6. **Reminders:** In a supported browser, select **Enable reminders** and explicitly allow notifications. Add a test medicine with a reminder time shortly ahead and a start date no later than today. Keep the dashboard open through the reminder time, then check that the scheduled reminder appears only once during that local minute. Test denied permission or an unsupported browser to see the status message.
-7. **Privacy:** For a second test account, verify its dashboard does not show the first account's records. In Supabase, confirm RLS is enabled and inspect that each table's policies restrict access to `auth.uid()`.
-8. **Responsive layout:** Resize the browser to desktop, tablet and mobile widths; check navigation, forms, cards and status messages.
+6. **Medicine chat:** Tap Paracetamol → Side effects (answer shows a page citation). Type `aspirin with warfarin` (the book's bleeding-risk lines appear), `cetirizine with folic acid` ("don't mention ... does not mean the combination is safe"), `metformin dose` (not-a-prescription warning) and `I took too many tablets` (red emergency message). Press **Start over** to clear.
+7. **Reminders:** In a supported browser, select **Enable reminders** and explicitly allow notifications. Add a test medicine with a reminder time shortly ahead and a start date no later than today. Keep the dashboard open through the reminder time, then check that the scheduled reminder appears only once during that local minute. Test denied permission or an unsupported browser to see the status message.
+8. **Privacy:** For a second test account, verify its dashboard does not show the first account's records. In Supabase, confirm RLS is enabled and inspect that each table's policies restrict access to `auth.uid()`.
+9. **Responsive layout:** Resize the browser to desktop, tablet and mobile widths; check navigation, forms, cards and status messages.
 
 ## Limitations and security notes
 

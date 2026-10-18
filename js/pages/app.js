@@ -1264,5 +1264,6 @@
 
   setAuthMode("login");
   renderBookSource();
+  window.MedawareChat?.mount($("medicineChat"), medicineBook);
   renderInformation();
 })();

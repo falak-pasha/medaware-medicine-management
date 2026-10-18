@@ -23,6 +23,7 @@
   <!-- Application configuration and logic -->
   <script defer src="js/config.js"></script>
   <script defer src="js/data/medicines.js"></script>
+  <script defer src="js/shared/medicine-chat.js"></script>
   <script defer src="js/pages/app.js"></script>
 
   <!-- 3D backgrounds (self-hosted Three.js r159; decorative only) -->
@@ -443,6 +444,24 @@
 
       <!-- MEDICINE INFORMATION -->
       <section id="infoPanel" class="content hidden">
+        <div id="medicineChat" class="panel medicine-chat">
+          <div class="chat-header">
+            <h2>Ask about a medicine</h2>
+            <button type="button" class="chat-restart" data-chat-restart>Start over</button>
+          </div>
+          <p class="muted">
+            Answers come only from the textbook entries below, with page numbers.
+            Not personal medical advice. In an emergency, call your local emergency number.
+          </p>
+          <div class="chat-log" data-chat-log role="log" aria-live="polite" aria-label="Medicine chat"></div>
+          <form class="chat-form" data-chat-form>
+            <label for="chatInput" class="sr-only">Type a medicine or question</label>
+            <input id="chatInput" data-chat-input autocomplete="off" maxlength="200"
+              placeholder="e.g. Brufen side effects, aspirin with warfarin">
+            <button type="submit">Ask</button>
+          </form>
+        </div>
+
         <div class="panel form">
           <h2>Medicine information, in plain language</h2>
 

@@ -482,6 +482,154 @@ input.check-input {
   margin: 0;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Guided medicine chat ---------- */
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.chat-header h2 {
+  margin: 0;
+}
+
+.chat-restart {
+  flex: none;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.chat-log {
+  position: relative; /* bubble offsetTop is measured from the log */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 460px;
+  margin: 12px 0;
+  padding: 12px;
+  overflow-y: auto;
+  background: var(--surface-tint, #f6f4ff);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.chat-msg {
+  max-width: 88%;
+  padding: 10px 13px;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+.chat-msg p,
+.chat-msg ul {
+  margin: 6px 0 0;
+}
+
+.chat-msg ul {
+  padding-left: 20px;
+}
+
+.chat-user {
+  align-self: flex-end;
+  color: #fff;
+  background: var(--accent-strong, #5444a3);
+}
+
+.chat-bot {
+  align-self: flex-start;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.chat-title {
+  display: block;
+}
+
+.chat-tag {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  color: #6d5318;
+  background: #fff4db;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.chat-cite {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.chat-warn {
+  padding: 7px 10px;
+  color: #6d5318;
+  background: #fff4db;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.chat-urgent {
+  padding: 9px 12px;
+  color: #7a1a12;
+  background: #fde4e0;
+  border: 1px solid #f2b8b0;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.chat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.chat-actions .chat-chip {
+  width: auto;
+  padding: 5px 11px;
+  color: var(--accent-text, #6352b3);
+  background: var(--surface-tint, #f6f4ff);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chat-form {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .chat-bot {
+    max-width: 100%;
+  }
+
+  .chat-log {
+    padding: 8px;
+  }
+}
+
+.chat-form input {
+  flex: 1;
+}
+
+.chat-form button {
+  flex: none;
+}
+
 .info-group-heading {
   margin: 26px 0 0;
 }
