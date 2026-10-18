@@ -978,7 +978,53 @@ window.MEDAWARE_MEDICINES = {
           items: ["0.25–1 g three times a day by mouth or injection (children 25–75 mg/kg/day)."]
         }
       },
-      flags: ["Side effects, contraindications and interactions are described in the book for ampicillin, which it says amoxicillin resembles 'in all respects' except those listed."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            801
+          ],
+          "items": [
+            "Given by mouth for bacterial sinusitis, ear infections and lower respiratory infections; can be taken with or without food.",
+            "Like all antibiotics, it should never be used for viral infections."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            801
+          ],
+          "items": [
+            "For penicillins as a group: anaphylaxis is very rare (about 0.05%); serum-sickness-like reactions (hives, fever, joint swelling) 7–12 days after exposure; rashes; rarely kidney inflammation or blood disorders. Thrush (vaginal candidiasis) can follow."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            801
+          ],
+          "items": [
+            "After a serious penicillin allergy, penicillins should be avoided or given only with great caution; a penicillin skin test can help decide."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            800,
+            801
+          ],
+          "items": [
+            "250–500 mg three times a day (children 20–40 mg/kg a day in 3 doses); with clavulanate 500/125 mg three times a day or 875/125 mg twice a day. Lower doses in kidney failure."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects, contraindications and interactions are described in the book for ampicillin, which it says amoxicillin resembles 'in all respects' except those listed."
+      ],
       review: "unreviewed"
     },
 
@@ -1037,6 +1083,42 @@ window.MEDAWARE_MEDICINES = {
           items: ["Trimethoprim 80 mg + sulfamethoxazole 400 mg tablet: 2 twice daily for 2 days, then 1 twice daily; or one double-strength (160 + 800 mg) tablet twice daily."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            837
+          ],
+          "items": [
+            "Also commonly used for uncomplicated skin and soft-tissue infections, including many MRSA strains.",
+            "Low-dose regimens prevent Pneumocystis pneumonia in people with weak immunity."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            836,
+            837
+          ],
+          "items": [
+            "Can cause folate-related anaemia and low white-cell counts.",
+            "In people with AIDS: frequent fever, rash, low white cells, diarrhoea, liver-test rises, high potassium and low sodium.",
+            "A mild rise in blood creatinine is expected and does not by itself mean kidney damage."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            837
+          ],
+          "items": [
+            "One double-strength tablet (160 mg + 800 mg) every 12 hours for urinary, prostate and uncomplicated skin infections."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -1085,7 +1167,46 @@ window.MEDAWARE_MEDICINES = {
           items: ["250–750 mg twice daily by mouth; 100–200 mg intravenously."]
         }
       },
-      flags: ["Fluoroquinolone safety warnings have been strengthened internationally since 2013; a reviewer should check current guidance."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            839,
+            840
+          ],
+          "items": [
+            "In 2016 the FDA said fluoroquinolones should be kept for people with no other option, especially for milder infections such as sinus or simple bladder infections.",
+            "Can cause nerve damage (peripheral neuropathy) at any time during treatment; it can last months or years after stopping and may be permanent.",
+            "Tendon inflammation and rupture: higher risk with older age, kidney disease and steroid use.",
+            "Not a first choice under 18 years, though it may be used when needed. Should be avoided in pregnancy unless there is a clear need."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            839
+          ],
+          "items": [
+            "Take it 2 hours before or 4 hours after antacids, calcium, iron, zinc or other products containing these minerals."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            839
+          ],
+          "items": [
+            "Most common: nausea, vomiting and diarrhoea; occasionally headache, dizziness, sleeplessness, rash or abnormal liver tests."
+          ]
+        }
+      ],
+      flags: [
+        "Fluoroquinolone safety warnings have been strengthened internationally since 2013; a reviewer should check current guidance.",
+        "Update to the earlier note: Katzung (2018, p. 840) confirms the 2016 FDA warning to reserve fluoroquinolones for infections with no alternative."
+      ],
       review: "unreviewed"
     },
 
@@ -1124,7 +1245,43 @@ window.MEDAWARE_MEDICINES = {
           items: ["0.25–1 g every 6–8 hours (children 25–100 mg/kg/day)."]
         }
       },
-      flags: ["Side effects and warnings are given in the book for cephalosporins as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            806
+          ],
+          "items": [
+            "People who have had anaphylaxis to a penicillin should not receive first-generation cephalosporins such as cephalexin."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            806
+          ],
+          "items": [
+            "Uncommonly, kidney inflammation or damage."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            803,
+            804
+          ],
+          "items": [
+            "0.25–0.5 g four times a day (children 25–50 mg/kg a day in 4 doses); half the dose or less in kidney failure."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects and warnings are given in the book for cephalosporins as a group.",
+        "Books differ on cross-allergy with penicillin: Tripathi says about 10% (p. 729); Katzung says it is low, about 1%, highest with older cephalosporins like cephalexin (p. 806)."
+      ],
       review: "unreviewed"
     },
 
@@ -1165,7 +1322,41 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
-      flags: [],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            805
+          ],
+          "items": [
+            "With azithromycin, an intramuscular ceftriaxone injection is the usual treatment for most gonorrhoea."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            806
+          ],
+          "items": [
+            "After penicillin anaphylaxis, third-generation cephalosporins such as ceftriaxone should be given with caution, preferably where the person can be monitored."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            805
+          ],
+          "items": [
+            "Once a day: 1 g is enough for most serious infections; 2 g every 12 hours for meningitis. No dose change is needed in kidney disease (it is removed mainly in bile)."
+          ]
+        }
+      ],
+      flags: [
+        "Books differ on cross-allergy with penicillin: Tripathi says about 10% (p. 729); Katzung says about 1% (p. 806)."
+      ],
       review: "unreviewed"
     },
 
@@ -1200,6 +1391,38 @@ window.MEDAWARE_MEDICINES = {
           items: ["500 mg once daily, 1 hour before or 2 hours after food, for 3 days for most infections (children over 6 months: 10 mg/kg/day)."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            820
+          ],
+          "items": [
+            "Macrolides can prolong the QT interval and trigger a dangerous heart rhythm (torsades de pointes); studies suggest azithromycin may carry a small increased risk of cardiac death."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            820
+          ],
+          "items": [
+            "Free of the liver-enzyme interactions of erythromycin and clarithromycin. Aluminium and magnesium antacids slow its absorption but do not reduce the total absorbed."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            820
+          ],
+          "items": [
+            "Chlamydia: a single 1 g dose (as effective as 7 days of doxycycline). Pneumonia: 500 mg on day 1, then 250 mg a day for 4 days."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -1258,7 +1481,41 @@ window.MEDAWARE_MEDICINES = {
           items: ["200 mg on the first day, then 100–200 mg once daily."]
         }
       },
-      flags: ["Most side effects and precautions are given in the book for tetracyclines as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            818
+          ],
+          "items": [
+            "Swallow with a full glass of water (8 ounces) and stay upright for at least 30 minutes, to avoid ulcers in the food pipe."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            818
+          ],
+          "items": [
+            "Generally avoided in pregnancy and, for long courses, in children under 8 years (tooth staining and bone effects)."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            818
+          ],
+          "items": [
+            "Sun sensitivity is common, particularly in fair-skinned people. The risk of C. difficile colitis may be lower than with other antibiotics."
+          ]
+        }
+      ],
+      flags: [
+        "Most side effects and precautions are given in the book for tetracyclines as a group."
+      ],
       review: "unreviewed"
     },
 
@@ -1317,6 +1574,38 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            929
+          ],
+          "items": [
+            "Common: nausea, headache, dry mouth and metallic taste. Infrequent: vomiting, diarrhoea, sleeplessness, dizziness, thrush, rash, dark urine, tingling, brain effects (encephalopathy) and low white cells."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            929
+          ],
+          "items": [
+            "Taking it with meals reduces stomach irritation."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            929
+          ],
+          "items": [
+            "Amoebic dysentery or liver abscess: 750 mg three times a day for 10 days, followed by a second medicine to clear the gut."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -1371,6 +1660,38 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            858
+          ],
+          "items": [
+            "The azole of choice for treating and preventing the return of cryptococcal meningitis; the most commonly used drug for mouth, throat and vaginal thrush. No activity against Aspergillus."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            858
+          ],
+          "items": [
+            "Has the least effect of all the azoles on liver enzymes, so interactions are less common than with ketoconazole or itraconazole."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            858
+          ],
+          "items": [
+            "100–800 mg a day by mouth or injection, depending on the infection."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -1414,7 +1735,41 @@ window.MEDAWARE_MEDICINES = {
           ]
         }
       },
-      flags: ["Brand names for acyclovir were not found in the extracted pages."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            866
+          ],
+          "items": [
+            "Generally well tolerated; nausea, diarrhoea and headache may occur. By drip: reversible kidney damage or brain effects (tremor, delirium, seizures), uncommon with enough fluids and a slow infusion."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            865
+          ],
+          "items": [
+            "Cold sores: 400 mg three times a day or 200 mg five times a day. Shingles: 800 mg five times a day for 7–10 days. Chickenpox: 20 mg/kg (maximum 800 mg) four times a day for 5 days. Lower doses in kidney disease."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            864
+          ],
+          "items": [
+            "In first-episode genital herpes it shortens symptoms by about 2 days and healing by about 4 days."
+          ]
+        }
+      ],
+      flags: [
+        "Brand names for acyclovir were not found in the extracted pages."
+      ],
       review: "unreviewed"
     },
 
@@ -1453,6 +1808,48 @@ window.MEDAWARE_MEDICINES = {
           items: ["Roundworm, hookworm, pinworm, whipworm: a single 400 mg dose (adults and children over 2 years; 200 mg for children aged 1–2)."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            940
+          ],
+          "items": [
+            "Allergy to other benzimidazole deworming medicines, and cirrhosis. Safety in pregnancy and under 2 years has not been established."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            940
+          ],
+          "items": [
+            "On long courses (e.g. hydatid disease), blood counts and liver tests should be monitored."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            940
+          ],
+          "items": [
+            "Levels are raised by dexamethasone, praziquantel and cimetidine, and lowered by phenytoin, phenobarbital, carbamazepine and ritonavir."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            939
+          ],
+          "items": [
+            "Roundworm and pinworm: a single 400 mg dose for adults and children over 2 (pinworm repeated in 2 weeks; heavy roundworm infection repeated for 2–3 days)."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
