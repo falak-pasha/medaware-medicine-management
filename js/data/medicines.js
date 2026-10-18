@@ -509,10 +509,7 @@ window.MEDAWARE_MEDICINES = {
         {
           "book": "katzung",
           "section": "warnings",
-          "pages": [
-            1093,
-            1095
-          ],
+          "pages": [1092, 1094, 1095],
           "items": [
             "Take about 1 hour before a meal, usually breakfast; food halves absorption. Full effect takes 3–4 days.",
             "Use the lowest effective dose and weigh the risks of long-term use.",
@@ -535,9 +532,7 @@ window.MEDAWARE_MEDICINES = {
         {
           "book": "katzung",
           "section": "sideEffects",
-          "pages": [
-            1095
-          ],
+          "pages": [1094],
           "items": [
             "Diarrhoea, headache and abdominal pain in 1–5% of people."
           ]
@@ -589,10 +584,7 @@ window.MEDAWARE_MEDICINES = {
         {
           "book": "katzung",
           "section": "warnings",
-          "pages": [
-            1093,
-            1095
-          ],
+          "pages": [1092, 1094, 1095],
           "items": [
             "Take about 1 hour before a meal; full effect takes 3–4 days.",
             "The long-term risks described for proton pump inhibitors as a group apply: fractures, low vitamin B12 and magnesium, gut infections, and kidney problems in observational studies; rebound heartburn for 2–4 weeks after stopping."
@@ -844,9 +836,7 @@ window.MEDAWARE_MEDICINES = {
         {
           "book": "katzung",
           "section": "sideEffects",
-          "pages": [
-            1104
-          ],
+          "pages": [1105],
           "items": [
             "Headache, dizziness and constipation are most common.",
             "Causes a small prolongation of the QT interval on the heart tracing."
@@ -855,9 +845,7 @@ window.MEDAWARE_MEDICINES = {
         {
           "book": "katzung",
           "section": "interactions",
-          "pages": [
-            1104
-          ],
+          "pages": [1105],
           "items": [
             "Serotonin syndrome has been reported when combined with SSRI or SNRI antidepressants."
           ]
@@ -2058,6 +2046,38 @@ window.MEDAWARE_MEDICINES = {
           items: ["100 mg once daily."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            762
+          ],
+          "items": [
+            "100 mg once a day; 50 mg if eGFR is 30–50 and 25 mg if below 30."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            762
+          ],
+          "items": [
+            "Stop it at once if pancreatitis (severe, persistent abdominal pain) or a serious allergic reaction occurs; fatal and non-fatal pancreatitis has been reported."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            762
+          ],
+          "items": [
+            "Common: stuffy or sore nose and throat, upper respiratory infections and headache. Lowers HbA1c by about 0.5–1.0%."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -2109,7 +2129,54 @@ window.MEDAWARE_MEDICINES = {
           items: ["15–45 mg once daily."]
         }
       },
-      flags: ["Additional safety concerns about pioglitazone have been raised since 2013; a reviewer should check current guidance."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            761
+          ],
+          "items": [
+            "Fluid retention in about 3–4% on its own and 10–15% with insulin; heart failure can occur.",
+            "Bone thinning and unusual fractures in women; rarely swelling at the back of the eye (macular oedema), which improves after stopping.",
+            "Weight gain, partly fat and partly fluid, especially with a sulfonylurea or insulin."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            761
+          ],
+          "items": [
+            "Moderate to severe heart failure (NYHA class III–IV); active liver disease."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            761
+          ],
+          "items": [
+            "Studies on bladder cancer disagree: two large studies found no link, while another found a higher risk with pioglitazone."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            760
+          ],
+          "items": [
+            "Can make oestrogen-containing contraceptive pills less effective; extra contraception is advised."
+          ]
+        }
+      ],
+      flags: [
+        "Additional safety concerns about pioglitazone have been raised since 2013; a reviewer should check current guidance.",
+        "Update to the earlier note: Katzung (2018, p. 761) reports conflicting studies on bladder cancer; a reviewer should check current guidance."
+      ],
       review: "unreviewed"
     },
 
@@ -2141,7 +2208,29 @@ window.MEDAWARE_MEDICINES = {
           items: ["5–10 mg once daily."]
         }
       },
-      flags: ["Most side effects are described in the book for dihydropyridines as a group (based on nifedipine)."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [205],
+          "items": [
+            "For calcium channel blockers as a group: flushing, dizziness, nausea, constipation and ankle swelling, usually not needing the medicine to stop."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            203
+          ],
+          "items": [
+            "5–10 mg by mouth once a day; long half-life of 30–50 hours."
+          ]
+        }
+      ],
+      flags: [
+        "Most side effects are described in the book for dihydropyridines as a group (based on nifedipine)."
+      ],
       review: "unreviewed"
     },
 
@@ -2193,7 +2282,42 @@ window.MEDAWARE_MEDICINES = {
           items: ["25–100 mg a day (often once daily)."]
         }
       },
-      flags: ["Most adverse effects, contraindications and interactions are given in the book for propranolol (the prototype beta blocker), with differences for heart-selective drugs noted."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            183
+          ],
+          "items": [
+            "Stopping suddenly after regular use can cause a withdrawal reaction: nervousness, fast heartbeat, worse angina and higher blood pressure; heart attacks have been reported.",
+            "Removed by the kidneys, so lower doses are needed in kidney disease."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            183
+          ],
+          "items": [
+            "Reported to be less effective than metoprolol at preventing complications of high blood pressure, possibly because once-daily dosing does not keep levels steady."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "dosage",
+          "pages": [
+            183
+          ],
+          "items": [
+            "Usually 50–100 mg a day."
+          ]
+        }
+      ],
+      flags: [
+        "Most adverse effects, contraindications and interactions are given in the book for propranolol (the prototype beta blocker), with differences for heart-selective drugs noted."
+      ],
       review: "unreviewed"
     },
 
@@ -2235,7 +2359,31 @@ window.MEDAWARE_MEDICINES = {
           items: ["100–400 mg a day; the single-enantiomer form (S-metoprolol) at 12.5–50 mg once or twice daily."]
         }
       },
-      flags: ["General beta-blocker warnings are described in the book for propranolol."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            183
+          ],
+          "items": [
+            "Sustained-release metoprolol reduces deaths in heart failure and is particularly useful in people with both high blood pressure and heart failure."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            183
+          ],
+          "items": [
+            "Being heart-selective helps in asthma, diabetes and poor leg circulation, but the risk of narrowing the airways is still significant. Do not stop suddenly."
+          ]
+        }
+      ],
+      flags: [
+        "General beta-blocker warnings are described in the book for propranolol."
+      ],
       review: "unreviewed"
     },
 
@@ -2286,7 +2434,41 @@ window.MEDAWARE_MEDICINES = {
           items: ["5–20 mg once or twice daily (range 2.5–40 mg/day)."]
         }
       },
-      flags: ["The book describes side effects, interactions and contraindications for captopril and states they are the same for all ACE inhibitors."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            188
+          ],
+          "items": [
+            "Second and third trimesters of pregnancy (risk of low blood pressure, kidney failure, malformations or death in the baby); first-trimester exposure is also linked to birth defects."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            188
+          ],
+          "items": [
+            "Severe low blood pressure after the first doses in people who are dehydrated, on diuretics or on a low-salt diet. High potassium is more likely with kidney disease or diabetes. Dry cough sometimes with wheezing; angioedema."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            189
+          ],
+          "items": [
+            "Combining an ACE inhibitor with an ARB or aliskiren is not recommended because of harm seen in trials."
+          ]
+        }
+      ],
+      flags: [
+        "The book describes side effects, interactions and contraindications for captopril and states they are the same for all ACE inhibitors."
+      ],
       review: "unreviewed"
     },
 
@@ -2325,7 +2507,41 @@ window.MEDAWARE_MEDICINES = {
           items: ["1.25–10 mg a day."]
         }
       },
-      flags: ["Side effects, interactions and contraindications are given in the book for ACE inhibitors as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            188
+          ],
+          "items": [
+            "For ACE inhibitors as a group: second and third trimesters of pregnancy; first-trimester exposure is also linked to birth defects."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            188
+          ],
+          "items": [
+            "For ACE inhibitors as a group: severe low blood pressure after first doses if dehydrated or on diuretics; high potassium (more likely with kidney disease or diabetes); dry cough; angioedema."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            189
+          ],
+          "items": [
+            "Not to be combined with an ARB or aliskiren."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects, interactions and contraindications are given in the book for ACE inhibitors as a group."
+      ],
       review: "unreviewed"
     },
 
@@ -2366,6 +2582,38 @@ window.MEDAWARE_MEDICINES = {
           items: ["50 mg once daily (25 mg in liver disease or dehydration); hydrochlorothiazide 12.5–25 mg may be added."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            189
+          ],
+          "items": [
+            "Similar benefits to ACE inhibitors in heart failure and chronic kidney disease; most often used in people who had side effects from an ACE inhibitor."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            189
+          ],
+          "items": [
+            "Side effects are similar to ACE inhibitors, including the danger in pregnancy; cough and angioedema can occur but are uncommon."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            189
+          ],
+          "items": [
+            "Not to be combined with an ACE inhibitor or aliskiren."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -2399,7 +2647,31 @@ window.MEDAWARE_MEDICINES = {
           items: ["20–80 mg once daily."]
         }
       },
-      flags: ["Side effects and the pregnancy warning are described in the book for losartan/ARBs as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            189
+          ],
+          "items": [
+            "For ARBs as a group: similar to ACE inhibitors, including the danger in pregnancy; cough and angioedema are uncommon."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            189
+          ],
+          "items": [
+            "Not to be combined with an ACE inhibitor or aliskiren."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects and the pregnancy warning are described in the book for losartan/ARBs as a group."
+      ],
       review: "unreviewed"
     },
 
@@ -2443,7 +2715,39 @@ window.MEDAWARE_MEDICINES = {
           items: ["Usually 20–80 mg once daily in the morning; 40–80 mg intravenously for pulmonary oedema."]
         }
       },
-      flags: ["Adverse effects are described in the book for loop and thiazide diuretics together."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            263
+          ],
+          "items": [
+            "Hearing loss, usually reversible, mostly with poor kidney function or with other ear-damaging medicines such as aminoglycoside antibiotics.",
+            "Raised uric acid and gout attacks.",
+            "Severe dehydration; rash and, less often, kidney inflammation (it is a sulfonamide)."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [263],
+          "items": [
+            "NSAIDs such as indomethacin can weaken its effect, especially in nephrotic syndrome or cirrhosis."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [263, 264],
+          "items": [
+            "Over-use of any diuretic is dangerous in liver cirrhosis, borderline kidney failure or heart failure. Allergic cross-reaction in people sensitive to sulfonamides appears to be very rare."
+          ]
+        }
+      ],
+      flags: [
+        "Adverse effects are described in the book for loop and thiazide diuretics together."
+      ],
       review: "unreviewed"
     },
 
@@ -2485,7 +2789,34 @@ window.MEDAWARE_MEDICINES = {
           items: ["12.5–100 mg a day."]
         }
       },
-      flags: ["Adverse effects are described in the book for loop and thiazide diuretics together."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            265
+          ],
+          "items": [
+            "Low sodium is an important side effect; it can be prevented by a lower dose or limiting water intake.",
+            "Thiazides are the diuretics most linked to gout, but one large study found the extra risk (about 1%) only in men under 60.",
+            "Raised blood sugar occurs at doses above 50 mg a day and has not been seen at 12.5 mg a day or less.",
+            "Rare serious allergic reactions: blood disorders and pancreatitis; occasional sun sensitivity."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            264
+          ],
+          "items": [
+            "May modestly reduce the risk of osteoporotic fractures."
+          ]
+        }
+      ],
+      flags: [
+        "Adverse effects are described in the book for loop and thiazide diuretics together."
+      ],
       review: "unreviewed"
     },
 
@@ -2532,6 +2863,38 @@ window.MEDAWARE_MEDICINES = {
           items: ["25–50 mg two to four times a day; maximum 400 mg/day."]
         }
       },
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "sideEffects",
+          "pages": [
+            266
+          ],
+          "items": [
+            "High potassium can be mild, moderate or life-threatening."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            266
+          ],
+          "items": [
+            "The risk of high potassium rises greatly with kidney disease and with beta blockers, NSAIDs, aliskiren, ACE inhibitors and ARBs."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "uses",
+          "pages": [
+            266
+          ],
+          "items": [
+            "Eplerenone is a similar medicine with far fewer hormonal side effects such as breast enlargement."
+          ]
+        }
+      ],
       flags: [],
       review: "unreviewed"
     },
@@ -2582,7 +2945,44 @@ window.MEDAWARE_MEDICINES = {
           items: ["10–40 mg a day (maximum 80 mg)."]
         }
       },
-      flags: ["Side effects and interactions are given in the book for statins as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            634
+          ],
+          "items": [
+            "Liver enzymes should be checked at the start, at 1–2 months and then every 6–12 months; stop if they stay above three times normal. Heavy drinking makes liver effects worse.",
+            "Use lower doses with caution in liver disease, older people and people of North Asian ancestry.",
+            "Statins slightly raise the chance of type 2 diabetes, mainly in people who already had prediabetes.",
+            "Report unexplained muscle pain, tenderness or weakness; muscle enzyme (CK) should be checked."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            634
+          ],
+          "items": [
+            "Levels rise (more muscle risk) with macrolide antibiotics, ketoconazole-type antifungals, cyclosporine, some HIV medicines, fibrates, amiodarone and verapamil; drinking more than 1 litre of grapefruit juice a day can also raise levels."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            633
+          ],
+          "items": [
+            "Women who are pregnant, breastfeeding or likely to become pregnant."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects and interactions are given in the book for statins as a group."
+      ],
       review: "unreviewed"
     },
 
@@ -2621,7 +3021,42 @@ window.MEDAWARE_MEDICINES = {
           items: ["Start with 5 mg once daily, up to 20 mg/day if needed (maximum 40 mg)."]
         }
       },
-      flags: ["Side effects and the pregnancy warning are given in the book for statins as a group."],
+      otherBooks: [
+        {
+          "book": "katzung",
+          "section": "warnings",
+          "pages": [
+            634
+          ],
+          "items": [
+            "Liver tests at the start, at 1–2 months and then every 6–12 months. Lower doses with caution in liver disease, older people and people of North Asian ancestry.",
+            "Small increase in type 2 diabetes risk; report unexplained muscle pain or weakness."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "interactions",
+          "pages": [
+            634
+          ],
+          "items": [
+            "Broken down by CYP2C9, so levels may rise with ketoconazole-type antifungals, metronidazole, amiodarone and cimetidine. Rosuvastatin (or pravastatin) is the preferred statin with verapamil, macrolides or cyclosporine, at low doses."
+          ]
+        },
+        {
+          "book": "katzung",
+          "section": "contraindications",
+          "pages": [
+            633
+          ],
+          "items": [
+            "Women who are pregnant, breastfeeding or likely to become pregnant."
+          ]
+        }
+      ],
+      flags: [
+        "Side effects and the pregnancy warning are given in the book for statins as a group."
+      ],
       review: "unreviewed"
     },
 
