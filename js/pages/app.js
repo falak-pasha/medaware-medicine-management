@@ -1291,6 +1291,10 @@
   });
 
   setAuthMode("login");
+  if (window.location.hash === "#account-deleted") {
+    setMessage("authMsg", "Your account and all its data have been deleted.");
+    window.history.replaceState(null, "", window.location.pathname);
+  }
   renderBookSource();
   window.MedawareChat?.mount($("medicineChat"), medicineBook);
   renderInformation();

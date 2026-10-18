@@ -669,6 +669,46 @@
     });
   });
 
+  // ---------- Delete account ----------
+
+  $("deleteForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const password = $("deletePassword").value;
+    if ($("deleteConfirm").value.trim() !== "DELETE") {
+      setMessage("deleteMsg", "Type DELETE in capital letters to confirm.", true);
+      return;
+    }
+    if (!password) {
+      setMessage("deleteMsg", "Enter your password.", true);
+      return;
+    }
+    withBusy($("deleteAccount"), "Deleting…", async () => {
+      setMessage("deleteMsg", "");
+      // Re-check the password so an unattended signed-in device cannot delete the account.
+      const check = await db.auth.signInWithPassword({ email: user.email, password });
+      if (check.error) {
+        setMessage("deleteMsg", "That password is not correct.", true);
+        return;
+      }
+      const { error } = await db.functions.invoke("delete-account", { body: { confirm: "DELETE" } });
+      if (error) {
+        let message = "Your account could not be deleted. Try again, or contact us.";
+        try {
+          message = (await error.context?.json())?.error || message;
+        } catch {
+          // Keep the general message.
+        }
+        setMessage("deleteMsg", message, true);
+        return;
+      }
+      leavingOnPurpose = true;
+      user = null; // the auth listener must not treat this as an ordinary sign-out
+      await db.auth.signOut({ scope: "local" }).catch(() => {});
+      window.MEDAWARE_THEME?.reset();
+      window.location.replace("index.html#account-deleted");
+    });
+  });
+
   // Keyboard focus must not land behind the fixed save bar. CSS scroll-padding covers
   // this in some browsers; Chrome ignores it for focus scrolling, so nudge the page.
   // Measured a frame later, after the browser's own scroll-to-focus has happened.

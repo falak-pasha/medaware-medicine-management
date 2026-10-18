@@ -211,6 +211,23 @@
         <p id="documentsMsg" class="msg" role="status"></p>
       </section>
 
+      <!-- Delete account (outside the profile form: it acts immediately) -->
+      <section class="profile-section panel danger-zone" aria-labelledby="deleteTitle">
+        <h2 id="deleteTitle">Delete my account</h2>
+        <p class="note">
+          This permanently deletes your account, medicines, reminders, logs, prescriptions, profile,
+          photo and uploaded documents. It cannot be undone. Download any documents you want to keep first.
+        </p>
+        <form id="deleteForm" novalidate>
+          <label for="deletePassword">Your password</label>
+          <input id="deletePassword" type="password" autocomplete="current-password" required>
+          <label for="deleteConfirm">Type DELETE to confirm</label>
+          <input id="deleteConfirm" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
+          <button id="deleteAccount" class="danger" type="submit">Delete my account permanently</button>
+          <p id="deleteMsg" class="msg" role="status"></p>
+        </form>
+      </section>
+
       <!-- Save bar -->
       <div class="save-bar">
         <button id="saveProfile" class="primary" type="submit" form="profileForm">Save profile</button>

@@ -715,3 +715,24 @@ html {
     animation: none;
   }
 }
+
+/* ---------- Delete account ---------- */
+
+.danger-zone {
+  border-color: #f2b8b0;
+}
+
+.danger-zone h2 {
+  color: var(--danger);
+}
+
+.danger-zone form {
+  display: grid;
+  gap: 8px;
+  max-width: 420px;
+}
+
+.danger-zone button.danger {
+  justify-self: start;
+  margin-top: 6px;
+}

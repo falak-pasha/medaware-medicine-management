@@ -194,6 +194,14 @@ If you move to a different Supabase project, update its address in both `js/conf
 
 Before opening the site to real users: have a doctor or pharmacist review the medicine information, authenticate a sending domain in Brevo for the reminder and password-reset emails, and review the storage and RLS rules for the medical-documents vault.
 
+## Account deletion
+
+`profile.html` → **Delete my account** asks for the password (re-checked with Supabase) and a typed `DELETE`, then calls the `delete-account` Edge Function. The function identifies the user from their own access token only, removes their files from the `avatars` and `medical-documents` buckets, and deletes the auth user; every table cascades from `auth.users`. If file removal fails, the account is kept and an error is shown.
+
+```sh
+supabase functions deploy delete-account   # JWT verification stays on (the default)
+```
+
 ## Medicine information review
 
 `docs/pharmacist-review.md` lists every medicine with its page citations and reviewer notes, the 18 places where the textbooks disagree first. Rebuild it after changing `js/data/medicines.js`:
