@@ -858,6 +858,8 @@
   }
   // ---------- EMAIL REMINDER SETTINGS ----------
   let reminderSettingsExists = false;
+  // Off until a verification email exists: an unverified custom address never receives reminders.
+  const CUSTOM_EMAIL_ENABLED = false;
 
   function fillEmailReminderForm(settings) {
     $("emailEnabled").checked = Boolean(settings?.email_enabled);
@@ -865,6 +867,12 @@
     $("sendToCustom").checked = Boolean(settings?.send_to_custom);
     $("customEmail").value = settings?.custom_email || "";
     $("emailOptions").classList.toggle("hidden", !$("emailEnabled").checked);
+    $("customEmailOption").hidden = !CUSTOM_EMAIL_ENABLED;
+    if (!CUSTOM_EMAIL_ENABLED) {
+      // The account email is the only destination for now, so it cannot be unticked.
+      $("sendToAccount").checked = true;
+      $("sendToAccount").disabled = true;
+    }
     $("accountEmailText").textContent = user?.email || "your account email";
     $("customEmailStatus").textContent = settings?.custom_email
       ? (settings.custom_email_verified
@@ -900,9 +908,9 @@
     if (!user) return;
 
     const emailEnabled = $("emailEnabled").checked;
-    const toAccount = $("sendToAccount").checked;
-    const toCustom = $("sendToCustom").checked;
-    const customEmail = $("customEmail").value.trim().toLowerCase();
+    const toAccount = CUSTOM_EMAIL_ENABLED ? $("sendToAccount").checked : true;
+    const toCustom = CUSTOM_EMAIL_ENABLED && $("sendToCustom").checked;
+    const customEmail = CUSTOM_EMAIL_ENABLED ? $("customEmail").value.trim().toLowerCase() : "";
 
     if (customEmail && (customEmail.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customEmail))) {
       setMessage("emailRemMsg", "Enter a valid custom email address.", true);
@@ -921,7 +929,8 @@
       email_enabled: emailEnabled,
       send_to_account: toAccount,
       send_to_custom: toCustom,
-      custom_email: customEmail || null,
+      // Keep any saved custom address while the option is hidden.
+      ...(CUSTOM_EMAIL_ENABLED ? { custom_email: customEmail || null } : {}),
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata"
     };
 

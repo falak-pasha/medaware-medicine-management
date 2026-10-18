@@ -152,8 +152,8 @@ async function updateLog(config: ReminderConfig, fetchFn: FetchFn, logId: string
   );
   if (!response.ok) {
     // The row stays 'pending' and is reclaimed after 10 minutes. The retry carries the same
-    // idempotency key, which Brevo can use to drop the repeat; if it does not, the user may
-    // get the same reminder twice, which is safer than getting none.
+    // headers.IdempotencyKey value, which Brevo can use to drop the repeat; if it does not,
+    // the user may get the same reminder twice, which is safer than getting none.
     console.error(`Could not update reminder log ${logId}: HTTP ${response.status}`);
   }
 }
@@ -179,7 +179,7 @@ async function sendEmail(config: ReminderConfig, fetchFn: FetchFn, reminder: Cla
         subject: email.subject,
         htmlContent: email.html,
         textContent: email.text,
-        headers: { "Idempotency-Key": `medaware-reminder-${reminder.log_id}` },
+        headers: { IdempotencyKey: reminder.log_id },
         tags: ["medaware-reminder"]
       })
     });
@@ -188,7 +188,7 @@ async function sendEmail(config: ReminderConfig, fetchFn: FetchFn, reminder: Cla
   }
 
   const body = await response.text();
-  let parsed: { messageId?: string; code?: string } = {};
+  let parsed: { messageId?: string; code?: string; message?: string } = {};
   try {
     parsed = JSON.parse(body);
   } catch {
@@ -196,10 +196,13 @@ async function sendEmail(config: ReminderConfig, fetchFn: FetchFn, reminder: Cla
   }
   if (response.ok) return { ok: true, messageId: parsed.messageId ?? null };
   // Brevo already accepted this idempotency key on an earlier attempt.
-  if (response.status === 400 && parsed.code === "duplicate_request") return { ok: true, messageId: null };
-  // 429 (rate limit) and 5xx are temporary. Other 4xx errors (invalid address, unverified
-  // sender, bad key, unauthorised IP, out of daily credits) will not fix themselves in time.
-  const permanent = response.status >= 400 && response.status < 500 && response.status !== 429;
+  if (response.status === 400 && (parsed.code === "duplicate_request" || parsed.message === "Request already processed")) {
+    return { ok: true, messageId: null };
+  }
+  // 408 (timeout), 409 (conflict), 429 (rate limit) and 5xx are temporary. Other 4xx errors
+  // (invalid address, unverified sender, bad key, unauthorised IP, out of daily credits) will
+  // not fix themselves in time.
+  const permanent = response.status >= 400 && response.status < 500 && ![408, 409, 429].includes(response.status);
   return { ok: false, permanent, error: `Brevo HTTP ${response.status}: ${body.slice(0, 400)}` };
 }
 

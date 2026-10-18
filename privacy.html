@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How MEDAWARE handles your data, and the terms for using it.">
+  <title>MEDAWARE | Privacy and terms</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Applies the saved theme before first paint (not deferred on purpose) -->
+  <script src="js/shared/theme.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/pages/legal.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="MEDAWARE home">✚ MEDAWARE</a>
+    <span>Your medicines, more organized.</span>
+  </header>
+
+  <main class="legal panel">
+    <a href="index.html" class="back-link">← Back to MEDAWARE</a>
+    <h1>Privacy and terms</h1>
+    <p class="muted">Last updated 18 October 2026.</p>
+
+    <section aria-labelledby="not-medical">
+      <h2 id="not-medical">MEDAWARE is not medical advice</h2>
+      <p>
+        MEDAWARE helps you organise your medicines, reminders and health records. It does not diagnose,
+        prescribe or replace your doctor or pharmacist. The medicine information is summarised from
+        pharmacology textbooks (with page references), may be out of date, and has
+        <strong>not yet been reviewed by a doctor or pharmacist</strong>. Always follow your own
+        prescription and the medicine leaflet, and ask a pharmacist or doctor if anything is unclear.
+      </p>
+      <p class="callout">
+        In an emergency, call your local emergency number (112 in India) or go to the nearest
+        emergency department. Do not rely on MEDAWARE reminders for medicines where a missed dose
+        is dangerous; reminders can be delayed or fail.
+      </p>
+    </section>
+
+    <section aria-labelledby="what">
+      <h2 id="what">What we store</h2>
+      <ul>
+        <li><strong>Account:</strong> your email address and password (stored in hashed form by our database provider).</li>
+        <li><strong>Profile, if you fill it in:</strong> name, date of birth, gender, phone, emergency contact, blood group, height, weight, allergies, conditions, past procedures and a profile photo.</li>
+        <li><strong>Health records you add:</strong> medicines, doses and reminder times, dose logs, prescription details, and medical documents you upload (PDF, JPG or PNG, up to 5 MB each).</li>
+        <li><strong>Email reminder settings:</strong> whether reminders are on and your time zone, plus a log of each reminder email sent (address, medicine, date and delivery result).</li>
+      </ul>
+      <p>We do not use your data for advertising, we do not sell it, and MEDAWARE has no analytics or tracking.</p>
+    </section>
+
+    <section aria-labelledby="protect">
+      <h2 id="protect">How it is protected</h2>
+      <ul>
+        <li>Database rules mean each account can only read and change its own records and files.</li>
+        <li>Uploaded documents and photos are kept in private storage; each view uses a link that expires within an hour (documents within one minute).</li>
+        <li>All traffic is encrypted (HTTPS).</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="who">
+      <h2 id="who">Services that process your data</h2>
+      <ul>
+        <li><strong>Supabase</strong> stores your account, records and files. Our project is hosted in Tokyo, Japan.</li>
+        <li><strong>Brevo</strong> sends password-reset, sign-up and reminder emails. Reminder emails contain the medicine name and the dose you saved, so anyone with access to your inbox can see them.</li>
+        <li><strong>Vercel</strong> hosts the website and may keep standard request logs (such as IP address and browser).</li>
+        <li><strong>Google Fonts</strong> and <strong>jsDelivr</strong> deliver fonts and a code library, so your browser contacts them when pages load.</li>
+      </ul>
+      <p>Your browser also stores your sign-in session and theme choice on your device.</p>
+    </section>
+
+    <section aria-labelledby="choices">
+      <h2 id="choices">Your choices</h2>
+      <ul>
+        <li>You can edit or delete medicines, logs, prescriptions, profile details and documents in the app at any time.</li>
+        <li>You can turn email reminders off in the dashboard.</li>
+        <li>
+          To delete your whole account and everything in it, or to ask what data we hold, email
+          <a href="mailto:CONTACT_EMAIL" data-contact-email>CONTACT_EMAIL</a>.
+          Deleting your account removes your records and files permanently.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="terms">
+      <h2 id="terms">Terms of use</h2>
+      <ul>
+        <li>You are responsible for the accuracy of the medicines and records you enter, and for keeping your password private.</li>
+        <li>MEDAWARE is provided as it is, without guarantees that it will always be available, error-free or that reminders will arrive on time.</li>
+        <li>You must be old enough to agree to these terms where you live, or use MEDAWARE with a parent or guardian.</li>
+        <li>Do not use MEDAWARE to store other people's health information without their permission.</li>
+        <li>We may update this page; the date at the top shows the latest version.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

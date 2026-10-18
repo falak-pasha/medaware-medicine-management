@@ -10,6 +10,7 @@
   >
 
   <title>MEDAWARE | Medicine Management</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
   <!-- Applies the saved theme before first paint (not deferred on purpose) -->
   <script src="js/shared/theme.js"></script>
@@ -124,7 +125,7 @@
             maxlength="128"
             required
             autocomplete="current-password"
-            placeholder="At least 6 characters"
+            placeholder="Your password"
           >
           <a class="forgot-link" href="forgot-password.html">Forgot password?</a>
 
@@ -138,6 +139,9 @@
         </form>
 
         <p id="authMsg" class="msg" role="status"></p>
+        <p class="muted legal-note">
+          MEDAWARE is not medical advice. <a href="privacy.html">Privacy and terms</a>
+        </p>
       </div>
     </section>
 
@@ -202,7 +206,7 @@
         <p class="muted">
           Get medicine reminders by email, even when this page is closed. Emails are sent at each
           medicine's reminder time in the time zone of the device you last saved these settings
-          from. Your account email must be confirmed, and a different address must be verified.
+          from. Your account email must be confirmed.
         </p>
 
         <label for="emailEnabled" class="check-row">
@@ -216,20 +220,24 @@
             My account email (<span id="accountEmailText"></span>)
           </label>
 
-          <label for="sendToCustom" class="check-row">
-            <input id="sendToCustom" type="checkbox" class="check-input">
-            A different email address
-          </label>
+          <!-- Sending to a different address needs an email-verification step that is not
+               built yet, so the option stays hidden until then (see CUSTOM_EMAIL_ENABLED). -->
+          <div id="customEmailOption" hidden>
+            <label for="sendToCustom" class="check-row">
+              <input id="sendToCustom" type="checkbox" class="check-input">
+              A different email address
+            </label>
 
-          <label for="customEmail">Custom reminder email</label>
-          <input
-            id="customEmail"
-            type="email"
-            maxlength="254"
-            autocomplete="off"
-            placeholder="reminders@example.com"
-          >
-          <p id="customEmailStatus" class="muted"></p>
+            <label for="customEmail">Custom reminder email</label>
+            <input
+              id="customEmail"
+              type="email"
+              maxlength="254"
+              autocomplete="off"
+              placeholder="reminders@example.com"
+            >
+            <p id="customEmailStatus" class="muted"></p>
+          </div>
         </div>
 
         <button class="primary" type="submit">Save email settings</button>
@@ -502,7 +510,7 @@
 
       <footer>
         MEDAWARE · Organization and information support, not diagnosis
-        or prescribing.
+        or prescribing. · <a href="privacy.html">Privacy and terms</a>
       </footer>
     </section>
   </main>

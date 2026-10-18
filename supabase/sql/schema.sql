@@ -170,6 +170,7 @@ create index if not exists email_verifications_user_idx
 create or replace function public.reset_custom_email_verified()
 returns trigger
 language plpgsql
+set search_path = ''
 as $$
 begin
   if new.custom_email is distinct from old.custom_email then
@@ -244,6 +245,7 @@ alter table public.reminder_email_log
 create or replace function public.validate_reminder_timezone()
 returns trigger
 language plpgsql
+set search_path = ''
 as $$
 begin
   if not exists (select 1 from pg_catalog.pg_timezone_names where name = new.timezone) then
@@ -485,6 +487,7 @@ alter table public.profiles
 create or replace function public.touch_updated_at()
 returns trigger
 language plpgsql
+set search_path = ''
 as $$
 begin
   new.updated_at := now();

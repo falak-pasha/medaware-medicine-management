@@ -43,7 +43,7 @@ function fakeFetch({ claimed = [], claimStatus = 200, brevoResponses = {} } = {}
     }
     if (url.includes("/rest/v1/reminder_email_log")) return new Response(null, { status: 204 });
     if (url === "https://api.brevo.com/v3/smtp/email") {
-      const id = call.body.headers["Idempotency-Key"].replace("medaware-reminder-", "");
+      const id = call.body.headers.IdempotencyKey;
       const respond = brevoResponses[id] || (() => new Response(JSON.stringify({ messageId: `<msg-${id}@relay>` }), { status: 201 }));
       return respond();
     }
@@ -81,9 +81,10 @@ test("rejects requests without the correct cron secret", async () => {
   assert.equal(calls.length, 0, "nothing is claimed or sent");
 });
 
-test("sends each claimed reminder once and marks it sent", async () => {
+test("sends each claimed reminder with Brevo's idempotency contract and marks it sent", async () => {
   const sleeps = [];
-  const { fetchFn, calls } = fakeFetch({ claimed: [reminder("a"), reminder("b")] });
+  const logId = "550e8400-e29b-41d4-a716-446655440000";
+  const { fetchFn, calls } = fakeFetch({ claimed: [reminder(logId), reminder("b")] });
   const response = await handleRequest(post(), env(), fetchFn, async (ms) => sleeps.push(ms));
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { claimed: 2, sent: 2, failed: 0, willRetry: 0 });
@@ -98,8 +99,8 @@ test("sends each claimed reminder once and marks it sent", async () => {
   assert.equal(sends.length, 2);
   assert.equal(sends[0].headers["api-key"], "xkeysib-test-key");
   assert.equal(sends[0].headers.Authorization, undefined);
-  assert.equal(sends[0].body.headers["Idempotency-Key"], "medaware-reminder-a");
-  assert.deepEqual(sends[0].body.to, [{ email: "a@example.com" }]);
+  assert.equal(sends[0].body.headers.IdempotencyKey, logId);
+  assert.deepEqual(sends[0].body.to, [{ email: `${logId}@example.com` }]);
   assert.deepEqual(sends[0].body.sender, { name: "MEDAWARE", email: "reminders@example.org" });
   assert.equal(sends[0].body.subject, "MEDAWARE medicine reminder");
   assert.ok(sends[0].body.htmlContent.includes("Paracetamol"));
@@ -108,9 +109,9 @@ test("sends each claimed reminder once and marks it sent", async () => {
 
   const patches = logPatches(calls);
   assert.equal(patches.length, 2);
-  assert.equal(patches[0].url, "https://project.supabase.co/rest/v1/reminder_email_log?id=eq.a");
+  assert.equal(patches[0].url, `https://project.supabase.co/rest/v1/reminder_email_log?id=eq.${logId}`);
   assert.equal(patches[0].body.status, "sent");
-  assert.equal(patches[0].body.provider_message_id, "<msg-a@relay>");
+  assert.equal(patches[0].body.provider_message_id, `<msg-${logId}@relay>`);
   assert.ok(patches[0].body.sent_at);
 });
 
@@ -121,17 +122,19 @@ test("no due reminders means no emails", async () => {
   assert.equal(brevoCalls(calls).length, 0);
 });
 
-test("temporary failures (5xx, 429, network) are marked failed for retry", async () => {
+test("temporary failures (5xx, 408, 409, 429, network) are marked failed for retry", async () => {
   const { fetchFn, calls } = fakeFetch({
-    claimed: [reminder("s5"), reminder("r429"), reminder("net")],
+    claimed: [reminder("s5"), reminder("r408"), reminder("r409"), reminder("r429"), reminder("net")],
     brevoResponses: {
       s5: () => new Response("server error", { status: 503 }),
+      r408: () => new Response("request timeout", { status: 408 }),
+      r409: () => new Response("conflict", { status: 409 }),
       r429: () => new Response("slow down", { status: 429 }),
       net: () => { throw new TypeError("fetch failed"); }
     }
   });
   const response = await handleRequest(post(), env(), fetchFn, noSleep);
-  assert.deepEqual(await response.json(), { claimed: 3, sent: 0, failed: 3, willRetry: 3 });
+  assert.deepEqual(await response.json(), { claimed: 5, sent: 0, failed: 5, willRetry: 5 });
   for (const patch of logPatches(calls)) {
     assert.equal(patch.body.status, "failed");
     assert.ok(!("attempts" in patch.body), "attempt count is left for the next claim to increment");
@@ -157,9 +160,10 @@ test("permanent failures (bad address, unverified sender, bad key) are not retri
 });
 
 test("a duplicate_request reply counts as already sent", async () => {
+  const logId = "550e8400-e29b-41d4-a716-446655440001";
   const { fetchFn, calls } = fakeFetch({
-    claimed: [reminder("dup", { attempts: 2 })],
-    brevoResponses: { dup: () => new Response('{"code":"duplicate_request","message":"Request already processed"}', { status: 400 }) }
+    claimed: [reminder(logId, { attempts: 2 })],
+    brevoResponses: { [logId]: () => new Response('{"code":"duplicate_request","message":"Request already processed"}', { status: 400 }) }
   });
   const response = await handleRequest(post(), env(), fetchFn, noSleep);
   assert.deepEqual(await response.json(), { claimed: 1, sent: 1, failed: 0, willRetry: 0 });

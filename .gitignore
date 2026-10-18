@@ -24,3 +24,6 @@ backups/
 # Supabase CLI working files and personal editor/assistant settings
 supabase/.temp/
 .claude/settings.local.json
+
+.vercel
+.env*
